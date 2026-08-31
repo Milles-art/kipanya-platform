@@ -10,7 +10,7 @@ final class LogSmsGateway implements SmsGateway
     {
         Log::info('SMS dispatched', [
             'phone' => $phone,
-            'message_length' => mb_strlen($message),
+            'message' => $message,
         ]);
     }
 }

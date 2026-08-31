@@ -1,9 +1,53 @@
 @import 'tailwindcss';
-
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+@theme { --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; }
+
+:root {
+  --bg:#f7f8fb; --surface:#ffffff; --surface-2:#f1f3f8; --text:#10121a; --muted:#697080; --line:#e6e8ee;
+  --accent:#6d3df5; --accent-2:#8a5cff; --accent-soft:#eee9ff; --hero:#e9e4ff; --success:#11875d; --danger:#d14343;
 }
+html[data-theme="dark"] { --bg:#080a10; --surface:#11141d; --surface-2:#171b26; --text:#f7f8fc; --muted:#9ca3b2; --line:#242936; --accent:#8a5cff; --accent-2:#a579ff; --accent-soft:#241b43; --hero:#18132d; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:var(--font-sans); transition:background .2s ease,color .2s ease; }
+::selection { background:var(--accent); color:white; }
+.k-shell { max-width:1380px; margin-inline:auto; padding-inline:24px; }
+.k-display { letter-spacing:-.055em; line-height:.96; }
+.k-label { letter-spacing:.12em; text-transform:uppercase; font-size:10px; font-weight:700; }
+.k-muted { color:var(--muted); }
+.k-surface { background:var(--surface); border-color:var(--line); }
+.k-card { background:var(--surface); border:1px solid var(--line); border-radius:22px; overflow:hidden; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.k-card:hover { transform:translateY(-3px); box-shadow:0 18px 45px rgba(20,25,40,.10); border-color:color-mix(in srgb,var(--accent) 30%,var(--line)); }
+.k-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:12px; padding:11px 16px; font-size:13px; font-weight:650; transition:transform .18s ease,background .18s ease,border-color .18s ease; }
+.k-btn:hover { transform:translateY(-1px); }
+.k-btn-primary { background:var(--accent); color:#fff; box-shadow:0 8px 24px rgba(109,61,245,.22); }
+.k-btn-primary:hover { background:var(--accent-2); }
+.k-btn-dark { background:var(--text); color:var(--bg); }
+.k-btn-light { background:var(--surface); color:var(--text); border:1px solid var(--line); }
+.k-btn-soft { background:var(--accent-soft); color:var(--accent); }
+.k-focus:focus-visible { outline:3px solid color-mix(in srgb,var(--accent) 30%,transparent); outline-offset:3px; }
+.k-control { background:var(--surface); border:1px solid var(--line); color:var(--text); }
+.k-control::placeholder { color:var(--muted); }
+.k-nav-link { color:var(--muted); transition:color .18s ease,background .18s ease; }
+.k-nav-link:hover,.k-nav-link.active { color:var(--text); }
+.k-nav-link.active { background:var(--accent-soft); color:var(--accent); }
+.k-reveal { animation:k-reveal .55s ease both; }
+.k-delay-1 { animation-delay:.08s; }.k-delay-2{animation-delay:.16s}.k-delay-3{animation-delay:.24s}
+.k-hero { background:linear-gradient(115deg,var(--hero),var(--surface) 65%); border:1px solid var(--line); }
+.k-hero-art { background:radial-gradient(circle at 70% 30%,rgba(138,92,255,.35),transparent 34%),linear-gradient(135deg,#251553,#6d3df5 55%,#ffb45c); }
+.k-thumb { background:linear-gradient(135deg,#27213c,#8a5cff); }
+.k-divider { border-color:var(--line); }
+.k-status { border-radius:999px; padding:5px 9px; font-size:11px; font-weight:700; }
+.k-status-published { color:var(--success); background:color-mix(in srgb,var(--success) 12%,transparent); }
+.k-status-draft { color:#b87800; background:#fff3d3; }
+html[data-theme="dark"] .k-status-draft { background:#3a2b0d; color:#f4c85e; }
+@keyframes k-reveal { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none} }
+@media(max-width:640px){.k-shell{padding-inline:16px}.k-display{letter-spacing:-.045em}}
+html[data-theme="dark"] .bg-white,html[data-theme="dark"] .bg-\[\#f7f7f5\],html[data-theme="dark"] .bg-\[\#f1f1ef\] { background:var(--surface) !important; }
+html[data-theme="dark"] .bg-\[\#ecece9\] { background:var(--surface-2) !important; }
+html[data-theme="dark"] [class*="text-black"] { color:var(--text) !important; }
+html[data-theme="dark"] [class*="border-black"] { border-color:var(--line) !important; }
+html[data-theme="dark"] [class*="divide-black"] { border-color:var(--line) !important; }
+html[data-theme="dark"] .hover\:bg-black\/5:hover,html[data-theme="dark"] .hover\:bg-black\/\[\.015\]:hover { background:var(--surface-2) !important; }

@@ -1,0 +1,6 @@
+KIPANYA BATCH 05 — ADMIN CONTENT MANAGEMENT
+Integrated into the Batch 04 working project.
+
+Includes admin role authorization, dashboard, category/cartoon/episode/
+collection CRUD, publishing/archive/feature actions, collection ordering,
+and admin feature tests.

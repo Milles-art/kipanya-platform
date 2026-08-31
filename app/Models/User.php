@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -18,6 +20,7 @@ class User extends Authenticatable
         'phone',
         'phone_verified_at',
         'status',
+        'role',
         'onboarding_completed_at',
     ];
 
@@ -32,12 +35,23 @@ class User extends Authenticatable
             'phone_verified_at' => 'datetime',
             'onboarding_completed_at' => 'datetime',
             'password' => 'hashed',
+            'role' => UserRole::class,
         ];
+    }
+
+    public function watchProgress(): HasMany
+    {
+        return $this->hasMany(WatchProgress::class);
     }
 
     public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Cartoon::class, 'favorites')->withTimestamps();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === UserRole::Admin;
     }
 
     public function isActive(): bool

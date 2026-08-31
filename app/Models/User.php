@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -32,6 +33,11 @@ class User extends Authenticatable
             'onboarding_completed_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(Cartoon::class, 'favorites')->withTimestamps();
     }
 
     public function isActive(): bool

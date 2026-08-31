@@ -22,4 +22,6 @@ Route::prefix('v1')->group(function () {
             Route::get('/me', [AuthenticationController::class, 'me']);
         });
     });
+
+    require __DIR__.'/api_content.php';
 });

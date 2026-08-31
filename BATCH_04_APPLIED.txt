@@ -1,0 +1,4 @@
+Kipanya Batch 04 integrated from current project.
+Excluded from archive: .env, vendor, node_modules, .git.
+Run: php artisan migrate && php artisan test
+Do not run migrate:fresh.

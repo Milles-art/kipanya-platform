@@ -1,6 +1,67 @@
-@extends('admin.layout')
+@extends('admin.control-layout')
 @section('content')
-<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><div class="k-label k-muted">Overview</div><h1 class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Good to see you.</h1><p class="mt-2 text-sm k-muted">A clear view of the Kipanya library.</p></div><a href="{{ route('admin.content') }}" class="k-btn k-btn-primary">Manage content <x-icon name="chevron" size="14"/></a></div>
-<div class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">@foreach($stats as $label=>$value)<div class="k-card p-5"><div class="flex items-center justify-between"><div class="k-label k-muted">{{ ucfirst($label) }}</div><span class="text-[var(--accent)]"><x-icon name="{{ $label === 'episodes' ? 'film' : 'grid' }}" size="16"/></span></div><div class="mt-5 text-3xl font-semibold tracking-tight">{{ $value }}</div><div class="mt-2 text-xs k-muted">Current total</div></div>@endforeach</div>
-<div class="mt-7 grid gap-5 xl:grid-cols-[1.35fr_.65fr]"><section class="k-card"><div class="flex items-center justify-between border-b k-divider px-5 py-4"><div><h2 class="font-semibold">Recent content</h2><p class="mt-1 text-xs k-muted">Latest additions to the library.</p></div><a class="text-xs font-semibold text-[var(--accent)]" href="{{ route('admin.content') }}">View all</a></div><div class="divide-y k-divider">@forelse($recent as $cartoon)<div class="flex items-center gap-4 px-5 py-4"><div class="h-11 w-14 shrink-0 overflow-hidden rounded-lg k-thumb">@if($cartoon->thumbnail_url)<img src="{{ $cartoon->thumbnail_url }}" alt="" class="h-full w-full object-cover">@endif</div><div class="min-w-0 flex-1"><div class="truncate text-sm font-semibold">{{ $cartoon->title }}</div><div class="mt-1 text-xs k-muted">{{ $cartoon->category->name }} · {{ ucfirst($cartoon->status?->value) }}</div></div><div class="hidden text-xs k-muted sm:block">{{ optional($cartoon->published_at)->format('d M Y') ?? 'Unpublished' }}</div></div>@empty<div class="px-5 py-12 text-center text-sm k-muted">No content yet.</div>@endforelse</div></section><section class="k-card p-5"><div class="k-label k-muted">Publishing snapshot</div><div class="mt-5 text-5xl font-semibold tracking-tight">{{ $stats['published'] }}</div><p class="mt-2 text-sm k-muted">published cartoons</p><div class="mt-7 h-2 overflow-hidden rounded-full bg-[var(--surface-2)]"><div class="h-full rounded-full bg-[var(--accent)]" style="width:{{ $stats['cartoons'] ? min(100, round(($stats['published']/$stats['cartoons'])*100)) : 0 }}%"></div></div><div class="mt-3 flex justify-between text-xs k-muted"><span>Published</span><span>{{ $stats['cartoons'] ? round(($stats['published']/$stats['cartoons'])*100) : 0 }}%</span></div></section></div>
+<div class="control-welcome k-reveal">
+    <div>
+        <div class="k-label k-muted">Kipanya Platform</div>
+        <h1>Welcome back, {{ $adminName }}!</h1>
+        <p>Manage all Kipanya applications from one powerful dashboard.</p>
+    </div>
+</div>
+
+<section class="control-metric-grid k-reveal k-delay-1" aria-label="Platform metrics">
+    @foreach($metrics as $metric)
+        <div class="control-metric-card">
+            <span class="control-metric-icon control-metric-{{ $metric['tone'] }}"><x-icon name="{{ $metric['icon'] }}" size="21"/></span>
+            <div><span>{{ $metric['label'] }}</span><strong>{{ $metric['value'] }}</strong><small>{{ $metric['note'] }}</small></div>
+        </div>
+    @endforeach
+</section>
+
+<div class="control-dashboard-grid k-reveal k-delay-2">
+    <section>
+        <div class="control-section-head"><div><h2>Your Applications</h2><p>Click any application to access its admin dashboard.</p></div></div>
+        <div class="control-app-grid">
+            @foreach($apps as $app)
+                @if($app['route']) <a href="{{ $app['route'] }}" class="control-app-card control-app-{{ $app['accent'] }}"> @else <div class="control-app-card control-app-{{ $app['accent'] }} control-app-disabled"> @endif
+                    <div class="control-app-top"><span class="control-app-icon"><x-icon name="{{ $app['icon'] }}" size="23"/></span><span class="control-status {{ $app['status'] === 'active' ? 'active' : '' }}">{{ $app['status'] === 'active' ? 'Active' : 'Coming soon' }}</span></div>
+                    <div class="control-app-copy"><h3>{{ $app['name'] }}</h3><p>{{ $app['description'] }}</p></div>
+                    <div class="control-app-stats">
+                        @foreach($app['stats'] as $stat)<div><strong>{{ $stat['value'] }}</strong><span>{{ $stat['label'] }}</span></div>@endforeach
+                        @if(!$app['stats']) <div><strong>—</strong><span>{{ $app['stat_labels'][0] }}</span></div><div><strong>—</strong><span>{{ $app['stat_labels'][1] }}</span></div><div><strong>—</strong><span>{{ $app['stat_labels'][2] }}</span></div>@endif
+                    </div>
+                    <div class="control-app-action">{{ $app['action'] }} @if($app['status'] !== 'active')<x-icon name="lock" size="14"/>@else<x-icon name="arrow-right" size="15"/>@endif</div>
+                @if($app['route'])</a>@else</div>@endif
+            @endforeach
+        </div>
+    </section>
+
+    <aside class="control-side-stack">
+        <section class="control-panel">
+            <div class="control-panel-head"><h2>Recent Platform Activity</h2><a href="{{ route('admin.activity') }}">View all</a></div>
+            <div class="control-activity-list">
+                @forelse($recent as $item)
+                    <a href="{{ route('admin.activity') }}" class="control-activity-row">
+                        <span class="control-activity-icon control-activity-purple"><x-icon name="activity" size="17"/></span>
+                        <span class="control-activity-copy"><strong>{{ $item->action }}</strong><small>{{ $item->description }} · {{ $item->user?->name ?? 'System' }}</small></span>
+                        <time>{{ $item->created_at?->diffForHumans(null, true) ?? '' }}</time>
+                    </a>
+                @empty
+                    <div class="control-empty"><x-icon name="activity" size="20"/><p>No platform activity yet.</p></div>
+                @endforelse
+            </div>
+        </section>
+
+        <section class="control-panel control-system-panel">
+            <div class="control-panel-head"><h2>System Status</h2></div>
+            <div class="control-status-list">
+                @foreach($systemStatus as $status)
+                    <div><span>{{ $status['label'] }}</span><strong class="{{ $status['tone'] }}"><i></i>{{ $status['value'] }}</strong></div>
+                @endforeach
+            </div>
+            <div class="control-system-ok">@if(collect($systemStatus)->contains(fn ($status) => $status['tone'] === 'bad'))<x-icon name="activity" size="15"/> One or more systems need attention.@else<x-icon name="check-circle" size="15"/> All monitored systems operational.@endif</div>
+        </section>
+    </aside>
+</div>
+
+<footer class="control-footer"><span>© {{ now()->year }} Kipanya Platform. All rights reserved.</span><span>Control Center · v1.0.0</span></footer>
 @endsection

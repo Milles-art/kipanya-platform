@@ -35,7 +35,7 @@
                     <span class="k-label text-black/40">Verification code</span>
                     <input name="code" inputmode="numeric" maxlength="6" required class="k-focus mt-2 w-full rounded-2xl border border-black/10 bg-white px-4 py-3.5 text-center text-2xl tracking-[.35em]" placeholder="000000">
                 </label>
-                <button type="submit" class="k-btn k-btn-accent w-full">Enter Studio</button>
+                <button type="submit" class="k-btn k-btn-primary w-full">Enter Studio</button>
             </form>
         @endif
     </div>

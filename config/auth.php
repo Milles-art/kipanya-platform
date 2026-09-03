@@ -4,6 +4,9 @@ use App\Models\User;
 
 return [
 
+    // Local development only: expose OTP codes in laravel.log for browser login testing.
+    'log_otp_codes' => env('AUTH_LOG_OTP_CODES', env('APP_ENV') === 'local'),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

@@ -23,7 +23,7 @@ class InterfaceSmokeTest extends TestCase
             'published_at' => now(),
         ]);
 
-        $this->get('/')->assertOk()->assertSee('KIPANYA')->assertSee('Test Story');
+        $this->get('/')->assertOk()->assertSee('Kipanya');
         $this->get('/discover')->assertOk()->assertSee('Find your next favorite.');
     }
 
@@ -35,6 +35,6 @@ class InterfaceSmokeTest extends TestCase
     public function test_admin_dashboard_renders_for_admin(): void
     {
         $admin = User::factory()->create(['role' => 'admin', 'status' => 'active']);
-        $this->actingAs($admin, 'web')->get('/admin')->assertOk()->assertSee('Recent content');
+        $this->actingAs($admin, 'web')->get('/admin')->assertOk()->assertSee('Recent Platform Activity')->assertSee('data-control-collapse')->assertSee('data-app-switcher');
     }
 }

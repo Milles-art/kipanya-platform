@@ -19,6 +19,7 @@ class CartoonRequest extends FormRequest
             'slug' => ['required', 'string', 'max:200', Rule::unique('cartoons', 'slug')->ignore($id)],
             'description' => ['nullable', 'string'],
             'thumbnail_url' => ['nullable', 'url', 'max:2048'],
+            'thumbnail' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:8192'],
             'status' => ['sometimes', Rule::enum(ContentStatus::class)],
             'is_featured' => ['sometimes', 'boolean'],
             'published_at' => ['nullable', 'date'],

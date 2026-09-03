@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Collection extends Model
 {
@@ -15,6 +16,7 @@ class Collection extends Model
         'slug',
         'description',
         'cover_url',
+        'cover_path',
         'is_active',
         'sort_order',
     ];
@@ -25,6 +27,11 @@ class Collection extends Model
             'is_active' => 'boolean',
             'sort_order' => 'integer',
         ];
+    }
+
+    public function getResolvedCoverUrlAttribute(): ?string
+    {
+        return $this->cover_path ? Storage::disk('public')->url($this->cover_path) : $this->cover_url;
     }
 
     public function cartoons(): BelongsToMany

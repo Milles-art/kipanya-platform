@@ -8,6 +8,7 @@ use App\Models\OtpCode;
 use App\Support\PhoneNumber;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 final class OtpService
@@ -57,6 +58,17 @@ final class OtpService
             $normalized,
             "Your Kipanya verification code is {$plainCode}. It expires in " . self::TTL_MINUTES . " minutes."
         );
+
+        // Never expose OTPs in production logs. This is intentionally limited to
+        // local development so the Blade client login can be tested without SMS.
+        if (config('auth.log_otp_codes', false)) {
+            Log::info('Kipanya OTP generated for local testing', [
+                'phone' => $normalized,
+                'purpose' => $purpose->value,
+                'code' => $plainCode,
+                'expires_at' => $otp->expires_at?->toIso8601String(),
+            ]);
+        }
 
         return $otp;
     }

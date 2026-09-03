@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Cartoon extends Model
 {
@@ -19,6 +20,7 @@ class Cartoon extends Model
         'slug',
         'description',
         'thumbnail_url',
+        'thumbnail_path',
         'status',
         'is_featured',
         'published_at',
@@ -33,6 +35,15 @@ class Cartoon extends Model
             'published_at' => 'datetime',
             'sort_order' => 'integer',
         ];
+    }
+
+    public function getResolvedThumbnailUrlAttribute(): ?string
+    {
+        if ($this->thumbnail_path) {
+            return Storage::disk('public')->url($this->thumbnail_path);
+        }
+
+        return $this->thumbnail_url;
     }
 
     public function category(): BelongsTo

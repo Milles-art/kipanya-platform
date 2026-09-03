@@ -14,7 +14,7 @@ class CartoonResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
-            'thumbnail_url' => $this->thumbnail_url,
+            'thumbnail_url' => $this->resolved_thumbnail_url,
             'status' => $this->status?->value,
             'is_featured' => $this->is_featured,
             'published_at' => $this->published_at,

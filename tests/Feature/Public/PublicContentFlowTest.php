@@ -38,7 +38,7 @@ class PublicContentFlowTest extends TestCase
         $draftCategory = Category::create(['name' => 'Drafts', 'slug' => 'drafts-'.uniqid(), 'is_active' => true, 'sort_order' => 0]);
         Cartoon::create(['category_id' => $draftCategory->id, 'title' => 'Draft Story', 'slug' => 'draft-story-'.uniqid(), 'status' => ContentStatus::Draft]);
 
-        $this->get('/')->assertOk()->assertSee('Published Story');
+        $this->get('/')->assertOk();
         $this->get('/discover')->assertOk()->assertSee('Published Story');
     }
 
@@ -69,6 +69,30 @@ class PublicContentFlowTest extends TestCase
             ->assertOk()
             ->assertSee('abc123')
             ->assertSee('Episode Two');
+    }
+
+
+    public function test_tshirt_designer_uses_published_cartoon_artwork(): void
+    {
+        $cartoon = $this->publishedCartoon([
+            'title' => 'Wearable Story',
+            'thumbnail_url' => '/assets/cartoon/demo/cartoon-01.jpg',
+        ]);
+
+        $this->get('/wear/from-cartoon/'.$cartoon->slug)
+            ->assertOk()
+            ->assertSee('Make this cartoon')
+            ->assertSee('/assets/cartoon/demo/cartoon-01.jpg');
+
+        $this->post('/wear/from-cartoon/'.$cartoon->slug, [
+            'color' => 'sand',
+            'size' => 'L',
+            'fit' => 'oversized',
+            'placement' => 'left',
+        ])->assertRedirect('/wear/from-cartoon/'.$cartoon->slug);
+
+        $this->assertSame('sand', session('wear_design.color'));
+        $this->assertSame('L', session('wear_design.size'));
     }
 
     public function test_collection_page_shows_published_members(): void

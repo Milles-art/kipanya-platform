@@ -3,15 +3,23 @@
 use App\Http\Controllers\Web\Admin\AdminAuthController;
 use App\Http\Controllers\Web\Admin\AdminContentController;
 use App\Http\Controllers\Web\Admin\AdminDashboardController;
+use App\Http\Controllers\Web\Admin\AdminUserController;
+use App\Http\Controllers\Web\Admin\AdminActivityLogController;
+use App\Http\Controllers\Web\Admin\AdminProfileController;
+use App\Http\Controllers\Web\Admin\AdminCartoonDashboardController;
 use App\Http\Controllers\Web\PublicContentController;
+use App\Http\Controllers\Web\TshirtDesignController;
 use App\Http\Middleware\EnsureAdminWebAccess;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicContentController::class, 'home'])->name('home');
 Route::get('/discover', [PublicContentController::class, 'discover'])->name('discover');
+Route::get('/cartoon', [PublicContentController::class, 'cartoon'])->name('cartoon');
 Route::get('/categories/{category:slug}', [PublicContentController::class, 'category'])->name('category');
 Route::get('/collections/{collection:slug}', [PublicContentController::class, 'collection'])->name('collection');
 Route::get('/watch/{cartoon:slug}', [PublicContentController::class, 'watch'])->name('watch');
+Route::get('/wear/from-cartoon/{cartoon:slug}', [TshirtDesignController::class, 'create'])->name('wear.design');
+Route::post('/wear/from-cartoon/{cartoon:slug}', [TshirtDesignController::class, 'save'])->name('wear.design.save');
 
 Route::prefix('account')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -38,9 +46,42 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware(EnsureAdminWebAccess::class)->group(function () {
         Route::get('/', AdminDashboardController::class)->name('admin.dashboard');
+        Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
+        Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+        Route::patch('/users/{user}/password', [AdminUserController::class, 'resetPassword'])->name('admin.users.password');
+        Route::get('/activity', [AdminActivityLogController::class, 'index'])->name('admin.activity');
+        Route::get('/profile', [AdminProfileController::class, 'edit'])->name('admin.profile');
+        Route::patch('/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+        Route::patch('/profile/password', [AdminProfileController::class, 'password'])->name('admin.profile.password');
+        Route::get('/cartoon', AdminCartoonDashboardController::class)->name('admin.cartoon.dashboard');
         Route::get('/content', [AdminContentController::class, 'index'])->name('admin.content');
+        Route::get('/content/create', [AdminContentController::class, 'create'])->name('admin.content.create');
+        Route::post('/content', [AdminContentController::class, 'store'])->name('admin.content.store');
+        Route::get('/content/{cartoon}', [AdminContentController::class, 'show'])->name('admin.content.show');
+        Route::get('/content/{cartoon}/edit', [AdminContentController::class, 'edit'])->name('admin.content.edit');
+        Route::put('/content/{cartoon}', [AdminContentController::class, 'update'])->name('admin.content.update');
+        Route::post('/content/{cartoon}/thumbnail/remove', [AdminContentController::class, 'removeThumbnail'])->name('admin.content.thumbnail.remove');
+        Route::post('/content/{cartoon}/archive', [AdminContentController::class, 'archive'])->name('admin.content.archive');
+        Route::post('/content/{cartoon}/feature', [AdminContentController::class, 'feature'])->name('admin.content.feature');
+        Route::delete('/content/{cartoon}/feature', [AdminContentController::class, 'unfeature'])->name('admin.content.unfeature');
+        Route::delete('/content/{cartoon}', [AdminContentController::class, 'destroy'])->name('admin.content.destroy');
+        Route::get('/calendar', [AdminContentController::class, 'calendar'])->name('admin.calendar');
+        Route::get('/episodes', [\App\Http\Controllers\Web\Admin\AdminEpisodeController::class, 'index'])->name('admin.episodes');
+        Route::get('/content/{cartoon}/episodes/create', [\App\Http\Controllers\Web\Admin\AdminEpisodeController::class, 'create'])->name('admin.episodes.create');
+        Route::post('/content/{cartoon}/episodes', [\App\Http\Controllers\Web\Admin\AdminEpisodeController::class, 'store'])->name('admin.episodes.store');
+        Route::get('/content/{cartoon}/episodes/{episode}/edit', [\App\Http\Controllers\Web\Admin\AdminEpisodeController::class, 'edit'])->name('admin.episodes.edit');
+        Route::put('/content/{cartoon}/episodes/{episode}', [\App\Http\Controllers\Web\Admin\AdminEpisodeController::class, 'update'])->name('admin.episodes.update');
+        Route::delete('/content/{cartoon}/episodes/{episode}', [\App\Http\Controllers\Web\Admin\AdminEpisodeController::class, 'destroy'])->name('admin.episodes.destroy');
         Route::get('/categories', [AdminContentController::class, 'categories'])->name('admin.categories');
+        Route::post('/categories', [AdminContentController::class, 'storeCategory'])->name('admin.categories.store');
+        Route::get('/categories/{category}/edit', [AdminContentController::class, 'editCategory'])->name('admin.categories.edit');
+        Route::put('/categories/{category}', [AdminContentController::class, 'updateCategory'])->name('admin.categories.update');
+        Route::delete('/categories/{category}', [AdminContentController::class, 'destroyCategory'])->name('admin.categories.destroy');
         Route::get('/collections', [AdminContentController::class, 'collections'])->name('admin.collections');
-        Route::get('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+        Route::post('/collections', [AdminContentController::class, 'storeCollection'])->name('admin.collections.store');
+        Route::get('/collections/{collection}/edit', [AdminContentController::class, 'editCollection'])->name('admin.collections.edit');
+        Route::put('/collections/{collection}', [AdminContentController::class, 'updateCollection'])->name('admin.collections.update');
+        Route::delete('/collections/{collection}', [AdminContentController::class, 'destroyCollection'])->name('admin.collections.destroy');
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
     });
 });

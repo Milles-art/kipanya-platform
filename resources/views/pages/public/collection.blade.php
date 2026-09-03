@@ -1,16 +1,4 @@
 @extends('layouts.app')
 @section('content')
-<section class="k-shell py-12 sm:py-16">
-    <a href="{{ route('discover') }}" class="text-sm text-black/45 hover:text-black">Back to library</a>
-    <div class="mt-10 max-w-3xl"><div class="k-label text-black/40">Collection</div><h1 class="k-display mt-4 text-5xl font-semibold sm:text-7xl">{{ $collection->name }}</h1>@if($collection->description)<p class="mt-6 text-lg leading-8 text-black/55">{{ $collection->description }}</p>@endif</div>
-    @if($collection->cartoons->count())
-        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach($collection->cartoons as $cartoon)
-                <a href="{{ route('watch', $cartoon) }}" class="k-card group"><div class="aspect-[16/10] overflow-hidden bg-[#ecece9]">@if($cartoon->thumbnail_url)<img src="{{ $cartoon->thumbnail_url }}" alt="{{ $cartoon->title }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]">@endif</div><div class="p-5"><div class="k-label text-black/35">{{ $cartoon->category->name }}</div><h2 class="mt-2 text-xl font-semibold">{{ $cartoon->title }}</h2></div></a>
-            @endforeach
-        </div>
-    @else
-        <div class="mt-10 rounded-3xl bg-[#f7f7f5] px-6 py-16 text-center text-sm text-black/50">This collection is being prepared.</div>
-    @endif
-</section>
+<section class="k-shell pt-10 sm:pt-16"><a href="{{ route('discover') }}" class="text-sm k-muted">← Back to cartoons</a><div class="mt-8 max-w-3xl"><div class="k-section-label">Collection</div><h1 class="k-display mt-2 text-5xl font-semibold sm:text-7xl">{{ $collection->name }}</h1>@if($collection->description)<p class="mt-5 text-base leading-7 k-muted">{{ $collection->description }}</p>@endif</div><div class="mt-10 k-public-grid">@forelse($collection->cartoons as $cartoon)<a href="{{ route('watch',$cartoon) }}" class="k-public-card group"><div class="art">@if($cartoon->resolved_thumbnail_url)<img src="{{ $cartoon->resolved_thumbnail_url }}" alt="{{ $cartoon->title }}">@endif</div><div class="p-4"><div class="k-section-label">{{ $cartoon->category?->name }}</div><h2 class="mt-2 font-semibold">{{ $cartoon->title }}</h2></div></a>@empty<div class="k-empty-state col-span-full">This collection is being prepared.</div>@endforelse</div></section>
 @endsection

@@ -33,6 +33,28 @@ final class PublicContentController extends Controller
         return view('pages.public.home', compact('featured', 'latest', 'categories', 'collections'));
     }
 
+    public function cartoon()
+    {
+        $featured = Cartoon::query()->with('category')
+            ->where('status', ContentStatus::Published->value)
+            ->where('is_featured', true)
+            ->latest('published_at')->take(6)->get();
+
+        $latest = Cartoon::query()->with('category')
+            ->where('status', ContentStatus::Published->value)
+            ->latest('published_at')->take(12)->get();
+
+        $categories = Category::query()->where('is_active', true)
+            ->withCount(['cartoons' => fn ($q) => $q->where('status', ContentStatus::Published->value)])
+            ->orderBy('sort_order')->orderBy('name')->take(8)->get();
+
+        $collections = Collection::query()->where('is_active', true)
+            ->with(['cartoons' => fn ($q) => $q->where('status', ContentStatus::Published->value)->with('category')->orderBy('cartoon_collection.sort_order')->take(6)])
+            ->orderBy('sort_order')->orderBy('name')->take(4)->get();
+
+        return view('pages.public.cartoon', compact('featured', 'latest', 'categories', 'collections'));
+    }
+
     public function discover(Request $request)
     {
         $query = Cartoon::query()->with('category')

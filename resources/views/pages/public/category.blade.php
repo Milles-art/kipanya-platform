@@ -1,13 +1,4 @@
 @extends('layouts.app')
 @section('content')
-<section class="k-shell py-12 sm:py-16">
-    <a href="{{ route('discover') }}" class="text-sm text-black/45 hover:text-black">Back to library</a>
-    <div class="mt-10 max-w-3xl"><div class="k-label text-black/40">Category</div><h1 class="k-display mt-4 text-5xl font-semibold sm:text-7xl">{{ $category->name }}</h1>@if($category->description)<p class="mt-6 text-lg leading-8 text-black/55">{{ $category->description }}</p>@endif</div>
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        @foreach($cartoons as $cartoon)
-            <a href="{{ route('watch', $cartoon) }}" class="k-card group"><div class="aspect-[16/10] overflow-hidden bg-[#ecece9]">@if($cartoon->thumbnail_url)<img src="{{ $cartoon->thumbnail_url }}" alt="{{ $cartoon->title }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]">@endif</div><div class="p-5"><div class="k-label text-black/35">{{ $category->name }}</div><h2 class="mt-2 text-xl font-semibold">{{ $cartoon->title }}</h2><p class="mt-2 line-clamp-2 text-sm leading-6 text-black/50">{{ $cartoon->description }}</p></div></a>
-        @endforeach
-    </div>
-    <div class="mt-10">{{ $cartoons->links() }}</div>
-</section>
+<section class="k-shell pt-10 sm:pt-16"><a href="{{ route('discover') }}" class="text-sm k-muted hover:text-[var(--text)]">← Back to cartoons</a><div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><div class="k-section-label">Category</div><h1 class="k-display mt-2 text-5xl font-semibold sm:text-7xl">{{ $category->name }}</h1>@if($category->description)<p class="mt-4 max-w-2xl text-base leading-7 k-muted">{{ $category->description }}</p>@endif</div><div class="text-sm k-muted">{{ $cartoons->total() }} stories</div></div><div class="mt-8 k-public-grid">@forelse($cartoons as $cartoon)<a href="{{ route('watch',$cartoon) }}" class="k-public-card group"><div class="art">@if($cartoon->resolved_thumbnail_url)<img src="{{ $cartoon->resolved_thumbnail_url }}" alt="{{ $cartoon->title }}">@endif</div><div class="p-4"><div class="k-section-label">{{ $category->name }}</div><h2 class="mt-2 font-semibold">{{ $cartoon->title }}</h2></div></a>@empty<div class="k-empty-state col-span-full">No published cartoons in this category yet.</div>@endforelse</div><div class="mt-8">{{ $cartoons->links() }}</div></section>
 @endsection

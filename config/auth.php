@@ -5,7 +5,10 @@ use App\Models\User;
 return [
 
     // Local development only: expose OTP codes in laravel.log for browser login testing.
-    'log_otp_codes' => env('AUTH_LOG_OTP_CODES', env('APP_ENV') === 'local'),
+    'log_otp_codes' => env('AUTH_LOG_OTP_CODES', in_array(env('APP_ENV'), ['local', 'testing'], true)),
+
+    // Browser-visible OTPs are strictly limited to local/testing by default.
+    'expose_otp_codes' => env('AUTH_EXPOSE_OTP_CODES', false),
 
     /*
     |--------------------------------------------------------------------------

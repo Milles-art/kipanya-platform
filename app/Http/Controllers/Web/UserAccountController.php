@@ -14,32 +14,128 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 final class UserAccountController extends Controller
 {
-    public function showLogin(): View { return view('account.login'); }
+    public function showLogin(): View
+    {
+        return view('account.login');
+    }
+
+    public function showRegister(): View
+    {
+        return view('account.register');
+    }
+
+    public function requestRegistrationOtp(Request $request, OtpService $otpService): RedirectResponse
+    {
+        $data = $request->validate(['phone' => ['required', 'string', 'max:30']]);
+        $phone = PhoneNumber::normalize($data['phone'])->value();
+        $key = 'web-register-otp:' . sha1($phone);
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            throw ValidationException::withMessages([
+                'phone' => ['Too many requests. Please try again later.'],
+            ]);
+        }
+
+        RateLimiter::hit($key, 3600);
+
+        if (User::query()->where('phone', $phone)->exists()) {
+            $request->session()->forget(['user_registration_phone', 'dev_otp_code']);
+            return back()->withInput()->with('status', 'If this number is not already registered, a verification code has been sent.');
+        }
+
+        $otpService->send($phone, OtpPurpose::Registration);
+        $request->session()->put('user_registration_phone', $phone);
+        if ($otpService->lastPlainCode()) {
+            $request->session()->put('dev_otp_code', $otpService->lastPlainCode());
+        }
+
+        return back()->with('status', 'A verification code has been sent to your phone.');
+    }
+
+    public function register(Request $request, OtpService $otpService): RedirectResponse
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'min:2', 'max:80'],
+            'code' => ['required', 'digits:6'],
+        ]);
+        $phone = $request->session()->get('user_registration_phone');
+        abort_unless($phone, 422, 'Registration session expired.');
+
+        $user = DB::transaction(function () use ($data, $phone, $otpService): User {
+            $otpService->verify($phone, OtpPurpose::Registration, $data['code']);
+
+            if (User::query()->where('phone', $phone)->lockForUpdate()->exists()) {
+                throw ValidationException::withMessages([
+                    'phone' => ['This phone number is already registered. Please sign in instead.'],
+                ]);
+            }
+
+            return User::query()->create([
+                'name' => trim($data['name']),
+                'phone' => $phone,
+                'phone_verified_at' => now(),
+                'status' => UserStatus::Active->value,
+            ]);
+        });
+
+        Auth::guard('web')->login($user);
+        $request->session()->regenerate();
+        $request->session()->forget(['user_registration_phone', 'dev_otp_code']);
+
+        return redirect()->intended(route('account'))->with('status', 'Welcome to Kipanya. Your account is ready.');
+    }
 
     public function requestOtp(Request $request, OtpService $otpService): RedirectResponse
     {
-        $data = $request->validate(['phone' => ['required','string']]);
+        $data = $request->validate(['phone' => ['required', 'string', 'max:30']]);
         $phone = PhoneNumber::normalize($data['phone'])->value();
+        $key = 'web-login-otp:' . sha1($phone);
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            throw ValidationException::withMessages([
+                'phone' => ['Too many requests. Please try again later.'],
+            ]);
+        }
+
+        RateLimiter::hit($key, 3600);
+
         $user = User::query()->where('phone', $phone)->where('status', UserStatus::Active->value)->first();
-        if ($user && !$user->isAdmin()) { $otpService->send($phone, OtpPurpose::Login); }
-        $request->session()->put('user_login_phone', $phone);
-        return back()->with('status', 'If the account exists, a verification code has been sent.');
+        if ($user && !$user->isAdmin()) {
+            $otpService->send($phone, OtpPurpose::Login);
+            $request->session()->put('user_login_phone', $phone);
+            if ($otpService->lastPlainCode()) {
+                $request->session()->put('dev_otp_code', $otpService->lastPlainCode());
+            }
+        }
+
+        return back()->withInput()->with('status', 'If the account exists, a verification code has been sent.');
     }
 
     public function login(Request $request, OtpService $otpService): RedirectResponse
     {
-        $data = $request->validate(['code' => ['required','digits:6']]);
+        $data = $request->validate(['code' => ['required', 'digits:6']]);
         $phone = $request->session()->get('user_login_phone');
         abort_unless($phone, 422, 'Login session expired.');
+
         $otpService->verify($phone, OtpPurpose::Login, $data['code']);
-        $user = User::query()->where('phone', $phone)->where('status', UserStatus::Active->value)->firstOrFail();
-        abort_unless(!$user->isAdmin(), 403, 'Use the Studio login for administrator access.');
+        $user = User::query()->where('phone', $phone)->where('status', UserStatus::Active->value)->first();
+
+        if (!$user || $user->isAdmin()) {
+            throw ValidationException::withMessages([
+                'code' => ['Unable to authenticate this account.'],
+            ]);
+        }
+
         Auth::guard('web')->login($user);
         $request->session()->regenerate();
-        $request->session()->forget('user_login_phone');
+        $request->session()->forget(['user_login_phone', 'dev_otp_code']);
+
         return redirect()->intended(route('account'));
     }
 
@@ -47,14 +143,13 @@ final class UserAccountController extends Controller
     {
         $user = $request->user();
         $favorites = $user->favorites()->with('category')->where('status', ContentStatus::Published->value)->latest('favorites.created_at')->take(6)->get();
-        $progress = $user->watchProgress()->with(['cartoon.category', 'episode'])->latest('last_watched_at')->take(6)->get();
-        return view('account.index', compact('user', 'favorites', 'progress'));
+        return view('account.index', compact('user', 'favorites'));
     }
 
     public function favorites(Request $request): View
     {
         $cartoons = $request->user()->favorites()->with('category')->where('status', ContentStatus::Published->value)->latest('favorites.created_at')->paginate(18);
-        return view('account.favorites', compact('cartoons'));
+        return view('pages.public.favorites', compact('cartoons'));
     }
 
     public function toggleFavorite(Request $request, Cartoon $cartoon): RedirectResponse
@@ -84,14 +179,4 @@ final class UserAccountController extends Controller
         return redirect()->route('home');
     }
 
-    public function markWatched(Request $request, Cartoon $cartoon): RedirectResponse
-    {
-        $data = $request->validate(['episode_id' => ['required','integer'], 'progress_seconds' => ['nullable','integer','min:0','max:86400'], 'completed' => ['nullable','boolean']]);
-        $episode = $cartoon->episodes()->whereKey($data['episode_id'])->where('status', ContentStatus::Published->value)->firstOrFail();
-        $request->user()->watchProgress()->updateOrCreate(
-            ['episode_id' => $episode->id],
-            ['cartoon_id' => $cartoon->id, 'progress_seconds' => $data['progress_seconds'] ?? 0, 'completed_at' => !empty($data['completed']) ? now() : null, 'last_watched_at' => now()]
-        );
-        return back()->with('status', 'Watch progress saved.');
-    }
 }

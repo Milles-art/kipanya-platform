@@ -1,4 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.cartoon')
 @section('content')
-<section class="k-shell pt-10 sm:pt-16"><a href="{{ route('discover') }}" class="text-sm k-muted hover:text-[var(--text)]">← Back to cartoons</a><div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><div class="k-section-label">Category</div><h1 class="k-display mt-2 text-5xl font-semibold sm:text-7xl">{{ $category->name }}</h1>@if($category->description)<p class="mt-4 max-w-2xl text-base leading-7 k-muted">{{ $category->description }}</p>@endif</div><div class="text-sm k-muted">{{ $cartoons->total() }} stories</div></div><div class="mt-8 k-public-grid">@forelse($cartoons as $cartoon)<a href="{{ route('watch',$cartoon) }}" class="k-public-card group"><div class="art">@if($cartoon->resolved_thumbnail_url)<img src="{{ $cartoon->resolved_thumbnail_url }}" alt="{{ $cartoon->title }}">@endif</div><div class="p-4"><div class="k-section-label">{{ $category->name }}</div><h2 class="mt-2 font-semibold">{{ $cartoon->title }}</h2></div></a>@empty<div class="k-empty-state col-span-full">No published cartoons in this category yet.</div>@endforelse</div><div class="mt-8">{{ $cartoons->links() }}</div></section>
+<div class="cartoon-list-page cartoon-shell">
+    <a href="{{ route('cartoon') }}" class="cartoon-back"><x-icon name="chevron-left" size="15"/> Back to Archive</a>
+    <header class="cartoon-page-intro category-intro"><span class="cartoon-kicker"><x-icon name="layers" size="14"/> Category</span><h1>{{ $category->name }}</h1>@if($category->description)<p>{{ $category->description }}</p>@endif<div class="cartoon-count-label">{{ $cartoons->total() }} {{ Str::plural('cartoon',$cartoons->total()) }}</div></header>
+    <div class="cartoon-grid-react">@forelse($cartoons as $cartoon)<x-cartoon.card :cartoon="$cartoon"/>@empty<div class="cartoon-empty cartoon-empty-large"><h2>No published cartoons here yet.</h2><a href="{{ route('cartoon') }}" class="cartoon-btn cartoon-btn-primary">Back to Archive</a></div>@endforelse</div>
+    <div class="cartoon-pagination">{{ $cartoons->links() }}</div>
+</div>
 @endsection

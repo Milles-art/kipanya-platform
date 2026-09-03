@@ -6,7 +6,7 @@
     @if($collection->cartoons->count())
         <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @foreach($collection->cartoons as $cartoon)
-                <a href="{{ route('watch', $cartoon) }}" class="k-card group"><div class="aspect-[16/10] overflow-hidden bg-[#ecece9]">@if($cartoon->thumbnail_url)<img src="{{ $cartoon->thumbnail_url }}" alt="{{ $cartoon->title }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]">@endif</div><div class="p-5"><div class="k-label text-black/35">{{ $cartoon->category->name }}</div><h2 class="mt-2 text-xl font-semibold">{{ $cartoon->title }}</h2></div></a>
+                <a href="{{ route('cartoon.detail', $cartoon) }}" class="k-card group"><div class="aspect-[16/10] overflow-hidden bg-[#ecece9]">@if($cartoon->thumbnail_url)<img src="{{ $cartoon->thumbnail_url }}" alt="{{ $cartoon->title }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]">@endif</div><div class="p-5"><div class="k-label text-black/35">{{ $cartoon->category->name }}</div><h2 class="mt-2 text-xl font-semibold">{{ $cartoon->title }}</h2></div></a>
             @endforeach
         </div>
     @else

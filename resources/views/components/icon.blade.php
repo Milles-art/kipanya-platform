@@ -13,6 +13,7 @@ $paths = [
 'menu' => '<path d="M4 7h16M4 12h16M4 17h16"/>',
 'x' => '<path d="m6 6 12 12M18 6 6 18"/>',
 'plus' => '<path d="M12 5v14M5 12h14"/>',
+'share' => '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/>',
 'external' => '<path d="M14 5h5v5"/><path d="M13 11 19 5"/><path d="M19 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/>' ,
 'logout' => '<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 5V4a2 2 0 0 1 2-2h4v20h-4a2 2 0 0 1-2-2v-1"/>' ,
 'calendar' => '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',

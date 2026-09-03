@@ -13,6 +13,8 @@ use Illuminate\Validation\ValidationException;
 
 final class OtpService
 {
+    private ?string $lastPlainCode = null;
+
     public const TTL_MINUTES = 5;
     public const MAX_ATTEMPTS = 5;
     public const RESEND_COOLDOWN_SECONDS = 60;
@@ -36,6 +38,7 @@ final class OtpService
         }
 
         $plainCode = (string) random_int(100000, 999999);
+        $this->lastPlainCode = app()->environment(['local', 'testing']) || config('auth.expose_otp_codes', false) ? $plainCode : null;
 
         $otp = DB::transaction(function () use ($normalized, $purpose, $plainCode) {
             OtpCode::query()
@@ -71,6 +74,12 @@ final class OtpService
         }
 
         return $otp;
+    }
+
+
+    public function lastPlainCode(): ?string
+    {
+        return $this->lastPlainCode;
     }
 
     public function verify(string $phone, OtpPurpose $purpose, string $code): OtpCode

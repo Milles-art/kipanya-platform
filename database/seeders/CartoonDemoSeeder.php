@@ -53,9 +53,13 @@ class CartoonDemoSeeder extends Seeder
                     'category_id' => $categories[$categoryName]->id,
                     'title' => $title,
                     'description' => 'Reference artwork from the Kipanya Cartoon Archive visual set.',
+                    'caption' => 'A visual story from the Cartoon Archive.',
                     'thumbnail_url' => '/assets/cartoon/demo/cartoon-'.str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT).'.jpg',
+                    'artwork_format' => $this->detectFormat('/assets/cartoon/demo/cartoon-'.str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT).'.jpg'),
                     'status' => ContentStatus::Published,
                     'is_featured' => $index === 0,
+                    'is_daily' => $index < 10,
+                    'daily_date' => $index < 10 ? today()->subDays($index) : null,
                     'published_at' => now()->subDays($index),
                     'sort_order' => $index + 1,
                 ]
@@ -75,4 +79,12 @@ class CartoonDemoSeeder extends Seeder
 
         $collection->cartoons()->sync(collect($created)->mapWithKeys(fn (Cartoon $cartoon, int $index) => [$cartoon->id => ['sort_order' => $index + 1]])->all());
     }
+    private function detectFormat(string $path): string
+    {
+        $size = @getimagesize(public_path($path));
+        if (!$size || !$size[0] || !$size[1]) return 'landscape';
+        $ratio = $size[0] / $size[1];
+        return $ratio > 1.15 ? 'landscape' : ($ratio < 0.85 ? 'portrait' : 'square');
+    }
+
 }

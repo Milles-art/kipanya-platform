@@ -100,6 +100,8 @@ class AdminContentManagementTest extends TestCase
             'title' => 'Old Story',
             'slug' => 'old-story',
             'status' => ContentStatus::Draft,
+            'thumbnail_url' => '/assets/cartoon/demo/cartoon-03.jpg',
+            'artwork_format' => 'landscape',
         ]);
 
         $this->actingAs($admin, 'web')

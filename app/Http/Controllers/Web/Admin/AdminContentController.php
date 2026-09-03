@@ -6,7 +6,6 @@ use App\Enums\ContentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Admin\CartoonRequest;
 use App\Models\Cartoon;
-use App\Models\CartoonEpisode;
 use App\Models\Category;
 use App\Models\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +23,7 @@ final class AdminContentController extends Controller
 
     public function index(Request $request): View
     {
-        $query = Cartoon::query()->with(['category', 'episodes'])->latest('id');
+        $query = Cartoon::query()->with('category')->latest('id');
 
         if ($request->filled('q')) {
             $term = trim((string) $request->string('q'));
@@ -66,6 +65,12 @@ final class AdminContentController extends Controller
     public function store(CartoonRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $data['is_featured'] = (bool) ($data['is_featured'] ?? false);
+        $data['is_daily'] = (bool) ($data['is_daily'] ?? false);
+        $data['daily_date'] = $data['is_daily']
+            ? ($data['daily_date'] ?? (($data['published_at'] ?? null) ? Carbon::parse($data['published_at'])->toDateString() : today()->toDateString()))
+            : null;
+        $data['slug'] = $this->uniqueCartoonSlug(Str::slug($data['slug'] ?? $data['title']));
         unset($data['thumbnail']);
 
         if (($data['status'] ?? ContentStatus::Draft->value) === ContentStatus::Published->value) {
@@ -77,9 +82,14 @@ final class AdminContentController extends Controller
         }
 
         $cartoon = Cartoon::create($data);
+        if ($cartoon->is_daily && $cartoon->daily_date) {
+            Cartoon::query()->where('id', '!=', $cartoon->id)->where('daily_date', $cartoon->daily_date)->update(['is_daily' => false, 'daily_date' => null]);
+        }
         $cartoon->collections()->sync($request->input('collection_ids', []));
 
         if ($request->hasFile('thumbnail')) {
+            $data['artwork_format'] = $this->detectArtworkFormat($request);
+            $cartoon->update(['artwork_format' => $data['artwork_format']]);
             $this->media->replaceThumbnail($cartoon, $request->file('thumbnail'));
         }
 
@@ -92,7 +102,6 @@ final class AdminContentController extends Controller
     {
         $cartoon->load([
             'category',
-            'episodes',
             'collections',
         ]);
 
@@ -118,6 +127,12 @@ final class AdminContentController extends Controller
     public function update(CartoonRequest $request, Cartoon $cartoon): RedirectResponse
     {
         $data = $request->validated();
+        $data['is_featured'] = (bool) ($data['is_featured'] ?? false);
+        $data['is_daily'] = (bool) ($data['is_daily'] ?? false);
+        $data['daily_date'] = $data['is_daily']
+            ? ($data['daily_date'] ?? (($data['published_at'] ?? $cartoon->published_at) ? Carbon::parse($data['published_at'] ?? $cartoon->published_at)->toDateString() : today()->toDateString()))
+            : null;
+        $data['slug'] = $this->uniqueCartoonSlug(Str::slug($data['slug'] ?? $cartoon->title), $cartoon->id);
         unset($data['thumbnail']);
 
         if (($data['status'] ?? $cartoon->status->value) === ContentStatus::Scheduled->value) {
@@ -132,9 +147,14 @@ final class AdminContentController extends Controller
         }
 
         $cartoon->update($data);
+        if ($cartoon->is_daily && $cartoon->daily_date) {
+            Cartoon::query()->where('id', '!=', $cartoon->id)->where('daily_date', $cartoon->daily_date)->update(['is_daily' => false, 'daily_date' => null]);
+        }
         $cartoon->collections()->sync($request->input('collection_ids', []));
 
         if ($request->hasFile('thumbnail')) {
+            $data['artwork_format'] = $this->detectArtworkFormat($request);
+            $cartoon->update(['artwork_format' => $data['artwork_format']]);
             $this->media->replaceThumbnail($cartoon, $request->file('thumbnail'));
         }
 
@@ -154,6 +174,7 @@ final class AdminContentController extends Controller
 
     public function feature(Cartoon $cartoon): RedirectResponse
     {
+        abort_unless($cartoon->thumbnail_path || $cartoon->thumbnail_url, 422, 'A cartoon needs artwork before it can be featured.');
         $cartoon->update(['is_featured' => true]);
         return redirect()->route('admin.content.show', $cartoon)->with('status', "{$cartoon->title} is now featured.");
     }
@@ -201,11 +222,6 @@ final class AdminContentController extends Controller
             ->whereBetween('published_at', [$start, $end])
             ->orderBy('published_at')->get();
 
-        $episodes = CartoonEpisode::query()->with('cartoon')
-            ->whereIn('status', [ContentStatus::Scheduled->value, ContentStatus::Published->value])
-            ->whereNotNull('published_at')
-            ->whereBetween('published_at', [$start, $end])
-            ->orderBy('published_at')->get();
 
         $calendarItems = $cartoons->map(fn (Cartoon $cartoon) => [
             'type' => 'cartoon',
@@ -214,14 +230,7 @@ final class AdminContentController extends Controller
             'status' => $cartoon->status?->value,
             'url' => route('admin.content.show', $cartoon),
             'meta' => $cartoon->category?->name,
-        ])->concat($episodes->map(fn (CartoonEpisode $episode) => [
-            'type' => 'episode',
-            'title' => 'Ep '.$episode->episode_number.' · '.$episode->title,
-            'published_at' => $episode->published_at,
-            'status' => $episode->status?->value,
-            'url' => route('admin.episodes.edit', [$episode->cartoon, $episode]),
-            'meta' => $episode->cartoon?->title,
-        ]))->sortBy('published_at')->values();
+        ])->sortBy('published_at')->values();
 
         return view('admin.content.calendar', compact('calendarItems', 'month'));
     }
@@ -346,6 +355,17 @@ final class AdminContentController extends Controller
         return redirect()->route('admin.categories')->with('status', 'Category deleted.');
     }
 
+    private function uniqueCartoonSlug(string $slug, ?int $ignoreId = null): string
+    {
+        $base = $slug ?: 'cartoon';
+        $candidate = $base;
+        $suffix = 2;
+        while (Cartoon::query()->where('slug', $candidate)->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))->exists()) {
+            $candidate = $base.'-'.$suffix++;
+        }
+        return $candidate;
+    }
+
     private function uniqueCategorySlug(string $slug, ?int $ignoreId = null): string
     {
         $base = $slug ?: 'category';
@@ -367,4 +387,14 @@ final class AdminContentController extends Controller
         }
         return $candidate;
     }
+    private function detectArtworkFormat(Request $request): string
+    {
+        $file = $request->file('thumbnail');
+        if (!$file) return 'landscape';
+        $size = @getimagesize($file->getRealPath());
+        if (!$size || empty($size[0]) || empty($size[1])) return 'landscape';
+        $ratio = $size[0] / $size[1];
+        return $ratio > 1.15 ? 'landscape' : ($ratio < 0.85 ? 'portrait' : 'square');
+    }
+
 }

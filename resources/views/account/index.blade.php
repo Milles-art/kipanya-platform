@@ -1,7 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.cartoon')
 @section('content')
-<section class="k-shell py-10 sm:py-14"><div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div><div class="k-label text-[var(--accent)]">Your Kipanya</div><h1 class="k-display mt-2 text-4xl font-semibold sm:text-6xl">Welcome, {{ $user->name }}.</h1><p class="mt-3 k-muted">Your favorites and watch history, all in one place.</p></div><form action="{{ route('account.logout') }}" method="POST">@csrf<button class="k-btn k-btn-light">Sign out</button></form></div>@if(session('status'))<div class="mt-6 rounded-xl border k-divider bg-[var(--accent-soft)] p-4 text-sm">{{ session('status') }}</div>@endif
-<div class="mt-10 grid gap-6 lg:grid-cols-[1fr_.72fr]"><section><div><div class="k-label k-muted">Continue watching</div><h2 class="mt-2 text-2xl font-semibold">Pick up again</h2></div><div class="mt-5 grid gap-4 sm:grid-cols-2">@forelse($progress as $item)<a href="{{ route('watch', ['cartoon'=>$item->cartoon, 'episode'=>$item->episode->slug]) }}" class="k-card group"><div class="aspect-[16/9] overflow-hidden k-thumb">@if($item->cartoon->thumbnail_url)<img src="{{ $item->cartoon->thumbnail_url }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" alt="{{ $item->cartoon->title }}">@endif</div><div class="p-4"><div class="text-sm font-semibold">{{ $item->cartoon->title }}</div><div class="mt-1 text-xs k-muted">{{ $item->episode->title }} · Episode {{ $item->episode->episode_number }}</div><div class="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--surface-2)]"><div class="h-full rounded-full bg-[var(--accent)]" style="width: {{ min(100, max(6, (($item->progress_seconds / max(1, $item->episode->duration_seconds ?? 600))*100))) }}%"></div></div></div></a>@empty<div class="k-card p-7 text-sm k-muted sm:col-span-2">Your watch history will appear here after you save your first episode.</div>@endforelse</div></section>
-<aside class="k-card p-6"><div class="k-label k-muted">Profile</div><form action="{{ route('account.profile.update') }}" method="POST" class="mt-5 space-y-4">@csrf @method('PATCH')<label class="block text-sm font-semibold">Name<input name="name" value="{{ old('name',$user->name) }}" class="k-control mt-2 w-full rounded-xl px-4 py-3 outline-none"></label><label class="block text-sm font-semibold">Email<input name="email" type="email" value="{{ old('email',$user->email) }}" class="k-control mt-2 w-full rounded-xl px-4 py-3 outline-none"></label><button class="k-btn k-btn-primary w-full">Save profile</button></form><a href="{{ route('favorites') }}" class="k-btn k-btn-light mt-3 w-full">View all favorites</a></aside></div>
-<section class="mt-14"><div class="flex items-end justify-between"><div><div class="k-label k-muted">Favorites</div><h2 class="mt-2 text-2xl font-semibold">Saved for later</h2></div><a href="{{ route('favorites') }}" class="text-sm font-semibold text-[var(--accent)]">View all</a></div><div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">@forelse($favorites as $cartoon)<a href="{{ route('watch',$cartoon) }}" class="group"><div class="aspect-[4/3] overflow-hidden rounded-2xl k-thumb">@if($cartoon->thumbnail_url)<img src="{{ $cartoon->thumbnail_url }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" alt="{{ $cartoon->title }}">@endif</div><div class="mt-3 font-semibold">{{ $cartoon->title }}</div><div class="mt-1 text-xs k-muted">{{ $cartoon->category->name }}</div></a>@empty<div class="k-card p-7 text-sm k-muted sm:col-span-3">No favorites yet. Explore the library and save a story you love.</div>@endforelse</div></section></section>
+<div class="cartoon-account-page cartoon-shell">
+    <div class="cartoon-account-header">
+        <div><span class="cartoon-kicker"><x-icon name="user" size="14"/> Your Kipanya</span><h1>Welcome, {{ $user->name }}.</h1><p>Your Cartoon Archive, favorites and profile in one place.</p></div>
+        <form action="{{ route('account.logout') }}" method="POST">@csrf<button class="cartoon-btn cartoon-btn-outline" type="submit"><x-icon name="logout" size="15"/> Sign out</button></form>
+    </div>
+    @if(session('status'))<div class="cartoon-notice"><x-icon name="check-circle" size="15"/> {{ session('status') }}</div>@endif
+    <div class="cartoon-account-grid">
+        <section class="cartoon-account-section">
+            <div class="cartoon-section-head-react"><div><div class="cartoon-section-label">Favorites</div><h2>Saved for later</h2></div><a href="{{ route('favorites') }}">View all <x-icon name="arrow-right" size="15"/></a></div>
+            <div class="cartoon-grid-react">
+                @forelse($favorites as $cartoon)<x-cartoon.card :cartoon="$cartoon"/>@empty<div class="cartoon-empty cartoon-empty-large"><x-icon name="heart" size="25"/><h2>Nothing saved yet.</h2><p>Explore the Cartoon Archive and save artwork you want to keep.</p><a href="{{ route('cartoon') }}" class="cartoon-btn cartoon-btn-primary">Explore Cartoons</a></div>@endforelse
+            </div>
+        </section>
+        <aside class="cartoon-account-profile">
+            <div class="cartoon-section-label">Profile</div>
+            <h2>Your details</h2>
+            <form action="{{ route('account.profile.update') }}" method="POST" class="cartoon-account-form">
+                @csrf @method('PATCH')
+                <label>Name<input name="name" value="{{ old('name',$user->name) }}" required></label>
+                <label>Email<input name="email" type="email" value="{{ old('email',$user->email) }}"></label>
+                <label>Phone<input value="{{ $user->phone }}" disabled></label>
+                <button class="cartoon-btn cartoon-btn-primary" type="submit">Save profile <x-icon name="check-circle" size="15"/></button>
+            </form>
+            <a href="{{ route('cartoon') }}" class="cartoon-btn cartoon-btn-outline cartoon-account-explore">Explore Cartoon Archive <x-icon name="arrow-right" size="15"/></a>
+        </aside>
+    </div>
+</div>
 @endsection

@@ -35,17 +35,31 @@ final class AdminAuthController extends Controller
             ->where('status', UserStatus::Active->value)
             ->first();
 
+        $request->session()->forget('dev_otp_code');
+
         if ($user?->isAdmin()) {
             $otpService->send($phone, OtpPurpose::Login);
+
+            // In local/testing environments the generated code is deliberately
+            // available to the browser so development does not depend on SMS.
+            if ($otpService->lastPlainCode()) {
+                $request->session()->put('dev_otp_code', $otpService->lastPlainCode());
+            }
+
+            $request->session()->put('admin_login_phone', $phone);
+            $request->session()->save();
+
+            return back()->with('status', 'Verification code generated.');
         }
 
-        $request->session()->put('admin_login_phone', $phone);
+        $request->session()->forget('admin_login_phone');
         $request->session()->save();
 
-        return back()->with(
-            'status',
-            'If the account is eligible, a verification code has been sent.'
-        );
+        $message = app()->environment(['local', 'testing'])
+            ? 'No active administrator account was found for that phone number.'
+            : 'If the account is eligible, a verification code has been sent.';
+
+        return back()->withErrors(['phone' => $message]);
     }
 
     public function login(
@@ -86,7 +100,7 @@ final class AdminAuthController extends Controller
         Auth::guard('web')->login($user);
 
         $request->session()->regenerate();
-        $request->session()->forget('admin_login_phone');
+        $request->session()->forget(['admin_login_phone', 'dev_otp_code']);
 
         return redirect()->route('admin.dashboard');
     }

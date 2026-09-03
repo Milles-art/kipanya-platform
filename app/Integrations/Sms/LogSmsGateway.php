@@ -8,9 +8,12 @@ final class LogSmsGateway implements SmsGateway
 {
     public function send(string $phone, string $message): void
     {
-        Log::info('SMS dispatched', [
-            'phone' => $phone,
-            'message' => $message,
-        ]);
+        $context = ['phone' => $phone];
+
+        if (config('auth.log_otp_codes', false)) {
+            $context['message'] = $message;
+        }
+
+        Log::info('SMS dispatched', $context);
     }
 }

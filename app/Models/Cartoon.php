@@ -19,10 +19,14 @@ class Cartoon extends Model
         'title',
         'slug',
         'description',
+        'caption',
         'thumbnail_url',
         'thumbnail_path',
+        'artwork_format',
         'status',
         'is_featured',
+        'is_daily',
+        'daily_date',
         'published_at',
         'sort_order',
     ];
@@ -32,8 +36,11 @@ class Cartoon extends Model
         return [
             'status' => ContentStatus::class,
             'is_featured' => 'boolean',
+            'is_daily' => 'boolean',
+            'daily_date' => 'date',
             'published_at' => 'datetime',
             'sort_order' => 'integer',
+            'artwork_format' => 'string',
         ];
     }
 
@@ -60,4 +67,14 @@ class Cartoon extends Model
     {
         return $this->belongsToMany(Collection::class);
     }
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+    }
+
+    public function wearDesigns(): HasMany
+    {
+        return $this->hasMany(WearDesign::class);
+    }
+
 }

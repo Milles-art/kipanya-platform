@@ -2,7 +2,7 @@ import './bootstrap';
 
 const root = document.documentElement;
 const storedTheme = localStorage.getItem('kipanya-theme');
-root.dataset.theme = storedTheme || 'light';
+if (storedTheme) root.dataset.theme = storedTheme;
 
 const updateThemeButtons = () => {
     const dark = root.dataset.theme === 'dark';
@@ -228,4 +228,81 @@ document.addEventListener('keydown', (event) => {
     };
     window.requestAnimationFrame(tick);
     window.addEventListener('pagehide', () => clearInterval(liveTimer), { once: true });
+})();
+
+// Cartoon Archive card navigation: the card is clickable, while favorite controls remain independent.
+document.addEventListener('click', (event) => {
+    const card = event.target.closest('[data-cartoon-card]');
+    if (!card || event.target.closest('a,button,form')) return;
+    const href = card.dataset.href;
+    if (href) window.location.href = href;
+});
+document.addEventListener('keydown', (event) => {
+    const card = event.target.closest('[data-cartoon-card]');
+    if (card && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        const href = card.dataset.href;
+        if (href) window.location.href = href;
+    }
+});
+
+// Cartoon mobile navigation.
+document.addEventListener('click', (event) => {
+    const toggle = event.target.closest('[data-cartoon-menu-toggle]');
+    const menu = document.querySelector('[data-cartoon-mobile-menu]');
+    if (toggle && menu) {
+        menu.hidden = !menu.hidden;
+        toggle.setAttribute('aria-expanded', String(!menu.hidden));
+    }
+});
+(() => {
+    const nav = document.querySelector('.cartoon-nav-shell');
+    if (!nav) return;
+    const update = () => nav.classList.toggle('is-scrolled', window.scrollY > 16);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+})();
+
+// Cartoon Archive Wear rail: keep the compact controls live and carry the
+// selected configuration into the full designer without creating fake state.
+(() => {
+    const rail = document.querySelector('[data-home-shirt-preview]')?.closest('.cartoon-wear-panel');
+    if (!rail) return;
+    const preview = rail.querySelector('[data-home-shirt-preview]');
+    const shirt = rail.querySelector('[data-home-shirt-base]');
+    const print = rail.querySelector('[data-home-shirt-print]');
+    const continueLink = rail.querySelector('.cartoon-wear-continue');
+    if (!preview || !shirt || !continueLink) return;
+
+    let color = preview.dataset.color || 'black';
+    let size = rail.querySelector('[data-home-size].is-selected')?.dataset.homeSize || 'M';
+    let placement = preview.dataset.placement || 'front-center';
+    const baseUrl = shirt.dataset.homeShirtBase;
+    const destination = continueLink.href;
+
+    const sync = () => {
+        preview.dataset.color = color;
+        preview.dataset.placement = placement;
+        shirt.src = `${baseUrl}/${color}.png`;
+        rail.querySelectorAll('[data-home-color]').forEach((button) => button.classList.toggle('is-selected', button.dataset.homeColor === color));
+        rail.querySelectorAll('[data-home-size]').forEach((button) => button.classList.toggle('is-selected', button.dataset.homeSize === size));
+        rail.querySelectorAll('[data-home-placement]').forEach((button) => button.classList.toggle('is-selected', button.dataset.homePlacement === placement));
+        const url = new URL(destination, window.location.origin);
+        url.searchParams.set('color', color);
+        url.searchParams.set('size', size);
+        url.searchParams.set('placement', placement);
+        continueLink.href = url.toString();
+    };
+
+    rail.addEventListener('click', (event) => {
+        const colorButton = event.target.closest('[data-home-color]');
+        const sizeButton = event.target.closest('[data-home-size]');
+        const placementButton = event.target.closest('[data-home-placement]');
+        if (colorButton) color = colorButton.dataset.homeColor;
+        if (sizeButton) size = sizeButton.dataset.homeSize;
+        if (placementButton) placement = placementButton.dataset.homePlacement;
+        if (colorButton || sizeButton || placementButton) sync();
+    });
+
+    sync();
 })();

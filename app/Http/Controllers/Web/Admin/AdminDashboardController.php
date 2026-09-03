@@ -40,7 +40,7 @@ final class AdminDashboardController extends Controller
                 ['label' => 'Total Orders', 'value' => '—', 'note' => 'Commerce module pending', 'icon' => 'cart', 'tone' => 'orange'],
             ],
             'apps' => [
-                ['name' => 'Cartoon Archive', 'description' => 'Manage cartoons, episodes, categories and collections.', 'icon' => 'film', 'status' => 'active', 'accent' => 'purple', 'stats' => $cartoonStats, 'stat_labels' => [], 'route' => route('admin.cartoon.dashboard'), 'action' => 'Open Studio'],
+                ['name' => 'Cartoon Archive', 'description' => 'Manage cartoons, categories and collections.', 'icon' => 'film', 'status' => 'active', 'accent' => 'purple', 'stats' => $cartoonStats, 'stat_labels' => [], 'route' => route('admin.cartoon.dashboard'), 'action' => 'Open Studio'],
                 ['name' => 'Kipanya Wear', 'description' => 'Manage products, inventory, orders and customers.', 'icon' => 'bag', 'status' => 'planned', 'accent' => 'green', 'stats' => [], 'stat_labels' => ['Products','Orders','Customers'], 'route' => null, 'action' => 'Open Admin'],
                 ['name' => 'Kipanya Book', 'description' => 'Manage books, authors, inventory and orders.', 'icon' => 'book', 'status' => 'planned', 'accent' => 'blue', 'stats' => [], 'stat_labels' => ['Books','Orders','Customers'], 'route' => null, 'action' => 'Open Admin'],
                 ['name' => 'Kaypee Motors', 'description' => 'Manage vehicles, listings, inquiries and leads.', 'icon' => 'car', 'status' => 'planned', 'accent' => 'orange', 'stats' => [], 'stat_labels' => ['Vehicles','Leads','Inquiries'], 'route' => null, 'action' => 'Open Admin'],

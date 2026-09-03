@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->phone_verified_at !== null;
     }
+    public function wearDesigns(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(WearDesign::class);
+    }
+
 }

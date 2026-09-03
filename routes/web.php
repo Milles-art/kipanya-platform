@@ -15,17 +15,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PublicContentController::class, 'home'])->name('home');
 Route::get('/discover', [PublicContentController::class, 'discover'])->name('discover');
 Route::get('/cartoon', [PublicContentController::class, 'cartoon'])->name('cartoon');
+Route::get('/cartoon/search', [PublicContentController::class, 'search'])->name('cartoon.search');
+Route::get('/cartoon/{cartoon:slug}', [PublicContentController::class, 'detail'])->name('cartoon.detail');
 Route::get('/categories/{category:slug}', [PublicContentController::class, 'category'])->name('category');
 Route::get('/collections/{collection:slug}', [PublicContentController::class, 'collection'])->name('collection');
-Route::get('/watch/{cartoon:slug}', [PublicContentController::class, 'watch'])->name('watch');
+Route::get('/collections', [PublicContentController::class, 'collections'])->name('collections');
 Route::get('/wear/from-cartoon/{cartoon:slug}', [TshirtDesignController::class, 'create'])->name('wear.design');
 Route::post('/wear/from-cartoon/{cartoon:slug}', [TshirtDesignController::class, 'save'])->name('wear.design.save');
+Route::post('/wear/from-cartoon/{cartoon:slug}/state', [TshirtDesignController::class, 'state'])->name('wear.design.state');
 
 Route::prefix('account')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('/login', [\App\Http\Controllers\Web\UserAccountController::class, 'showLogin'])->name('account.login');
+        Route::get('/register', [\App\Http\Controllers\Web\UserAccountController::class, 'showRegister'])->name('account.register');
         Route::post('/login/request-otp', [\App\Http\Controllers\Web\UserAccountController::class, 'requestOtp'])->name('account.login.request-otp');
+        Route::post('/register/request-otp', [\App\Http\Controllers\Web\UserAccountController::class, 'requestRegistrationOtp'])->name('account.register.request-otp');
         Route::post('/login', [\App\Http\Controllers\Web\UserAccountController::class, 'login'])->name('account.login.verify');
+        Route::post('/register', [\App\Http\Controllers\Web\UserAccountController::class, 'register'])->name('account.register.verify');
     });
     Route::middleware('auth:web')->group(function () {
         Route::get('/', [\App\Http\Controllers\Web\UserAccountController::class, 'index'])->name('account');
@@ -33,7 +39,6 @@ Route::prefix('account')->group(function () {
         Route::post('/favorites/{cartoon:slug}/toggle', [\App\Http\Controllers\Web\UserAccountController::class, 'toggleFavorite'])->name('favorites.toggle');
         Route::patch('/profile', [\App\Http\Controllers\Web\UserAccountController::class, 'updateProfile'])->name('account.profile.update');
         Route::post('/logout', [\App\Http\Controllers\Web\UserAccountController::class, 'logout'])->name('account.logout');
-        Route::post('/watch/{cartoon:slug}/progress', [\App\Http\Controllers\Web\UserAccountController::class, 'markWatched'])->name('watch.progress');
     });
 });
 

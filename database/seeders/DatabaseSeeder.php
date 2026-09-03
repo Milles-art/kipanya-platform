@@ -19,9 +19,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CartoonDemoSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Keep the development seed idempotent so `php artisan db:seed` can be run repeatedly.
+        if (! User::where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
     }
 }

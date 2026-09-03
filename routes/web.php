@@ -9,6 +9,9 @@ use App\Http\Controllers\Web\Admin\AdminProfileController;
 use App\Http\Controllers\Web\Admin\AdminCartoonDashboardController;
 use App\Http\Controllers\Web\PublicContentController;
 use App\Http\Controllers\Web\TshirtDesignController;
+use App\Http\Controllers\Web\WearController;
+use App\Http\Controllers\Web\WearCartController;
+use App\Http\Controllers\Web\WearCheckoutController;
 use App\Http\Middleware\EnsureAdminWebAccess;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +23,15 @@ Route::get('/cartoon/{cartoon:slug}', [PublicContentController::class, 'detail']
 Route::get('/categories/{category:slug}', [PublicContentController::class, 'category'])->name('category');
 Route::get('/collections/{collection:slug}', [PublicContentController::class, 'collection'])->name('collection');
 Route::get('/collections', [PublicContentController::class, 'collections'])->name('collections');
+Route::get('/wear', [WearController::class, 'index'])->name('wear');
+Route::get('/wear/product/{product:slug}', [WearController::class, 'show'])->name('wear.product');
+Route::get('/wear/cart', [WearCartController::class, 'index'])->name('wear.cart');
+Route::post('/wear/cart/items', [WearCartController::class, 'store'])->name('wear.cart.items.store');
+Route::patch('/wear/cart/items/{variant}', [WearCartController::class, 'update'])->name('wear.cart.items.update');
+Route::delete('/wear/cart/items/{variant}', [WearCartController::class, 'remove'])->name('wear.cart.items.remove');
+Route::get('/wear/checkout', [WearCheckoutController::class, 'create'])->name('wear.checkout');
+Route::post('/wear/checkout', [WearCheckoutController::class, 'store'])->name('wear.checkout.store');
+Route::get('/wear/orders/{order}', [WearCheckoutController::class, 'show'])->name('wear.order');
 Route::get('/wear/from-cartoon/{cartoon:slug}', [TshirtDesignController::class, 'create'])->name('wear.design');
 Route::post('/wear/from-cartoon/{cartoon:slug}', [TshirtDesignController::class, 'save'])->name('wear.design.save');
 Route::post('/wear/from-cartoon/{cartoon:slug}/state', [TshirtDesignController::class, 'state'])->name('wear.design.state');

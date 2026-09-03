@@ -1,0 +1,41 @@
+@extends('layouts.wear')
+@section('content')
+<div class="wear-page">
+<section class="wear-hero wear-container" data-wear-slider>
+ <div class="wear-slides">
+  <article class="wear-slide is-active" data-wear-slide>
+   <div class="wear-hero-copy"><span class="wear-eyebrow">New collection</span><h1>Wear the <strong>Kipanya</strong> vibe.</h1><p>Premium T-shirts, hoodies and more — inspired by our unique African cartoons and culture.</p><div class="wear-hero-actions"><a class="wear-btn wear-btn-gold" href="#products">Shop collection <x-icon name="arrow-right" size="17"/></a><a class="wear-btn wear-btn-ghost" href="#custom-wear"><x-icon name="shirt" size="17"/> Design your own</a></div><div class="wear-trust"><span><x-icon name="check-circle" size="16"/> 100% Cotton</span><span><x-icon name="shield" size="16"/> Premium Quality</span><span><x-icon name="heart" size="16"/> Made with Love</span></div></div>
+   <div class="wear-hero-art"><div class="wear-paint paint-one"></div><div class="wear-paint paint-two"></div><div class="wear-model-card model-one"><img src="{{ asset('assets/wear/shirts/black.png') }}" alt="Kipanya black T-shirt"><span>Kipanya Crew</span></div><div class="wear-model-card model-two"><img src="{{ asset('assets/wear/shirts/white.png') }}" alt="Kipanya white T-shirt"><span>Stay Cool</span></div><div class="wear-hero-sidecopy"><strong>From Cartoon<br>To T-Shirt</strong><span>Bring your favorite characters to life.</span><a href="#custom-wear"><x-icon name="arrow-right" size="18"/></a></div></div>
+  </article>
+  <article class="wear-slide" data-wear-slide>
+   <div class="wear-hero-copy"><span class="wear-eyebrow">Fresh drop</span><h1>Everyday pieces. <strong>Big stories.</strong></h1><p>Build your rotation with comfortable Kipanya essentials made for work, weekends and everywhere between.</p><div class="wear-hero-actions"><a class="wear-btn wear-btn-gold" href="#products">Explore the drop <x-icon name="arrow-right" size="17"/></a></div><div class="wear-trust"><span><x-icon name="package" size="16"/> Fast delivery</span><span><x-icon name="shield" size="16"/> Quality checked</span><span><x-icon name="sparkles" size="16"/> Original designs</span></div></div>
+   <div class="wear-hero-art wear-hero-art-alt"><div class="wear-circle-accent"></div><div class="wear-product-stack"><img src="{{ asset('assets/wear/shirts/navy.png') }}" alt="Navy Kipanya shirt"><img src="{{ asset('assets/wear/shirts/rust.png') }}" alt="Rust Kipanya shirt"></div><div class="wear-floating-card"><span>LIMITED DROP</span><strong>New colors<br>are here.</strong></div></div>
+  </article>
+  <article class="wear-slide" data-wear-slide>
+   <div class="wear-hero-copy"><span class="wear-eyebrow">Custom wear</span><h1>Turn a cartoon into <strong>something you can wear.</strong></h1><p>Start with a favorite Kipanya cartoon and build a personalized shirt experience.</p><div class="wear-hero-actions"><a class="wear-btn wear-btn-gold" href="{{ $featuredCartoon ? route('wear.design', $featuredCartoon) : route('cartoon') }}">Start with a cartoon <x-icon name="arrow-right" size="17"/></a><a class="wear-btn wear-btn-ghost" href="#custom-wear">How it works</a></div></div>
+   <div class="wear-hero-art wear-hero-art-custom"><div class="wear-custom-frame"><div class="wear-custom-number">01</div><x-icon name="shirt" size="84"/><strong>Pick a design</strong><span>Choose the story you want to carry.</span></div><div class="wear-custom-arrow"><x-icon name="arrow-right" size="32"/></div><div class="wear-custom-frame"><div class="wear-custom-number">02</div><x-icon name="sparkles" size="84"/><strong>Make it yours</strong><span>Choose color, size and placement.</span></div></div>
+  </article>
+ </div>
+ <button class="wear-slider-arrow prev" data-wear-prev aria-label="Previous slide"><x-icon name="chevron-left" size="20"/></button><button class="wear-slider-arrow next" data-wear-next aria-label="Next slide"><x-icon name="chevron" size="20"/></button>
+ <div class="wear-slider-dots">@for($i=0;$i<3;$i++)<button data-wear-dot="{{ $i }}" class="wear-slider-dot {{ $i===0 ? 'is-active' : '' }}" aria-label="Go to slide {{ $i+1 }}"></button>@endfor</div>
+</section>
+
+<section class="wear-container wear-categories" id="categories"><div class="wear-section-head"><div><span class="wear-eyebrow">Browse the collection</span><h2>Shop by category</h2></div><a href="#products">View all <x-icon name="arrow-right" size="16"/></a></div><div class="wear-category-grid">
+@foreach($categories as $i=>$category)
+ <a class="wear-category-card cat-{{ $i }}" href="{{ $category === 'Custom Wear' ? '#custom-wear' : route('wear', ['category'=>$category]) }}"><div class="wear-category-icon"><x-icon name="{{ ['shirt','layers','bag','heart','shirt','sparkles'][$i] }}" size="32"/></div><div><strong>{{ $category }}</strong><span>{{ $category === 'T-Shirts' ? 'Everyday style' : ($category === 'Hoodies' ? 'Stay warm' : ($category === 'Caps' ? 'Top it off' : ($category === 'Kids' ? 'For the little ones' : ($category === 'Accessories' ? 'Finish the look' : 'Your own design')))) }}</span></div><x-icon name="arrow-right" size="17"/></a>
+@endforeach</div></section>
+
+<section class="wear-container wear-products-section" id="products"><div class="wear-section-head"><div><span class="wear-eyebrow">Most loved pieces</span><h2>Featured products</h2><p>Quality, style and comfort — all in one.</p></div><a href="#products">View all products <x-icon name="arrow-right" size="16"/></a></div><div class="wear-product-grid">
+@forelse($featured as $product)
+<a class="wear-product-card" href="{{ route('wear.product',$product) }}"><div class="wear-product-image"><span class="wear-product-badge">{{ $product->badge ?? 'Featured' }}</span><button type="button" class="wear-product-heart" aria-label="Add {{ $product->name }} to wishlist"><x-icon name="heart" size="17"/></button><img src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy"></div><div class="wear-product-info"><strong>{{ $product->name }}</strong><span class="wear-rating">★★★★★ <small>({{ 28 + $loop->index * 17 }})</small></span><div class="wear-product-price">TSh {{ number_format($product->price, 0) }}</div><div class="wear-product-colors"><i></i><i></i><i></i></div><span class="wear-add">View product <x-icon name="arrow-right" size="15"/></span></div></a>
+@empty
+<div class="wear-empty">No products are available yet.</div>
+@endforelse</div></section>
+
+<section class="wear-benefits wear-container"><div><x-icon name="sparkles" size="27"/><div><strong>Premium Quality</strong><span>Soft, durable and comfortable for everyday wear.</span></div></div><div><x-icon name="heart" size="27"/><div><strong>Unique Designs</strong><span>Inspired by African stories and Kipanya cartoons.</span></div></div><div><x-icon name="package" size="27"/><div><strong>Fast Delivery</strong><span>Across Tanzania, right to your doorstep.</span></div></div><div><x-icon name="shield" size="27"/><div><strong>Support Local</strong><span>Growing local creativity and young talent.</span></div></div></section>
+
+<section class="wear-custom-cta wear-container" id="custom-wear"><div class="wear-custom-cta-copy"><span class="wear-eyebrow">Cartoon × Wear</span><h2>Got a cartoon idea?<br><strong>Make it a T-shirt.</strong></h2><p>Turn your favorite Kipanya character into wearable art.</p><a class="wear-btn wear-btn-dark" href="{{ $featured->first() ? route('wear') : route('cartoon') }}">Start designing <x-icon name="arrow-right" size="17"/></a></div><div class="wear-custom-shirt"><div class="wear-custom-glow"></div><img src="{{ asset('assets/wear/shirts/black-clean.png') }}" alt="Blank Kipanya T-shirt custom wear preview"></div></section>
+
+<section class="wear-all-products wear-container"><div class="wear-section-head"><div><span class="wear-eyebrow">Shop everything</span><h2>All products</h2></div></div><div class="wear-mini-grid">@foreach($products as $product)<a href="{{ route('wear.product',$product) }}" class="wear-mini-card"><img src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy"><div><strong>{{ $product->name }}</strong><span>TSh {{ number_format($product->price,0) }}</span></div></a>@endforeach</div>{{ $products->links() }}</section>
+</div>
+@endsection

@@ -1,41 +1,162 @@
 @extends('layouts.wear')
+
 @section('content')
-<div class="wear-page">
-<section class="wear-hero wear-container" data-wear-slider>
- <div class="wear-slides">
-  <article class="wear-slide is-active" data-wear-slide>
-   <div class="wear-hero-copy"><span class="wear-eyebrow">New collection</span><h1>Wear the <strong>Kipanya</strong> vibe.</h1><p>Premium T-shirts, hoodies and more — inspired by our unique African cartoons and culture.</p><div class="wear-hero-actions"><a class="wear-btn wear-btn-gold" href="#products">Shop collection <x-icon name="arrow-right" size="17"/></a><a class="wear-btn wear-btn-ghost" href="#custom-wear"><x-icon name="shirt" size="17"/> Design your own</a></div><div class="wear-trust"><span><x-icon name="check-circle" size="16"/> 100% Cotton</span><span><x-icon name="shield" size="16"/> Premium Quality</span><span><x-icon name="heart" size="16"/> Made with Love</span></div></div>
-   <div class="wear-hero-art"><div class="wear-paint paint-one"></div><div class="wear-paint paint-two"></div><div class="wear-model-card model-one"><img src="{{ asset('assets/wear/shirts/black.png') }}" alt="Kipanya black T-shirt"><span>Kipanya Crew</span></div><div class="wear-model-card model-two"><img src="{{ asset('assets/wear/shirts/white.png') }}" alt="Kipanya white T-shirt"><span>Stay Cool</span></div><div class="wear-hero-sidecopy"><strong>From Cartoon<br>To T-Shirt</strong><span>Bring your favorite characters to life.</span><a href="#custom-wear"><x-icon name="arrow-right" size="18"/></a></div></div>
-  </article>
-  <article class="wear-slide" data-wear-slide>
-   <div class="wear-hero-copy"><span class="wear-eyebrow">Fresh drop</span><h1>Everyday pieces. <strong>Big stories.</strong></h1><p>Build your rotation with comfortable Kipanya essentials made for work, weekends and everywhere between.</p><div class="wear-hero-actions"><a class="wear-btn wear-btn-gold" href="#products">Explore the drop <x-icon name="arrow-right" size="17"/></a></div><div class="wear-trust"><span><x-icon name="package" size="16"/> Fast delivery</span><span><x-icon name="shield" size="16"/> Quality checked</span><span><x-icon name="sparkles" size="16"/> Original designs</span></div></div>
-   <div class="wear-hero-art wear-hero-art-alt"><div class="wear-circle-accent"></div><div class="wear-product-stack"><img src="{{ asset('assets/wear/shirts/navy.png') }}" alt="Navy Kipanya shirt"><img src="{{ asset('assets/wear/shirts/rust.png') }}" alt="Rust Kipanya shirt"></div><div class="wear-floating-card"><span>LIMITED DROP</span><strong>New colors<br>are here.</strong></div></div>
-  </article>
-  <article class="wear-slide" data-wear-slide>
-   <div class="wear-hero-copy"><span class="wear-eyebrow">Custom wear</span><h1>Turn a cartoon into <strong>something you can wear.</strong></h1><p>Start with a favorite Kipanya cartoon and build a personalized shirt experience.</p><div class="wear-hero-actions"><a class="wear-btn wear-btn-gold" href="{{ $featuredCartoon ? route('wear.design', $featuredCartoon) : route('cartoon') }}">Start with a cartoon <x-icon name="arrow-right" size="17"/></a><a class="wear-btn wear-btn-ghost" href="#custom-wear">How it works</a></div></div>
-   <div class="wear-hero-art wear-hero-art-custom"><div class="wear-custom-frame"><div class="wear-custom-number">01</div><x-icon name="shirt" size="84"/><strong>Pick a design</strong><span>Choose the story you want to carry.</span></div><div class="wear-custom-arrow"><x-icon name="arrow-right" size="32"/></div><div class="wear-custom-frame"><div class="wear-custom-number">02</div><x-icon name="sparkles" size="84"/><strong>Make it yours</strong><span>Choose color, size and placement.</span></div></div>
-  </article>
- </div>
- <button class="wear-slider-arrow prev" data-wear-prev aria-label="Previous slide"><x-icon name="chevron-left" size="20"/></button><button class="wear-slider-arrow next" data-wear-next aria-label="Next slide"><x-icon name="chevron" size="20"/></button>
- <div class="wear-slider-dots">@for($i=0;$i<3;$i++)<button data-wear-dot="{{ $i }}" class="wear-slider-dot {{ $i===0 ? 'is-active' : '' }}" aria-label="Go to slide {{ $i+1 }}"></button>@endfor</div>
-</section>
+@php
+    $categoryMeta = [
+        'T-Shirts' => ['icon' => 'shirt', 'copy' => 'Everyday essentials'],
+        'Hoodies' => ['icon' => 'layers', 'copy' => 'Soft layers'],
+        'Caps' => ['icon' => 'sparkles', 'copy' => 'Finish the fit'],
+        'Accessories' => ['icon' => 'bag', 'copy' => 'Kipanya extras'],
+        'Long Sleeves' => ['icon' => 'shirt', 'copy' => 'Cool-weather staples'],
+        'Kids Wear' => ['icon' => 'users', 'copy' => 'For the little ones'],
+        'Jackets' => ['icon' => 'layers', 'copy' => 'Outerwear essentials'],
+    ];
 
-<section class="wear-container wear-categories" id="categories"><div class="wear-section-head"><div><span class="wear-eyebrow">Browse the collection</span><h2>Shop by category</h2></div><a href="#products">View all <x-icon name="arrow-right" size="16"/></a></div><div class="wear-category-grid">
-@foreach($categories as $i=>$category)
- <a class="wear-category-card cat-{{ $i }}" href="{{ $category === 'Custom Wear' ? '#custom-wear' : route('wear', ['category'=>$category]) }}"><div class="wear-category-icon"><x-icon name="{{ ['shirt','layers','bag','heart','shirt','sparkles'][$i] }}" size="32"/></div><div><strong>{{ $category }}</strong><span>{{ $category === 'T-Shirts' ? 'Everyday style' : ($category === 'Hoodies' ? 'Stay warm' : ($category === 'Caps' ? 'Top it off' : ($category === 'Kids' ? 'For the little ones' : ($category === 'Accessories' ? 'Finish the look' : 'Your own design')))) }}</span></div><x-icon name="arrow-right" size="17"/></a>
-@endforeach</div></section>
+    $newArrivals = $newArrivals ?? collect();
+    $bestSellers = $popular ?? collect();
+    $cartCount = app(\App\Services\Commerce\WearCartService::class)->count(request());
+@endphp
 
-<section class="wear-container wear-products-section" id="products"><div class="wear-section-head"><div><span class="wear-eyebrow">Most loved pieces</span><h2>Featured products</h2><p>Quality, style and comfort — all in one.</p></div><a href="#products">View all products <x-icon name="arrow-right" size="16"/></a></div><div class="wear-product-grid">
-@forelse($featured as $product)
-<a class="wear-product-card" href="{{ route('wear.product',$product) }}"><div class="wear-product-image"><span class="wear-product-badge">{{ $product->badge ?? 'Featured' }}</span><button type="button" class="wear-product-heart" aria-label="Add {{ $product->name }} to wishlist"><x-icon name="heart" size="17"/></button><img src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy"></div><div class="wear-product-info"><strong>{{ $product->name }}</strong><span class="wear-rating">★★★★★ <small>({{ 28 + $loop->index * 17 }})</small></span><div class="wear-product-price">TSh {{ number_format($product->price, 0) }}</div><div class="wear-product-colors"><i></i><i></i><i></i></div><span class="wear-add">View product <x-icon name="arrow-right" size="15"/></span></div></a>
-@empty
-<div class="wear-empty">No products are available yet.</div>
-@endforelse</div></section>
+<div class="wear-store">
+    <aside class="wear-store-sidebar" aria-label="Wear categories">
+        <a href="{{ route('wear') }}" class="wear-store-side-logo">
+            <span class="wear-store-side-logo-mark">K</span>
+            <span><strong>KIPANYA</strong><small>WEAR</small></span>
+        </a>
 
-<section class="wear-benefits wear-container"><div><x-icon name="sparkles" size="27"/><div><strong>Premium Quality</strong><span>Soft, durable and comfortable for everyday wear.</span></div></div><div><x-icon name="heart" size="27"/><div><strong>Unique Designs</strong><span>Inspired by African stories and Kipanya cartoons.</span></div></div><div><x-icon name="package" size="27"/><div><strong>Fast Delivery</strong><span>Across Tanzania, right to your doorstep.</span></div></div><div><x-icon name="shield" size="27"/><div><strong>Support Local</strong><span>Growing local creativity and young talent.</span></div></div></section>
+        <div class="wear-side-title">SHOP</div>
+        <nav class="wear-side-nav">
+            <a href="{{ route('wear') }}" class="{{ request('category') ? '' : 'is-active' }}"><x-icon name="grid" size="17"/><span>All Products</span></a>
+            @foreach($categoryMeta as $category => $meta)
+                <a href="{{ route('wear', ['category' => $category]) }}" class="{{ request('category') === $category ? 'is-active' : '' }}"><x-icon name="{{ $meta['icon'] }}" size="17"/><span>{{ $category }}</span></a>
+            @endforeach
+        </nav>
 
-<section class="wear-custom-cta wear-container" id="custom-wear"><div class="wear-custom-cta-copy"><span class="wear-eyebrow">Cartoon × Wear</span><h2>Got a cartoon idea?<br><strong>Make it a T-shirt.</strong></h2><p>Turn your favorite Kipanya character into wearable art.</p><a class="wear-btn wear-btn-dark" href="{{ $featured->first() ? route('wear') : route('cartoon') }}">Start designing <x-icon name="arrow-right" size="17"/></a></div><div class="wear-custom-shirt"><div class="wear-custom-glow"></div><img src="{{ asset('assets/wear/shirts/black-clean.png') }}" alt="Blank Kipanya T-shirt custom wear preview"></div></section>
+        <div class="wear-side-divider"></div>
+        <div class="wear-side-title">DISCOVER</div>
+        <nav class="wear-side-nav">
+            <a href="#new-arrivals"><x-icon name="sparkles" size="17"/><span>New arrivals</span><b>NEW</b></a>
+            <a href="#popular-picks"><x-icon name="star" size="17"/><span>Popular picks</span></a>
+        </nav>
 
-<section class="wear-all-products wear-container"><div class="wear-section-head"><div><span class="wear-eyebrow">Shop everything</span><h2>All products</h2></div></div><div class="wear-mini-grid">@foreach($products as $product)<a href="{{ route('wear.product',$product) }}" class="wear-mini-card"><img src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy"><div><strong>{{ $product->name }}</strong><span>TSh {{ number_format($product->price,0) }}</span></div></a>@endforeach</div>{{ $products->links() }}</section>
+        <div class="wear-side-trust">
+            <div><span><x-icon name="shield" size="16"/></span><strong>Original Art</strong><small>Kipanya designs</small></div>
+            <div><span><x-icon name="package" size="16"/></span><strong>Fast Delivery</strong><small>Across Tanzania</small></div>
+            <div><span><x-icon name="lock" size="16"/></span><strong>Secure Payment</strong><small>100% protected</small></div>
+        </div>
+    </aside>
+
+    <div class="wear-store-main">
+        <section class="wear-store-hero" data-wear-slider>
+            <div class="wear-store-slides">
+                <article class="wear-store-slide is-active" data-wear-slide>
+                    <img src="https://images.pexels.com/photos/16532060/pexels-photo-16532060.jpeg?cs=srgb&dl=pexels-moh-abdelghaffar-16532060.jpg&fm=jpg" alt="Kipanya clothing collection" class="wear-store-hero-image">
+                    <div class="wear-store-hero-overlay"></div>
+                    <div class="wear-store-hero-copy">
+                        <span class="wear-store-kicker">KIPANYA WEAR</span>
+                        <h1>WEAR THE CULTURE.<br><strong>LIVE THE STORY.</strong></h1>
+                        <p>Premium everyday pieces with bold Kipanya energy. Made for the people who carry the story with them.</p>
+                        <a href="#new-arrivals" class="wear-store-primary">Shop collection <x-icon name="arrow-right" size="16"/></a>
+                    </div>
+                </article>
+                <article class="wear-store-slide" data-wear-slide>
+                    <img src="https://images.pexels.com/photos/8072616/pexels-photo-8072616.jpeg?cs=srgb&dl=pexels-qim-manifester-61823229-8072616.jpg&fm=jpg" alt="Man wearing a black polo" class="wear-store-hero-image">
+                    <div class="wear-store-hero-overlay"></div>
+                    <div class="wear-store-hero-copy">
+                        <span class="wear-store-kicker">THE EVERYDAY EDIT</span>
+                        <h1>KEEP IT CLEAN.<br><strong>KEEP IT KIPANYA.</strong></h1>
+                        <p>Tees, polos and easy layers designed to work from weekday to weekend.</p>
+                        <a href="{{ route('wear', ['category' => 'T-Shirts']) }}" class="wear-store-primary">Shop T-Shirts <x-icon name="arrow-right" size="16"/></a>
+                    </div>
+                </article>
+                <article class="wear-store-slide" data-wear-slide>
+                    <img src="https://images.pexels.com/photos/7346409/pexels-photo-7346409.jpeg?cs=srgb&dl=pexels-aviz-7346409.jpg&fm=jpg" alt="Casual streetwear outfit" class="wear-store-hero-image">
+                    <div class="wear-store-hero-overlay"></div>
+                    <div class="wear-store-hero-copy">
+                        <span class="wear-store-kicker">NEW DROP</span>
+                        <h1>FRESH PIECES.<br><strong>BOLD VIBES.</strong></h1>
+                        <p>Build a stronger everyday rotation with jackets, layers and statement essentials.</p>
+                        <a href="#popular-picks" class="wear-store-primary">Explore popular picks <x-icon name="arrow-right" size="16"/></a>
+                    </div>
+                </article>
+            </div>
+            <button type="button" class="wear-store-slider-btn prev" data-wear-prev aria-label="Previous hero slide"><x-icon name="chevron-left" size="17"/></button>
+            <button type="button" class="wear-store-slider-btn next" data-wear-next aria-label="Next hero slide"><x-icon name="chevron" size="17"/></button>
+            <div class="wear-store-dots" aria-label="Hero slides">
+                @for($i = 0; $i < 3; $i++)
+                    <button type="button" data-wear-dot="{{ $i }}" class="{{ $i === 0 ? 'is-active' : '' }}" aria-label="Slide {{ $i + 1 }}"></button>
+                @endfor
+            </div>
+        </section>
+
+        <section class="wear-store-category-strip" aria-label="Shop categories">
+            @foreach($categoryMeta as $category => $meta)
+                <a href="{{ route('wear', ['category' => $category]) }}" class="wear-store-category-item">
+                    <span><x-icon name="{{ $meta['icon'] }}" size="21"/></span>
+                    <strong>{{ $category }}</strong>
+                    <small>{{ $meta['copy'] }}</small>
+                </a>
+            @endforeach
+        </section>
+
+        <section class="wear-store-section" id="new-arrivals">
+            <div class="wear-store-section-head">
+                <div><span>NEW THIS WEEK</span><h2>New arrivals</h2><p>Fresh pieces added to the Kipanya Wear collection.</p></div>
+                <a href="{{ route('wear') }}">View all <x-icon name="arrow-right" size="15"/></a>
+            </div>
+            <div class="wear-store-product-grid">
+                @forelse($newArrivals as $product)
+                    <a href="{{ route('wear.product', $product) }}" class="wear-store-product-card">
+                        <div class="wear-store-product-image">
+                            @if($product->badge)<span class="wear-store-badge">{{ $product->badge }}</span>@elseif($product->compare_at_price && $product->compare_at_price > $product->price)<span class="wear-store-badge sale">Sale</span>@endif
+                            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy">
+                        </div>
+                        <div class="wear-store-product-copy">
+                            <small>{{ $product->category }}</small>
+                            <h3>{{ $product->name }}</h3>
+                            <strong>TSh {{ number_format($product->price, 0) }}</strong>@if($product->compare_at_price && $product->compare_at_price > $product->price)<del>TSh {{ number_format($product->compare_at_price, 0) }}</del>@endif
+                        </div>
+                    </a>
+                @empty
+                    <div class="wear-store-empty">No new arrivals yet.</div>
+                @endforelse
+            </div>
+        </section>
+
+        <section class="wear-store-section" id="popular-picks">
+            <div class="wear-store-section-head">
+                <div><span>KIPANYA PICKS</span><h2>Popular picks</h2><p>Easy-to-wear pieces selected for the everyday rotation.</p></div>
+                <a href="{{ route('wear') }}">Shop all <x-icon name="arrow-right" size="15"/></a>
+            </div>
+            <div class="wear-store-product-grid">
+                @forelse($bestSellers as $product)
+                    <a href="{{ route('wear.product', $product) }}" class="wear-store-product-card">
+                        <div class="wear-store-product-image">
+                            <span class="wear-store-badge best">BEST</span>
+                            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy">
+                        </div>
+                        <div class="wear-store-product-copy">
+                            <small>{{ $product->category }}</small>
+                            <h3>{{ $product->name }}</h3>
+                            <strong>TSh {{ number_format($product->price, 0) }}</strong>
+                        </div>
+                    </a>
+                @empty
+                    <div class="wear-store-empty">No products available yet.</div>
+                @endforelse
+            </div>
+        </section>
+
+        <section class="wear-store-benefits" aria-label="Store benefits">
+            <div><span><x-icon name="lock" size="20"/></span><strong>Secure payment</strong><small>Safe & protected checkout</small></div>
+            <div><span><x-icon name="package" size="20"/></span><strong>Fast delivery</strong><small>Across Tanzania</small></div>
+            <div><span><x-icon name="check-circle" size="20"/></span><strong>Easy returns</strong><small>Simple return process</small></div>
+            <div><span><x-icon name="help" size="20"/></span><strong>Need help?</strong><small>We are here for you</small></div>
+        </section>
+
+        <div class="wear-store-mobile-cart">
+            <a href="{{ route('wear.cart') }}"><x-icon name="cart" size="18"/><span>Cart</span>@if($cartCount > 0)<b>{{ $cartCount }}</b>@endif</a>
+        </div>
+    </div>
 </div>
 @endsection

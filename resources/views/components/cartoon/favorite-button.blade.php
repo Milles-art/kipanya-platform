@@ -1,10 +1,6 @@
-@props(['cartoon', 'size' => 'md'])
+@props(['cartoon', 'size' => 'md', 'saved' => null])
 @php
-    $saved = false;
-    if (auth()->check()) {
-        auth()->user()->loadMissing('favorites:id');
-        $saved = auth()->user()->favorites->contains('id', $cartoon->id);
-    }
+    $saved = $saved === null ? (bool) $cartoon->getAttribute('is_favorited') : (bool) $saved;
 @endphp
 @if(auth()->check())
 <form method="POST" action="{{ route('favorites.toggle', $cartoon) }}" class="inline" onclick="event.stopPropagation()">

@@ -25,13 +25,27 @@ final class WearController extends Controller
         }
 
         $products = (clone $query)->orderBy('sort_order')->orderByDesc('created_at')->paginate(12)->withQueryString();
-        $featured = WearProduct::query()->where('is_active', true)->where('is_featured', true)->orderBy('sort_order')->limit(5)->get();
+        $newArrivals = WearProduct::query()
+            ->where('is_active', true)
+            ->orderByDesc('created_at')
+            ->orderBy('sort_order')
+            ->limit(4)
+            ->get();
+
+        $popular = WearProduct::query()
+            ->where('is_active', true)
+            ->where('is_featured', true)
+            ->orderBy('sort_order')
+            ->limit(4)
+            ->get();
+
         $featuredCartoon = Cartoon::query()->where('status', ContentStatus::Published)->whereNotNull('thumbnail_path')->latest()->first();
 
         return view('pages.public.wear', [
             'products' => $products,
-            'featured' => $featured,
-            'categories' => ['T-Shirts', 'Hoodies', 'Caps', 'Kids', 'Accessories', 'Custom Wear'],
+            'newArrivals' => $newArrivals,
+            'popular' => $popular,
+            'categories' => ['T-Shirts', 'Hoodies', 'Caps', 'Accessories', 'Long Sleeves', 'Kids Wear', 'Jackets'],
             'featuredCartoon' => $featuredCartoon,
         ]);
     }

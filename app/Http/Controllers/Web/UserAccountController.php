@@ -142,13 +142,13 @@ final class UserAccountController extends Controller
     public function index(Request $request): View
     {
         $user = $request->user();
-        $favorites = $user->favorites()->with('category')->where('status', ContentStatus::Published->value)->latest('favorites.created_at')->take(6)->get();
+        $favorites = $user->favorites()->with('category')->withExists(['favorites as is_favorited' => fn ($query) => $query->whereKey($user->id)])->where('status', ContentStatus::Published->value)->latest('favorites.created_at')->take(6)->get();
         return view('account.index', compact('user', 'favorites'));
     }
 
     public function favorites(Request $request): View
     {
-        $cartoons = $request->user()->favorites()->with('category')->where('status', ContentStatus::Published->value)->latest('favorites.created_at')->paginate(18);
+        $cartoons = $request->user()->favorites()->with('category')->withExists(['favorites as is_favorited' => fn ($query) => $query->whereKey($request->user()->id)])->where('status', ContentStatus::Published->value)->latest('favorites.created_at')->paginate(18);
         return view('pages.public.favorites', compact('cartoons'));
     }
 

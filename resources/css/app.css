@@ -1225,3 +1225,473 @@ html[data-theme="light"] .cartoon-client .cartoon-react-brand{color:#101722}
 /* Wear commerce: cart + checkout */
 .wear-cart-page,.wear-checkout-page,.wear-order-page{padding-bottom:70px}.wear-cart-head,.wear-checkout-head{display:flex;align-items:end;justify-content:space-between;gap:24px;padding:28px 0 22px}.wear-cart-head h1,.wear-checkout-head h1{font-size:46px;line-height:.98;letter-spacing:-.055em;margin:8px 0}.wear-cart-head p,.wear-checkout-head p{margin:0;color:#697484;font-size:12px}.wear-alert{padding:12px 15px;border-radius:12px;background:#eff8f5;border:1px solid #ccebe2;color:#17604f;font-size:11px;margin:0 0 16px}.wear-alert-error{background:#fff4f3;border-color:#f0d1cd;color:#9b3b32}.wear-cart-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,.65fr);gap:22px;align-items:start}.wear-cart-items,.wear-order-summary,.wear-form-card{background:#fff;border:1px solid #e2e6ec;border-radius:20px}.wear-cart-item{display:grid;grid-template-columns:92px minmax(0,1fr) 120px auto 25px;gap:16px;align-items:center;padding:16px;border-bottom:1px solid #edf0f3}.wear-cart-item:last-child{border-bottom:0}.wear-cart-item-image{width:92px;height:105px;background:#f2f4f7;border-radius:13px;display:grid;place-items:center}.wear-cart-item-image img{width:86%;height:86%;object-fit:contain}.wear-cart-item-copy a{color:#172235;text-decoration:none}.wear-cart-item-copy strong{display:block;font-size:12px}.wear-cart-item-copy span{display:block;color:#7b8492;font-size:9px;margin-top:6px}.wear-cart-item-qty form{display:flex;align-items:center;justify-content:space-between;border:1px solid #dfe4eb;border-radius:10px;height:38px}.wear-cart-item-qty button{width:35px;height:100%;border:0;background:transparent;font-size:16px}.wear-cart-item-qty b{font-size:10px}.wear-cart-line{font-size:12px;white-space:nowrap}.wear-remove{border:0;background:transparent;color:#7b8492;cursor:pointer}.wear-order-summary{padding:21px;position:sticky;top:18px}.wear-summary-top,.wear-summary-row,.wear-summary-total{display:flex;justify-content:space-between;gap:15px;align-items:center}.wear-summary-top{padding-bottom:17px;border-bottom:1px solid #edf0f3;font-size:11px}.wear-summary-top strong{font-size:9px;color:#788291;font-weight:700}.wear-summary-row{padding:12px 0;color:#717b89;font-size:10px}.wear-summary-row strong{color:#182337;font-size:11px}.wear-summary-total{border-top:1px solid #e9edf1;padding:17px 0;font-size:13px;font-weight:800}.wear-summary-total strong{font-size:19px}.wear-checkout-btn{width:100%;justify-content:center;text-decoration:none}.wear-secure-note{display:flex;justify-content:center;align-items:center;gap:6px;color:#87909d;font-size:9px;margin-top:13px}.wear-empty-cart{margin:20px 0 60px;min-height:380px;border:1px dashed #d9dee7;border-radius:22px;display:grid;place-items:center;text-align:center;align-content:center;gap:8px}.wear-empty-cart-icon{width:64px;height:64px;border-radius:50%;background:#fff7df;color:#d89b00;display:grid;place-items:center}.wear-empty-cart h2{font-size:24px;margin:8px 0 0}.wear-empty-cart p{font-size:11px;color:#77818f;margin:0 0 10px}.wear-checkout-head{display:block;padding-bottom:28px}.wear-checkout-head h1{font-size:50px}.wear-checkout-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(310px,.65fr);gap:22px;align-items:start}.wear-checkout-form{display:grid;gap:16px}.wear-form-card{padding:22px}.wear-form-heading{display:flex;gap:12px;align-items:center;margin-bottom:20px}.wear-form-heading>span{width:34px;height:34px;border-radius:10px;background:#071426;color:#fff;display:grid;place-items:center;font-size:8px;font-weight:850;letter-spacing:.06em}.wear-form-heading strong{display:block;font-size:12px}.wear-form-heading small{display:block;color:#818b98;font-size:9px;margin-top:4px}.wear-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.wear-form-grid label{font-size:9px;font-weight:800;color:#303b4b}.wear-form-grid label>span{font-weight:500;color:#929aa5}.wear-form-grid input{display:block;width:100%;height:44px;margin-top:7px;border:1px solid #dfe4eb;border-radius:10px;padding:0 12px;font:inherit;font-size:11px;font-weight:500;color:#1a2536;background:#fff;outline:none}.wear-form-grid input:focus{border-color:#e4aa09;box-shadow:0 0 0 3px rgba(228,170,9,.1)}.wear-form-grid label>small{display:block;color:#b4483d;font-size:8px;margin-top:4px}.wear-form-grid .span-2{grid-column:1/-1}.wear-payment-options{display:grid;gap:10px}.wear-payment-option{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #e1e5eb;border-radius:12px;cursor:pointer}.wear-payment-option:has(input:checked){border-color:#e4aa09;background:#fffaf0}.wear-payment-option input{accent-color:#e4aa09}.wear-payment-option span{flex:1}.wear-payment-option strong{display:block;font-size:10px}.wear-payment-option small{display:block;color:#7d8795;font-size:8px;margin-top:4px}.wear-payment-option>b{font-size:8px;color:#9a7100}.wear-place-order{width:100%;justify-content:center;border:0;cursor:pointer;min-height:48px}.wear-summary-items{padding:5px 0 8px}.wear-summary-item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #f0f2f5}.wear-summary-item>div{display:flex;gap:9px;min-width:0}.wear-summary-item img{width:45px;height:50px;object-fit:contain;background:#f2f4f7;border-radius:8px}.wear-summary-item strong{display:block;font-size:9px}.wear-summary-item small{display:block;color:#838c98;font-size:8px;margin-top:4px}.wear-summary-item>b{font-size:9px;white-space:nowrap}.wear-order-success{text-align:center;max-width:680px;margin:55px auto 28px}.wear-success-icon{width:64px;height:64px;border-radius:50%;background:#eaf7f2;color:#148067;display:grid;place-items:center;margin:0 auto 15px}.wear-order-success h1{font-size:43px;letter-spacing:-.05em;margin:9px 0}.wear-order-success p{font-size:12px;color:#717b88;line-height:1.6}.wear-order-number{display:inline-flex;padding:10px 16px;border-radius:10px;background:#071426;color:#fff;font-size:11px;font-weight:850;letter-spacing:.08em;margin-top:8px}.wear-order-detail-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:start}.wear-confirm-item{display:flex;justify-content:space-between;gap:20px;padding:16px 0;border-bottom:1px solid #edf0f3}.wear-confirm-item:last-child{border-bottom:0}.wear-confirm-item strong{display:block;font-size:11px}.wear-confirm-item span{display:block;color:#7d8794;font-size:9px;margin-top:5px}.wear-confirm-item b{font-size:11px;white-space:nowrap}.wear-confirm-contact{border-top:1px solid #edf0f3;margin-top:10px;padding-top:16px;display:grid;gap:5px}.wear-confirm-contact strong{font-size:10px}.wear-confirm-contact span{font-size:9px;color:#77818e}.wear-order-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}.wear-buy-link{text-decoration:none;display:flex;align-items:center;justify-content:center;margin-top:9px}
 @media(max-width:760px){.wear-cart-head,.wear-checkout-head{display:block}.wear-cart-head h1,.wear-checkout-head h1{font-size:38px}.wear-cart-head .wear-btn{margin-top:15px}.wear-cart-layout,.wear-checkout-layout,.wear-order-detail-grid{grid-template-columns:1fr}.wear-order-summary{position:static}.wear-cart-item{grid-template-columns:68px minmax(0,1fr) auto;gap:11px}.wear-cart-item-image{width:68px;height:80px}.wear-cart-item-qty{grid-column:2}.wear-cart-line{grid-column:3;grid-row:1;align-self:start}.wear-remove{grid-column:3;grid-row:2}.wear-form-grid{grid-template-columns:1fr}.wear-form-grid .span-2{grid-column:auto}.wear-order-success{margin-top:35px}.wear-order-success h1{font-size:34px}.wear-order-actions{flex-direction:column}.wear-order-actions .wear-btn{width:100%;justify-content:center}.wear-checkout-summary{order:-1}}
+
+/* Wear real-catalog redesign v24: restrained ecommerce, icon-led navigation, real photography. */
+
+/* ================================================================
+   KIPANYA WEAR STOREFRONT
+   Dark retail presentation inspired by the approved Wear direction.
+   ================================================================ */
+.wear-site{--wear-bg:#080b10;--wear-surface:#10151c;--wear-surface-2:#151b23;--wear-line:rgba(255,255,255,.09);--wear-muted:#8e99a8;--wear-text:#f7f8fa;--wear-teal:#24d7bd;--wear-orange:#ff8a2a;--wear-shadow:0 22px 70px rgba(0,0,0,.32);background:var(--wear-bg);color:var(--wear-text)}
+.wear-site main{padding-top:82px;background:var(--wear-bg)}
+.wear-site .wear-footer{display:block}
+.wear-nav-cart{position:relative}
+.wear-nav-cart>span{position:absolute;top:3px;right:2px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:var(--client-nav-accent,#18bfa3);color:#06110f;display:grid;place-items:center;font-size:8px;font-weight:900;line-height:1}
+.wear-store{display:grid;grid-template-columns:190px minmax(0,1fr);width:min(1440px,calc(100% - 24px));margin:0 auto;padding:14px 0 40px;gap:14px}
+.wear-store-sidebar{position:sticky;top:96px;align-self:start;min-height:calc(100vh - 120px);padding:15px 12px 18px;border:1px solid var(--wear-line);border-radius:18px;background:linear-gradient(180deg,#10161e 0%,#0d1118 100%);box-shadow:var(--wear-shadow);display:flex;flex-direction:column}
+.wear-store-side-logo{display:flex;align-items:center;gap:9px;padding:5px 7px 15px;color:var(--wear-text);text-decoration:none}
+.wear-store-side-logo-mark{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--wear-teal),#118f80);color:#03100d;font-weight:950;font-size:16px}
+.wear-store-side-logo strong{display:block;font-size:13px;letter-spacing:.14em}.wear-store-side-logo small{display:block;margin-top:2px;color:var(--wear-orange);font-size:7px;letter-spacing:.31em;font-weight:900}
+.wear-side-title{padding:12px 8px 7px;color:#667080;font-size:8px;font-weight:850;letter-spacing:.16em}
+.wear-side-nav{display:grid;gap:3px}.wear-side-nav a{position:relative;display:flex;align-items:center;gap:10px;padding:10px 9px;border-radius:10px;color:#9ba6b5;text-decoration:none;font-size:10px;font-weight:650}.wear-side-nav a:hover{background:rgba(255,255,255,.045);color:#fff}.wear-side-nav a.is-active{background:rgba(36,215,189,.12);color:#eafffb;box-shadow:inset 0 0 0 1px rgba(36,215,189,.16)}.wear-side-nav a svg{color:#7f8a9a}.wear-side-nav a.is-active svg{color:var(--wear-teal)}.wear-side-nav a b{margin-left:auto;padding:3px 5px;border-radius:999px;background:rgba(36,215,189,.15);color:var(--wear-teal);font-size:7px}.wear-side-nav a b.hot{background:rgba(255,117,72,.15);color:#ff7650}
+.wear-side-divider{height:1px;margin:11px 8px 2px;background:var(--wear-line)}
+.wear-side-promo{margin-top:auto;padding:14px;border:1px solid rgba(255,138,42,.24);border-radius:14px;background:radial-gradient(circle at 82% 12%,rgba(255,138,42,.14),transparent 44%),linear-gradient(145deg,#141a21,#0c1116)}.wear-side-promo span{color:var(--wear-orange);font-size:7px;letter-spacing:.15em;font-weight:900}.wear-side-promo strong{display:block;margin-top:7px;font-size:17px;letter-spacing:-.04em}.wear-side-promo p{margin:7px 0 11px;color:var(--wear-muted);font-size:8px;line-height:1.45}.wear-side-promo a{display:inline-flex;align-items:center;gap:5px;padding:7px 9px;border-radius:8px;background:var(--wear-orange);color:#1b0b02;text-decoration:none;font-size:8px;font-weight:850}
+.wear-side-trust{display:grid;gap:8px;margin-top:14px}.wear-side-trust div{display:grid;grid-template-columns:30px 1fr;column-gap:8px;align-items:center}.wear-side-trust span{grid-row:span 2;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;border:1px solid var(--wear-line);color:var(--wear-orange)}.wear-side-trust strong{font-size:8px}.wear-side-trust small{margin-top:1px;color:#677282;font-size:7px}
+.wear-store-main{min-width:0}.wear-store-hero{position:relative;height:410px;overflow:hidden;border:1px solid var(--wear-line);border-radius:20px;background:#0c1117;box-shadow:var(--wear-shadow)}.wear-store-slides,.wear-store-slide{position:absolute;inset:0}.wear-store-slide{opacity:0;pointer-events:none;transition:opacity .45s ease}.wear-store-slide.is-active{opacity:1;pointer-events:auto}.wear-store-hero-image{width:100%;height:100%;display:block;object-fit:cover}.wear-store-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,8,12,.96) 0%,rgba(4,8,12,.78) 40%,rgba(4,8,12,.25) 73%,rgba(4,8,12,.08) 100%)}.wear-store-hero-copy{position:absolute;left:52px;top:50%;transform:translateY(-50%);width:min(540px,54%)}.wear-store-kicker{color:var(--wear-teal);font-size:10px;font-weight:900;letter-spacing:.2em}.wear-store-hero-copy h1{margin:15px 0 14px;font-size:clamp(38px,5vw,66px);line-height:.96;letter-spacing:-.055em}.wear-store-hero-copy h1 strong{color:var(--wear-teal)}.wear-store-hero-copy p{max-width:480px;color:#b9c4d0;font-size:12px;line-height:1.65;margin:0 0 22px}.wear-store-primary{display:inline-flex;align-items:center;gap:8px;padding:11px 14px;border-radius:9px;background:var(--wear-teal);color:#04110f;text-decoration:none;font-size:10px;font-weight:900;box-shadow:0 9px 28px rgba(36,215,189,.18)}.wear-store-slider-btn{position:absolute;z-index:3;top:50%;transform:translateY(-50%);width:36px;height:36px;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:rgba(8,13,18,.48);color:#fff;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(10px)}.wear-store-slider-btn.prev{left:16px}.wear-store-slider-btn.next{right:16px}.wear-store-dots{position:absolute;z-index:3;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:5px}.wear-store-dots button{width:20px;height:3px;border:0;border-radius:999px;background:rgba(255,255,255,.24);padding:0;cursor:pointer}.wear-store-dots button.is-active{background:var(--wear-teal)}
+.wear-store-category-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px}.wear-store-category-item{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92px;padding:9px 6px;border:1px solid var(--wear-line);border-radius:14px;background:var(--wear-surface);color:var(--wear-text);text-decoration:none;text-align:center;transition:.2s}.wear-store-category-item:hover{transform:translateY(-2px);border-color:rgba(36,215,189,.25);background:#121a21}.wear-store-category-item>span{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.1);background:#141b22;color:var(--wear-teal)}.wear-store-category-item strong{margin-top:7px;font-size:9px}.wear-store-category-item small{margin-top:2px;color:#697486;font-size:7px}
+.wear-store-section{scroll-margin-top:105px}.wear-store-section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:30px 2px 14px}.wear-store-section-head span{color:var(--wear-orange);font-size:8px;font-weight:900;letter-spacing:.16em}.wear-store-section-head h2{margin:4px 0 0;font-size:22px;letter-spacing:-.04em}.wear-store-section-head p{margin:5px 0 0;color:#707b89;font-size:9px}.wear-store-section-head>a{display:inline-flex;align-items:center;gap:5px;color:#adb7c4;text-decoration:none;font-size:9px;font-weight:800;white-space:nowrap}.wear-store-section-head>a:hover{color:var(--wear-teal)}
+.wear-store-product-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.wear-store-product-card{min-width:0;border:1px solid var(--wear-line);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#11161d,#0d1218);color:var(--wear-text);text-decoration:none;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.wear-store-product-card:hover{transform:translateY(-3px);border-color:rgba(36,215,189,.22);box-shadow:0 18px 45px rgba(0,0,0,.28)}.wear-store-product-image{position:relative;aspect-ratio:4/5;background:#171d24;overflow:hidden}.wear-store-product-image img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .35s ease}.wear-store-product-card:hover img{transform:scale(1.035)}.wear-store-badge{position:absolute;z-index:2;top:8px;left:8px;padding:4px 6px;border-radius:6px;background:var(--wear-teal);color:#03110f;font-size:7px;font-weight:900;text-transform:uppercase}.wear-store-badge.best{background:var(--wear-orange);color:#190b00}.wear-store-product-copy{padding:10px 10px 12px}.wear-store-product-copy>small{display:block;color:#6c7787;font-size:7px;text-transform:uppercase;letter-spacing:.1em;font-weight:850}.wear-store-product-copy h3{margin:5px 0 8px;font-size:10px;line-height:1.35;font-weight:720}.wear-store-product-copy>strong{font-size:11px;color:#fff}.wear-store-empty{grid-column:1/-1;padding:36px;border:1px dashed var(--wear-line);border-radius:14px;text-align:center;color:#7e8998;background:var(--wear-surface);font-size:10px}
+.wear-store-drop{display:grid;grid-template-columns:1.1fr 1.5fr;min-height:210px;margin-top:28px;border:1px solid rgba(255,138,42,.25);border-radius:18px;overflow:hidden;background:linear-gradient(135deg,#10161d,#0a0e13)}.wear-store-drop-image{min-height:210px}.wear-store-drop-image img{width:100%;height:100%;display:block;object-fit:cover}.wear-store-drop-copy{display:flex;flex-direction:column;justify-content:center;padding:26px}.wear-store-drop-copy>span{color:var(--wear-orange);font-size:8px;font-weight:900;letter-spacing:.17em}.wear-store-drop-copy h2{margin:8px 0 8px;font-size:29px;line-height:1.02;letter-spacing:-.045em}.wear-store-drop-copy h2 strong{color:var(--wear-teal)}.wear-store-drop-copy p{max-width:480px;margin:0 0 16px;color:#8591a1;font-size:10px;line-height:1.55}
+.wear-store-benefits{display:grid;grid-template-columns:repeat(4,1fr);margin-top:12px;border:1px solid var(--wear-line);border-radius:15px;overflow:hidden;background:var(--wear-surface)}.wear-store-benefits>div{display:grid;grid-template-columns:34px 1fr;column-gap:9px;align-items:center;padding:13px;border-right:1px solid var(--wear-line)}.wear-store-benefits>div:last-child{border-right:0}.wear-store-benefits span{grid-row:span 2;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:var(--wear-orange);background:#161d24}.wear-store-benefits strong{font-size:8px}.wear-store-benefits small{margin-top:2px;color:#6c7787;font-size:7px}.wear-store-mobile-cart{display:none}
+html[data-theme="light"] .wear-site{--wear-bg:#f5f7f9;--wear-surface:#fff;--wear-surface-2:#f1f4f6;--wear-line:rgba(15,23,42,.1);--wear-muted:#667085;--wear-text:#101722;--wear-shadow:0 18px 50px rgba(15,23,42,.08)}
+html[data-theme="light"] .wear-store-sidebar{background:linear-gradient(180deg,#fff,#f6f8f9)}
+html[data-theme="light"] .wear-store{color:var(--wear-text)}
+html[data-theme="light"] .wear-store-hero,.wear-store-product-card,.wear-store-drop{box-shadow:0 18px 44px rgba(15,23,42,.06)}
+html[data-theme="light"] .wear-store-hero-overlay{background:linear-gradient(90deg,rgba(6,12,18,.9),rgba(6,12,18,.55) 45%,rgba(6,12,18,.1) 80%)}
+html[data-theme="light"] .wear-store-category-item{background:#fff;color:#111827}.wear-store-category-item small{color:#667085}
+html[data-theme="light"] .wear-store-product-card{background:#fff;color:#111827}.wear-store-product-image{background:#eef1f4}.wear-store-product-copy>strong{color:#111827}.wear-store-product-copy h3{color:#111827}.wear-store-section-head h2{color:#111827}.wear-store-section-head>a{color:#475467}.wear-store-benefits{background:#fff}.wear-store-benefits strong{color:#101722}.wear-store-benefits>div span{background:#f5f6f8}.wear-side-trust strong{color:#101722}
+@media(max-width:1100px){.wear-store{grid-template-columns:160px minmax(0,1fr)}.wear-store-hero{height:390px}.wear-store-hero-copy{left:40px}.wear-store-product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.wear-store-category-strip{grid-template-columns:repeat(3,1fr)}.wear-store-sidebar{top:90px}.wear-store-benefits{grid-template-columns:repeat(2,1fr)}.wear-store-benefits>div:nth-child(2){border-right:0}.wear-store-benefits>div:nth-child(-n+2){border-bottom:1px solid var(--wear-line)}}
+@media(max-width:760px){.wear-site main{padding-top:70px}.wear-store{display:block;width:calc(100% - 16px);padding-top:8px}.wear-store-sidebar{position:static;min-height:0;margin-bottom:10px;padding:10px;border-radius:14px}.wear-store-side-logo{padding:3px 5px 9px}.wear-store-sidebar .wear-side-title,.wear-side-divider,.wear-side-promo,.wear-side-trust{display:none}.wear-side-nav{display:flex;overflow:auto;gap:4px;padding:1px}.wear-side-nav a{flex:0 0 auto;padding:8px 9px;border-radius:8px;font-size:8px}.wear-side-nav a svg{display:none}.wear-side-nav a b{display:none}.wear-store-hero{height:480px;border-radius:16px}.wear-store-hero-overlay{background:linear-gradient(0deg,rgba(4,8,12,.96) 0%,rgba(4,8,12,.62) 53%,rgba(4,8,12,.12) 100%)}.wear-store-hero-copy{left:22px;right:22px;bottom:45px;top:auto;transform:none;width:auto}.wear-store-hero-copy h1{font-size:42px}.wear-store-hero-copy p{font-size:10px}.wear-store-slider-btn{top:auto;bottom:12px;transform:none;width:32px;height:32px}.wear-store-slider-btn.prev{left:12px}.wear-store-slider-btn.next{right:12px}.wear-store-dots{bottom:24px}.wear-store-category-strip{grid-template-columns:repeat(3,1fr);gap:6px}.wear-store-category-item{min-height:78px}.wear-store-category-item>span{width:31px;height:31px}.wear-store-category-item strong{font-size:8px}.wear-store-category-item small{display:none}.wear-store-section-head{margin-top:26px}.wear-store-section-head h2{font-size:20px}.wear-store-section-head p{font-size:8px}.wear-store-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.wear-store-product-copy{padding:9px}.wear-store-product-copy h3{font-size:9px}.wear-store-product-copy>strong{font-size:10px}.wear-store-drop{grid-template-columns:1fr;margin-top:24px}.wear-store-drop-image{min-height:180px}.wear-store-drop-copy{padding:20px}.wear-store-drop-copy h2{font-size:26px}.wear-store-benefits{grid-template-columns:1fr}.wear-store-benefits>div{border-right:0!important;border-bottom:1px solid var(--wear-line);padding:11px}.wear-store-benefits>div:last-child{border-bottom:0}.wear-store-mobile-cart{display:block;position:fixed;z-index:30;right:14px;bottom:14px}.wear-store-mobile-cart a{position:relative;display:flex;align-items:center;gap:6px;padding:11px 13px;border-radius:12px;background:var(--wear-teal);color:#03110f;text-decoration:none;font-size:9px;font-weight:900;box-shadow:0 14px 35px rgba(0,0,0,.3)}.wear-store-mobile-cart b{min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#071a17;color:#fff;display:grid;place-items:center;font-size:7px}}
+
+
+/* -----------------------------------------------------------------
+   Wear storefront refinement pass v26
+   - removes oversized promotional dead-space
+   - improves desktop density and text legibility
+   - gives light mode a first-class visual system
+   - keeps the shared Kipanya navigation, but scales it for Wear
+   ----------------------------------------------------------------- */
+.wear-site {
+  --wear-bg:#080b10;
+  --wear-surface:#10151c;
+  --wear-surface-2:#151b23;
+  --wear-line:rgba(255,255,255,.10);
+  --wear-muted:#a1acbb;
+  --wear-muted-2:#7d8999;
+  --wear-text:#f7f8fa;
+  --wear-teal:#25d6bf;
+  --wear-orange:#ff932f;
+  --wear-card-glow:rgba(37,214,191,.10);
+}
+.wear-site main{padding-top:88px}
+.wear-store{width:min(1500px,calc(100% - 32px));grid-template-columns:220px minmax(0,1fr);gap:18px;padding-top:18px;padding-bottom:56px}
+.wear-store-sidebar{top:108px;padding:18px 14px 20px;border-radius:20px}
+.wear-store-side-logo{padding:4px 8px 18px}
+.wear-store-side-logo strong{font-size:15px}
+.wear-store-side-logo small{font-size:8px}
+.wear-side-title{font-size:9px;padding:14px 9px 8px}
+.wear-side-nav{gap:4px}
+.wear-side-nav a{padding:11px 10px;font-size:12px;border-radius:11px}
+.wear-side-nav a svg{width:17px;height:17px}
+.wear-side-nav a b{font-size:8px;padding:4px 6px}
+.wear-side-promo{padding:16px;border-radius:16px}
+.wear-side-promo span{font-size:8px}
+.wear-side-promo strong{font-size:19px}
+.wear-side-promo p{font-size:9px;line-height:1.55}
+.wear-side-promo a{padding:8px 10px;font-size:9px}
+.wear-side-trust{gap:10px}
+.wear-side-trust div{grid-template-columns:34px 1fr;column-gap:9px}
+.wear-side-trust span{width:34px;height:34px}
+.wear-side-trust strong{font-size:9px}
+.wear-side-trust small{font-size:8px}
+
+.wear-store-hero{height:455px;border-radius:22px}
+.wear-store-hero-copy{left:62px;width:min(610px,54%)}
+.wear-store-kicker{font-size:12px}
+.wear-store-hero-copy h1{font-size:clamp(46px,5.35vw,76px);line-height:.93;margin:17px 0 16px}
+.wear-store-hero-copy p{font-size:14px;line-height:1.72;max-width:540px;margin-bottom:26px}
+.wear-store-primary{padding:13px 17px;border-radius:11px;font-size:12px}
+.wear-store-slider-btn{width:40px;height:40px}
+.wear-store-dots{bottom:18px;gap:6px}
+.wear-store-dots button{width:24px;height:4px}
+
+.wear-store-category-strip{grid-template-columns:repeat(7,1fr);gap:9px;margin-top:15px}
+.wear-store-category-item{min-height:104px;padding:12px 7px;border-radius:16px}
+.wear-store-category-item>span{width:44px;height:44px}
+.wear-store-category-item strong{margin-top:9px;font-size:11px}
+.wear-store-category-item small{font-size:8px}
+
+.wear-store-section-head{margin:40px 2px 16px}
+.wear-store-section-head span{font-size:9px}
+.wear-store-section-head h2{font-size:28px}
+.wear-store-section-head p{font-size:11px;margin-top:7px}
+.wear-store-section-head>a{font-size:11px}
+.wear-store-product-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.wear-store-product-card{border-radius:17px}
+.wear-store-product-image{aspect-ratio:4/4.8}
+.wear-store-badge{top:10px;left:10px;padding:5px 7px;font-size:8px}
+.wear-store-product-copy{padding:13px 13px 15px}
+.wear-store-product-copy>small{font-size:8px}
+.wear-store-product-copy h3{margin:6px 0 9px;font-size:13px;line-height:1.35}
+.wear-store-product-copy>strong{font-size:14px}
+.wear-store-product-copy del{margin-left:7px;color:#7d8999;font-size:10px;font-weight:600}
+.wear-store-badge.sale{background:#ff5f56;color:#fff}
+
+.wear-store-benefits{margin-top:20px;border-radius:17px}
+.wear-store-benefits>div{padding:16px;grid-template-columns:38px 1fr;column-gap:10px}
+.wear-store-benefits span{width:38px;height:38px}
+.wear-store-benefits strong{font-size:10px}
+.wear-store-benefits small{font-size:8px}
+
+/* Wear-specific overrides for the shared navbar (cartoon-client ships older sizing). */
+.wear-site .client-nav-brand-copy strong{font-size:18px}
+.wear-site .client-nav-brand-copy small{font-size:9px}
+.wear-site .client-app-link{font-size:12px;padding-inline:13px}
+.wear-site .client-nav-search{height:42px}
+.wear-site .client-nav-search input{font-size:12px}
+.wear-site .client-nav-search kbd{font-size:9px}
+.wear-site .client-account-copy strong{font-size:10px}
+.wear-site .client-account-copy small{font-size:8px}
+
+/* Light mode: no dark-only literals leaking through. */
+html[data-theme="light"] .wear-site{
+  --wear-bg:#f4f7f8;
+  --wear-surface:#ffffff;
+  --wear-surface-2:#eef3f4;
+  --wear-line:rgba(15,23,42,.11);
+  --wear-muted:#5f6b78;
+  --wear-muted-2:#7c8794;
+  --wear-text:#101722;
+  --wear-card-glow:rgba(15,23,42,.07);
+}
+html[data-theme="light"] .wear-store-sidebar{background:linear-gradient(180deg,#ffffff 0%,#f8fafb 100%)}
+html[data-theme="light"] .wear-side-nav a{color:#5d6875}
+html[data-theme="light"] .wear-side-nav a:hover{background:#eef3f4;color:#101722}
+html[data-theme="light"] .wear-side-nav a.is-active{background:rgba(37,214,191,.12);color:#0e6258}
+html[data-theme="light"] .wear-side-title{color:#7b8795}
+html[data-theme="light"] .wear-side-promo{background:radial-gradient(circle at 85% 10%,rgba(255,147,47,.12),transparent 42%),linear-gradient(145deg,#ffffff,#f4f7f8)}
+html[data-theme="light"] .wear-side-promo p{color:#66717f}
+html[data-theme="light"] .wear-side-trust small{color:#7a8593}
+html[data-theme="light"] .wear-store-category-item{background:#ffffff;color:#101722;box-shadow:0 8px 24px rgba(15,23,42,.04)}
+html[data-theme="light"] .wear-store-category-item:hover{background:#f9fbfb}
+html[data-theme="light"] .wear-store-category-item>span{background:#f2f6f6;border-color:rgba(15,23,42,.08)}
+html[data-theme="light"] .wear-store-section-head p{color:#66717f}
+html[data-theme="light"] .wear-store-section-head>a{color:#44515f}
+html[data-theme="light"] .wear-store-product-card{background:#ffffff;box-shadow:0 10px 28px rgba(15,23,42,.05)}
+html[data-theme="light"] .wear-store-product-copy>small{color:#73808e}
+html[data-theme="light"] .wear-store-benefits{background:#ffffff}
+html[data-theme="light"] .wear-store-benefits small{color:#73808e}
+html[data-theme="light"] .wear-store-benefits span{background:#f1f5f5}
+
+@media(max-width:1200px){
+  .wear-store{grid-template-columns:195px minmax(0,1fr);gap:14px}
+  .wear-store-hero{height:430px}
+  .wear-store-hero-copy{left:48px}
+  .wear-store-product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .wear-store-category-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:920px){
+  .wear-site .client-nav-brand-copy strong{font-size:16px}
+  .wear-site .client-app-link{font-size:11px;padding-inline:9px}
+  .wear-store{grid-template-columns:1fr}
+  .wear-store-sidebar{position:static;min-height:0}
+  .wear-store-side-logo{display:none}
+  .wear-store-sidebar .wear-side-title,.wear-side-divider,.wear-side-promo,.wear-side-trust{display:none}
+  .wear-side-nav{display:flex;overflow:auto;gap:6px;padding:2px;scrollbar-width:none}
+  .wear-side-nav::-webkit-scrollbar{display:none}
+  .wear-side-nav a{flex:0 0 auto;padding:10px 12px;font-size:11px}
+  .wear-side-nav a svg{display:none}
+}
+@media(max-width:760px){
+  .wear-site main{padding-top:72px}
+  .wear-store{width:calc(100% - 20px);padding-top:10px;gap:10px}
+  .wear-store-hero{height:500px;border-radius:18px}
+  .wear-store-hero-copy{left:24px;right:24px;bottom:52px;top:auto;width:auto}
+  .wear-store-kicker{font-size:10px}
+  .wear-store-hero-copy h1{font-size:clamp(37px,11vw,52px);margin:12px 0}
+  .wear-store-hero-copy p{font-size:11px;line-height:1.6;margin-bottom:18px}
+  .wear-store-primary{font-size:11px;padding:11px 14px}
+  .wear-store-category-strip{grid-template-columns:repeat(3,1fr);gap:7px}
+  .wear-store-category-item{min-height:86px}
+  .wear-store-category-item>span{width:36px;height:36px}
+  .wear-store-category-item strong{font-size:9px}
+  .wear-store-category-item small{display:none}
+  .wear-store-section-head{margin-top:30px}
+  .wear-store-section-head h2{font-size:24px}
+  .wear-store-section-head p{font-size:9px}
+  .wear-store-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .wear-store-product-copy{padding:10px}
+  .wear-store-product-copy h3{font-size:11px}
+  .wear-store-product-copy>strong{font-size:12px}
+  .wear-store-benefits{grid-template-columns:1fr}
+  .wear-store-benefits>div{border-right:0!important;border-bottom:1px solid var(--wear-line)}
+  .wear-store-benefits>div:last-child{border-bottom:0}
+}
+
+
+/* Footer refinement */
+.wear-site .wear-footer{border-top:1px solid var(--wear-line);background:var(--wear-surface)}
+.wear-site .wear-footer .wear-container{width:min(1500px,calc(100% - 32px));margin-inline:auto}
+.wear-site .wear-footer-grid{display:grid;grid-template-columns:1.5fr .8fr .8fr 1fr;gap:34px;padding:48px 0 38px}
+.wear-site .wear-brand-footer{color:var(--wear-text)}
+.wear-site .wear-footer-grid>div>p,.wear-site .wear-footer-note{margin:14px 0 0;color:var(--wear-muted);font-size:11px;line-height:1.7;max-width:330px}
+.wear-site .wear-footer-grid h3{margin:3px 0 13px;color:var(--wear-text);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+.wear-site .wear-footer-grid a{display:block;color:var(--wear-muted);text-decoration:none;font-size:11px;padding:5px 0}
+.wear-site .wear-footer-grid a:hover{color:var(--wear-teal)}
+.wear-site .wear-footer-bottom{min-height:58px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--wear-line);color:var(--wear-muted-2);font-size:9px}
+html[data-theme="light"] .wear-site .wear-footer{background:#fff}
+html[data-theme="light"] .wear-site .wear-footer-grid a{color:#66717f}
+@media(max-width:760px){
+  .wear-site .wear-footer-grid{grid-template-columns:1fr 1fr;gap:28px;padding:34px 0}
+  .wear-site .wear-footer-grid>div:first-child,.wear-site .wear-footer-grid>div:last-child{grid-column:1/-1}
+  .wear-site .wear-footer-bottom{padding:0 10px;gap:10px}
+  .wear-site .wear-footer-bottom span:last-child{display:none}
+}
+
+/* -----------------------------------------------------------------
+   Wear storefront readability + full-width audit pass v27
+   - uses the available desktop canvas instead of leaving oversized gutters
+   - fixes low-contrast headings/body copy in dark mode
+   - increases text across navigation, sidebar, categories and product cards
+   - gives light mode an explicit readable text hierarchy
+   ----------------------------------------------------------------- */
+.wear-site .wear-store{
+  width:calc(100% - 40px);
+  max-width:1680px;
+  grid-template-columns:248px minmax(0,1fr);
+  gap:20px;
+  padding-top:20px;
+}
+.wear-site .kipanya-client-nav{
+  width:min(1640px,calc(100% - 40px));
+}
+.wear-site .client-nav-primary{min-height:66px;height:66px;padding:8px 11px;gap:9px}
+.wear-site .client-nav-brand{min-width:175px}
+.wear-site .client-nav-brand-copy strong{font-size:20px}
+.wear-site .client-nav-brand-copy small{font-size:10px}
+.wear-site .client-app-links{gap:4px}
+.wear-site .client-app-link{font-size:14px;padding:10px 14px;gap:7px;border-radius:12px}
+.wear-site .client-nav-search{height:44px;max-width:360px}
+.wear-site .client-nav-search input{font-size:13px}
+.wear-site .client-nav-search kbd{font-size:10px}
+.wear-site .client-nav-actions{gap:7px}
+.wear-site .client-nav-icon,.wear-site .client-theme-toggle{width:42px;height:42px}
+.wear-site .client-account-trigger{min-height:42px;padding:4px 9px}
+.wear-site .client-account-copy strong{font-size:12px}
+.wear-site .client-account-copy small{font-size:9px}
+
+.wear-site .wear-store-sidebar{padding:20px 16px 22px}
+.wear-site .wear-store-side-logo{gap:11px;padding:5px 9px 20px}
+.wear-site .wear-store-side-logo-mark{width:40px;height:40px;font-size:18px}
+.wear-site .wear-store-side-logo strong{font-size:18px}
+.wear-site .wear-store-side-logo small{font-size:9px}
+.wear-site .wear-side-title{font-size:10px;padding:15px 10px 9px}
+.wear-site .wear-side-nav{gap:5px}
+.wear-site .wear-side-nav a{padding:12px 11px;font-size:14px;border-radius:12px}
+.wear-site .wear-side-nav a svg{width:18px;height:18px}
+.wear-site .wear-side-nav a b{font-size:9px}
+.wear-site .wear-side-trust{gap:12px}
+.wear-site .wear-side-trust div{grid-template-columns:38px 1fr;column-gap:10px}
+.wear-site .wear-side-trust span{width:38px;height:38px}
+.wear-site .wear-side-trust strong{font-size:11px}
+.wear-site .wear-side-trust small{font-size:9px}
+
+.wear-site .wear-store-hero{height:480px;border-radius:24px}
+.wear-site .wear-store-hero-copy{left:68px;width:min(650px,55%)}
+.wear-site .wear-store-kicker{font-size:13px}
+.wear-site .wear-store-hero-copy h1{font-size:clamp(52px,4.9vw,80px);line-height:.94;margin:18px 0}
+.wear-site .wear-store-hero-copy p{font-size:15px;line-height:1.72;max-width:600px}
+.wear-site .wear-store-primary{padding:14px 18px;font-size:13px}
+
+.wear-site .wear-store-category-strip{grid-template-columns:repeat(7,minmax(0,1fr));gap:11px;margin-top:16px}
+.wear-site .wear-store-category-item{min-height:116px;padding:14px 8px;border-radius:17px}
+.wear-site .wear-store-category-item>span{width:48px;height:48px}
+.wear-site .wear-store-category-item strong{margin-top:10px;font-size:13px}
+.wear-site .wear-store-category-item small{font-size:9px;color:#9aa6b6}
+
+.wear-site .wear-store-section-head{margin:48px 2px 18px}
+.wear-site .wear-store-section-head span{font-size:10px}
+.wear-site .wear-store-section-head h2{font-size:34px;color:#f7f8fa!important}
+.wear-site .wear-store-section-head p{font-size:13px;color:#aab4c1!important;line-height:1.55}
+.wear-site .wear-store-section-head>a{font-size:13px;color:#d0d7df!important}
+
+.wear-site .wear-store-product-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.wear-site .wear-store-product-card{border-radius:18px}
+.wear-site .wear-store-product-image{aspect-ratio:4/5;background:#edf0f2}
+.wear-site .wear-store-product-image img{object-position:center;mix-blend-mode:normal}
+.wear-site .wear-store-badge{top:11px;left:11px;padding:6px 8px;font-size:9px;border-radius:7px}
+.wear-site .wear-store-product-copy{padding:15px 14px 17px}
+.wear-site .wear-store-product-copy>small{font-size:9px;color:#9aa6b6!important}
+.wear-site .wear-store-product-copy h3{margin:7px 0 10px;font-size:15px!important;line-height:1.3;color:#f7f8fa!important}
+.wear-site .wear-store-product-copy>strong{font-size:17px;color:#fff!important}
+.wear-site .wear-store-product-copy del{font-size:11px}
+
+.wear-site .wear-store-benefits{margin-top:24px;border-radius:18px}
+.wear-site .wear-store-benefits>div{padding:18px;grid-template-columns:42px 1fr;column-gap:11px}
+.wear-site .wear-store-benefits span{width:42px;height:42px}
+.wear-site .wear-store-benefits strong{font-size:11px}
+.wear-site .wear-store-benefits small{font-size:9px}
+
+/* Light theme: explicit contrast for every Wear storefront text class. */
+html[data-theme="light"] .wear-site .wear-store-section-head h2{color:#101722!important}
+html[data-theme="light"] .wear-site .wear-store-section-head p{color:#596575!important}
+html[data-theme="light"] .wear-site .wear-store-section-head>a{color:#334155!important}
+html[data-theme="light"] .wear-site .wear-store-product-copy h3{color:#111827!important}
+html[data-theme="light"] .wear-site .wear-store-product-copy>strong{color:#101722!important}
+html[data-theme="light"] .wear-site .wear-store-product-copy>small{color:#64748b!important}
+html[data-theme="light"] .wear-site .wear-store-category-item small{color:#64748b}
+html[data-theme="light"] .wear-site .wear-side-nav a{color:#475569}
+html[data-theme="light"] .wear-site .wear-side-nav a.is-active{color:#075e55}
+html[data-theme="light"] .wear-site .wear-side-trust strong{color:#101722}
+
+@media(max-width:1320px){
+  .wear-site .wear-store{grid-template-columns:220px minmax(0,1fr)}
+  .wear-site .wear-store-hero-copy{left:48px}
+  .wear-site .wear-store-product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .wear-site .wear-store-category-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:1000px){
+  .wear-site .kipanya-client-nav{width:calc(100% - 24px)}
+  .wear-site .wear-store{width:calc(100% - 24px);grid-template-columns:1fr;}
+  .wear-site .wear-store-sidebar{position:static;min-height:0}
+  .wear-site .wear-store-side-logo{display:none}
+  .wear-site .wear-store-sidebar .wear-side-title,.wear-site .wear-side-divider,.wear-site .wear-side-promo,.wear-site .wear-side-trust{display:none}
+  .wear-site .wear-side-nav{display:flex;overflow:auto;gap:7px;padding:2px;scrollbar-width:none}
+  .wear-site .wear-side-nav::-webkit-scrollbar{display:none}
+  .wear-site .wear-side-nav a{flex:0 0 auto;padding:10px 12px;font-size:12px}
+  .wear-site .wear-side-nav a svg{display:none}
+}
+@media(max-width:760px){
+  .wear-site .kipanya-client-nav{width:calc(100% - 16px)}
+  .wear-site main{padding-top:76px}
+  .wear-site .wear-store{width:calc(100% - 16px);padding-top:8px}
+  .wear-site .wear-store-hero{height:510px}
+  .wear-site .wear-store-hero-copy{left:24px;right:24px;width:auto}
+  .wear-site .wear-store-hero-copy h1{font-size:clamp(38px,11vw,54px)}
+  .wear-site .wear-store-hero-copy p{font-size:12px}
+  .wear-site .wear-store-category-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .wear-site .wear-store-category-item{min-height:92px}
+  .wear-site .wear-store-category-item>span{width:38px;height:38px}
+  .wear-site .wear-store-category-item strong{font-size:10px}
+  .wear-site .wear-store-category-item small{display:none}
+  .wear-site .wear-store-section-head{margin-top:34px}
+  .wear-site .wear-store-section-head h2{font-size:28px}
+  .wear-site .wear-store-section-head p{font-size:11px}
+  .wear-site .wear-store-section-head>a{font-size:11px}
+  .wear-site .wear-store-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .wear-site .wear-store-product-copy{padding:11px}
+  .wear-site .wear-store-product-copy h3{font-size:12px!important}
+  .wear-site .wear-store-product-copy>strong{font-size:14px}
+}
+
+/* ================================================================
+   GLOBAL PUBLIC NAVBAR — final consistency pass
+   One navigation component across Home, Cartoon Archive and Wear.
+   ================================================================ */
+.platform-client{
+  --client-nav-bg:rgba(9,12,17,.84);
+  --client-nav-line:rgba(255,255,255,.11);
+  --client-nav-text:#f7f9fb;
+  --client-nav-muted:#9aa4b2;
+  --client-nav-soft:rgba(255,255,255,.055);
+  --client-nav-active:rgba(24,191,163,.11);
+  --client-nav-accent:#18bfa3;
+  color:#f5f7fa;
+  background:#070b10;
+}
+.platform-client main{padding-top:92px;min-height:calc(100vh - 160px)}
+.platform-client .kipanya-client-nav{width:min(1640px,calc(100% - 40px))}
+.platform-client .client-nav-primary{min-height:66px;height:66px;padding:8px 11px;gap:9px}
+.platform-client .client-nav-brand{min-width:180px}
+.platform-client .client-nav-brand-copy strong{font-size:20px}
+.platform-client .client-nav-brand-copy small{font-size:10px}
+.platform-client .client-app-link{font-size:14px;padding-inline:14px}
+.platform-client .client-nav-search{height:44px;max-width:360px}
+.platform-client .client-nav-search input{font-size:13px}
+.platform-client .client-account-copy strong{font-size:12px}
+.platform-client .client-account-copy small{font-size:9px}
+.platform-client .client-account-trigger,.platform-client .client-nav-icon,.platform-client .client-theme-toggle{min-height:42px;height:42px}
+.platform-client .client-account-menu a,.platform-client .client-account-menu form button{font-size:11px}
+.platform-footer{padding:38px 24px 48px;border-top:1px solid rgba(255,255,255,.09);background:#0a0f15;color:#eef2f6}
+.platform-shell{width:min(1500px,100%);margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:end}
+.platform-shell p{margin:10px 0 0;color:#8f9aaa;font-size:12px;line-height:1.6}
+.platform-footer-links{display:flex;gap:22px;flex-wrap:wrap;justify-content:flex-end}
+.platform-footer-links a{color:#aeb7c4;text-decoration:none;font-size:12px;font-weight:700}
+.platform-footer-links a:hover{color:#25d6bf}
+html[data-theme="light"] .platform-client{--client-nav-bg:rgba(255,255,255,.9);--client-nav-line:rgba(15,23,42,.11);--client-nav-text:#111827;--client-nav-muted:#667085;--client-nav-soft:rgba(15,23,42,.05);--client-nav-active:rgba(24,191,163,.1);background:#f5f7f9;color:#101722}
+html[data-theme="light"] .platform-footer{border-top-color:rgba(15,23,42,.10);background:#fff;color:#101722}
+html[data-theme="light"] .platform-footer-links a{color:#475467}
+@media(max-width:760px){
+  .platform-client main{padding-top:76px}
+  .platform-client .kipanya-client-nav{width:calc(100% - 16px)}
+  .platform-client .client-nav-primary{height:56px;min-height:56px;padding:6px;gap:4px}
+  .platform-client .client-nav-brand{min-width:auto}
+  .platform-client .client-nav-brand-copy strong{font-size:14px}
+  .platform-client .client-app-links{display:none}
+  .platform-client .client-nav-search{height:40px}
+  .platform-client .client-nav-search input{font-size:11px}
+  .platform-shell{grid-template-columns:1fr;padding:0 0 4px}
+  .platform-footer-links{justify-content:flex-start;gap:15px}
+}
+
+/* Wear product detail — larger, clearer typography and no artificial empty canvas. */
+.wear-site .wear-product-detail{width:min(1500px,calc(100% - 40px));margin:0 auto;padding-bottom:70px}
+.wear-site .wear-product-detail .wear-breadcrumb{font-size:12px;padding:28px 0 20px}
+.wear-site .wear-detail-grid{grid-template-columns:minmax(0,1.08fr) minmax(420px,.92fr);gap:58px;align-items:start}
+.wear-site .wear-detail-main{min-height:620px;background:radial-gradient(circle at 50% 45%,#f7f8fa,#e8edf1);overflow:hidden}
+.wear-site .wear-detail-main img{width:92%;height:92%;object-fit:cover;filter:none}
+.wear-site .wear-detail-copy{padding:24px 0 40px}
+.wear-site .wear-detail-copy h1{font-size:clamp(38px,4vw,60px);line-height:.98;margin:14px 0 16px;color:var(--wear-text)}
+.wear-site .wear-detail-rating{font-size:14px}
+.wear-site .wear-detail-rating span{font-size:12px}
+.wear-site .wear-detail-price{font-size:30px;margin:18px 0}
+.wear-site .wear-detail-copy>p{font-size:15px;line-height:1.75;max-width:620px;color:var(--wear-muted)}
+.wear-site .wear-detail-field label{font-size:13px;margin-bottom:11px}
+.wear-site .wear-size-grid button,.wear-site .wear-color-grid button{min-width:50px;min-height:44px;font-size:12px}
+.wear-site .wear-color-grid button{padding:0 13px}
+.wear-site .wear-color-grid i{width:17px;height:17px}
+.wear-site .wear-variant-status{margin-top:10px;font-size:12px;color:var(--wear-muted)}
+.wear-site .wear-qty{width:132px;min-height:44px}
+.wear-site .wear-qty span{font-size:12px}
+.wear-site .wear-detail-add,.wear-site .wear-buy-btn{min-height:52px;font-size:13px}
+.wear-site .wear-detail-notes{padding-top:5px;gap:11px}
+.wear-site .wear-detail-notes span{font-size:12px;color:var(--wear-muted)}
+.wear-site .wear-related{margin-top:14px}
+html[data-theme="light"] .wear-site .wear-detail-main{background:linear-gradient(145deg,#f1f3f5,#ffffff)}
+html[data-theme="light"] .wear-site .wear-detail-copy h1{color:#101722}
+html[data-theme="light"] .wear-site .wear-detail-copy>p,.wear-site .wear-detail-notes span{color:#596579}
+@media(max-width:1000px){.wear-site .wear-detail-grid{grid-template-columns:1fr;gap:20px}.wear-site .wear-detail-main{min-height:520px}.wear-site .wear-detail-copy{padding-top:5px}}
+
+/* Product detail presentation pass v29 */
+.wear-site .wear-detail-overline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--wear-muted);font-size:12px;font-weight:750;text-transform:uppercase;letter-spacing:.08em}
+.wear-site .wear-detail-overline .wear-product-badge{font-size:10px}
+.wear-site .wear-detail-price-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.wear-site .wear-detail-price-wrap del{font-size:14px;color:var(--wear-muted-2);font-weight:650}.wear-site .wear-detail-sale{padding:4px 7px;border-radius:6px;background:rgba(255,138,42,.12);color:var(--wear-orange);font-size:9px;font-weight:850;text-transform:uppercase}
+.wear-site .wear-rating-copy{color:var(--wear-muted);margin-left:4px}.wear-site .wear-related .wear-store-section-head{margin-top:54px}
+html[data-theme="light"] .wear-site .wear-detail-overline{color:#667085}html[data-theme="light"] .wear-site .wear-detail-sale{background:#fff2e7;color:#c45d14}html[data-theme="light"] .wear-site .wear-rating-copy{color:#667085}
+@media(max-width:760px){.wear-site .wear-product-detail{width:calc(100% - 24px)}.wear-site .wear-detail-main{min-height:420px}.wear-site .wear-detail-copy h1{font-size:38px}.wear-site .wear-detail-copy>p{font-size:14px}.wear-site .wear-related .wear-store-section-head{margin-top:34px}}
+
+/* -----------------------------------------------------------------
+   Final public-theme audit pass
+   Collection/category surfaces inherit the same Cartoon theme tokens
+   as the rest of the public archive instead of relying on hard-coded
+   light-only colors.
+------------------------------------------------------------------ */
+.cartoon-client .cartoon-list-page,
+.cartoon-client .cartoon-search-page,
+.cartoon-client .cartoon-detail-page,
+.cartoon-client .cartoon-tshirt-page{color:var(--cartoon-text)}
+.cartoon-client .cartoon-back{color:var(--cartoon-muted)}
+.cartoon-client .cartoon-count-label{color:var(--cartoon-muted)}
+.cartoon-client .cartoon-page-intro>p,
+.cartoon-client .cartoon-collection-hero p{color:var(--cartoon-muted)}
+.cartoon-client .cartoon-collection-hero{background:var(--cartoon-surface);border-color:var(--cartoon-line)}
+.cartoon-client .cartoon-collection-hero h1,
+.cartoon-client .cartoon-page-intro h1{color:var(--cartoon-text)}
+.cartoon-client .cartoon-collection-hero-cover{background:color-mix(in srgb,var(--cartoon-text) 5%,var(--cartoon-bg))}
+.cartoon-client .cartoon-empty{color:var(--cartoon-muted);border-color:var(--cartoon-line);background:var(--cartoon-surface)}
+.cartoon-client .cartoon-empty-large h2{color:var(--cartoon-text)}
+.cartoon-client .cartoon-empty-large p{color:var(--cartoon-muted)}
+
+html[data-theme="light"] .cartoon-client .cartoon-back:hover{color:var(--cartoon-text)}
+html[data-theme="light"] .cartoon-client .cartoon-collection-hero,
+html[data-theme="light"] .cartoon-client .cartoon-empty{box-shadow:0 18px 60px rgba(15,23,42,.06)}

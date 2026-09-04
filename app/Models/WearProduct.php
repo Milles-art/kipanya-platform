@@ -32,8 +32,12 @@ class WearProduct extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return $this->image_path
-            ? asset($this->image_path)
-            : asset('assets/wear/shirts/black-clean.png');
+        if (! $this->image_path) {
+            return asset('assets/wear/shirts/black-clean.png');
+        }
+
+        return str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')
+            ? $this->image_path
+            : asset($this->image_path);
     }
 }

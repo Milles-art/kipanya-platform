@@ -36,6 +36,6 @@ class Collection extends Model
 
     public function cartoons(): BelongsToMany
     {
-        return $this->belongsToMany(Cartoon::class)->withPivot('sort_order')->orderBy('pivot_sort_order');
+        return $this->belongsToMany(Cartoon::class)->withPivot('sort_order')->orderBy('cartoon_collection.sort_order');
     }
 }

@@ -3,10 +3,20 @@
 <div class="cartoon-archive-page">
     <div class="cartoon-archive-workspace">
         <div class="cartoon-archive-main">
+            <header class="cartoon-archive-intro">
+                <span class="cartoon-kicker"><x-icon name="film" size="14"/> Cartoon Archive</span>
+                <h1>Stories worth keeping.</h1>
+                <p>Browse daily cartoons, categories and collections — then turn a favorite into Wear.</p>
+                <div class="cartoon-archive-cta">
+                    <a href="{{ route('cartoon.search') }}" class="cartoon-btn cartoon-btn-primary"><x-icon name="search" size="15"/> Search archive</a>
+                    <a href="#collections" class="cartoon-btn cartoon-btn-outline">Explore collections</a>
+                </div>
+            </header>
+
             @if($daily->count())
             <section class="cartoon-home-section cartoon-daily-section cartoon-daily-first" id="daily-stories" aria-labelledby="daily-cartoon-heading">
                 <div class="cartoon-section-head-react">
-                    <div><div class="cartoon-section-label">Every day</div><h1 id="daily-cartoon-heading">Daily Cartoon</h1></div>
+                    <div><div class="cartoon-section-label">Every day</div><h2 id="daily-cartoon-heading">Daily Cartoon</h2></div>
                     <a href="{{ route('cartoon.search', ['daily' => 1]) }}">View all <x-icon name="arrow-right" size="15"/></a>
                 </div>
                 <div class="cartoon-story-row" data-daily-stories aria-label="Daily Cartoon stories">
@@ -95,7 +105,7 @@
                         @endforeach
                     </div></div>
                     <div class="wear-step"><strong>2. Choose Size</strong><div class="wear-size-options">@foreach(['XS','S','M','L','XL','XXL'] as $size)<button type="button" class="wear-size {{ $size === 'M' ? 'is-selected' : '' }}" data-home-size="{{ $size }}">{{ $size }}</button>@endforeach</div></div>
-                    <div class="wear-step"><strong>3. Placement</strong><div class="wear-placement-options"><button type="button" class="wear-placement is-selected" data-home-placement="front-center"><span>Front Center</span></button><button type="button" class="wear-placement" data-home-placement="front-pocket"><span>Front Pocket</span></button></div></div>
+                    <div class="wear-step"><strong>3. Placement</strong><div class="wear-placement-options"><button type="button" class="wear-placement is-selected" data-home-placement="front-center"><span>Front<br>Center</span></button><button type="button" class="wear-placement" data-home-placement="front-pocket"><span>Front<br>Pocket</span></button></div></div>
                     <a href="{{ route('wear.design', $featured) }}?color=black&amp;size=M&amp;placement=front-center" class="cartoon-wear-continue" data-home-wear-continue>Customize &amp; Continue <x-icon name="arrow-right" size="17"/></a>
                 </div>
             </div>

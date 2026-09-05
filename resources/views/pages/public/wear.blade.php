@@ -89,7 +89,7 @@
             </div>
         </section>
 
-        <section class="wear-store-category-strip" aria-label="Shop categories">
+        <section class="wear-store-category-strip wear-store-category-strip-7" aria-label="Shop categories">
             @foreach($categoryMeta as $category => $meta)
                 <a href="{{ route('wear', ['category' => $category]) }}" class="wear-store-category-item">
                     <span><x-icon name="{{ $meta['icon'] }}" size="21"/></span>

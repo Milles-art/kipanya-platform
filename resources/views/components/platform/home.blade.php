@@ -68,43 +68,7 @@
 @endphp
 
 <div class="platform-home" data-platform-home data-apps='@json($platformApps, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_AMP|JSON_HEX_QUOT)'>
-    <header class="platform-topbar">
-        <nav class="platform-nav" aria-label="Kipanya primary navigation">
-            <a href="{{ route('home') }}" class="platform-wordmark" aria-label="Kipanya home">
-                <span class="platform-mark">K</span><span>Kipanya</span>
-            </a>
-            <span class="platform-divider"></span>
-            <div class="platform-app-switcher" aria-label="Kipanya applications">
-                @foreach($platformApps as $id => $item)
-                    @if($loop->first)
-                        <a href="{{ route('cartoon') }}" class="platform-app-nav is-active" style="--app-accent:{{ $item['accent'] }}" aria-label="{{ $item['name'] }}">
-                            <x-icon name="{{ $item['icon'] }}" size="19" />
-                            <span>{{ $item['short'] }}</span>
-                        </a>
-                    @else
-                        <button type="button" class="platform-app-nav" data-platform-select="{{ $id }}" style="--app-accent:{{ $item['accent'] }}" aria-label="{{ $item['name'] }}">
-                            <x-icon name="{{ $item['icon'] }}" size="19" />
-                            <span>{{ $item['short'] }}</span>
-                        </button>
-                    @endif
-                @endforeach
-            </div>
-            <span class="platform-divider"></span>
-            <a href="{{ route('discover') }}" class="platform-nav-action"><x-icon name="search" size="18"/><span>Search</span></a>
-            <a href="{{ auth()->check() ? route('account') : route('account.login') }}" class="platform-account"><x-icon name="user" size="18"/><span>{{ auth()->check() ? 'Account' : 'Sign in' }}</span></a>
-        </nav>
-    </header>
-
-    <header class="platform-mobile-topbar">
-        <a href="{{ route('home') }}" class="platform-wordmark"><span class="platform-mark">K</span><span>Kipanya</span></a>
-        <div class="platform-mobile-actions">
-            <a href="{{ route('discover') }}" class="platform-circle-btn" aria-label="Search"><x-icon name="search" size="18"/></a>
-            <a href="{{ auth()->check() ? route('account') : route('account.login') }}" class="platform-circle-btn" aria-label="Account"><x-icon name="user" size="18"/></a>
-            <button type="button" class="platform-circle-btn" data-platform-menu aria-label="Open applications"><x-icon name="menu" size="18"/></button>
-        </div>
-    </header>
-
-    <main>
+    <div>
         <section class="platform-hero" data-platform-hero aria-label="Kipanya applications">
             <div class="platform-hero-bg" data-platform-bg></div>
             <div class="platform-hero-overlay"></div>
@@ -138,35 +102,54 @@
             <button type="button" class="platform-arrow platform-arrow-right" data-platform-next aria-label="Next application"><x-icon name="chevron" size="20"/></button>
         </section>
 
-        @if($latest->count())
+        <section class="platform-discovery" aria-labelledby="platform-discovery-heading">
+            <div class="platform-discovery-intro">
+                <div>
+                    <span class="platform-eyebrow">Start exploring</span>
+                    <h2 id="platform-discovery-heading">More than a place to scroll.</h2>
+                </div>
+                <p>Kipanya brings stories, style and culture into one easy-to-explore universe. Pick a world, find something you love, and make it yours.</p>
+            </div>
 
+            <div class="platform-discovery-grid">
+                <a href="{{ route('cartoon') }}" class="platform-discovery-card platform-discovery-card-featured">
+                    <span class="platform-discovery-icon"><x-icon name="film" size="20"/></span>
+                    <div><span>Cartoon Archive</span><h3>Discover a new story.</h3><p>Browse fresh artwork, daily cartoons and curated collections.</p></div>
+                    <x-icon name="arrow-right" size="18"/>
+                </a>
+                <a href="{{ route('wear') }}" class="platform-discovery-card">
+                    <span class="platform-discovery-icon platform-discovery-icon-wear"><x-icon name="shirt" size="20"/></span>
+                    <div><span>Kipanya Wear</span><h3>Wear the culture.</h3><p>Shop originals or turn a cartoon you love into a custom tee.</p></div>
+                    <x-icon name="arrow-right" size="18"/>
+                </a>
+                <a href="{{ route('discover') }}" class="platform-discovery-card">
+                    <span class="platform-discovery-icon platform-discovery-icon-search"><x-icon name="search" size="20"/></span>
+                    <div><span>Discover</span><h3>Find your next favorite.</h3><p>Search the archive by title, category, mood or story.</p></div>
+                    <x-icon name="arrow-right" size="18"/>
+                </a>
+            </div>
+        </section>
+
+        @if($latest->count())
+            <section class="platform-cartoon-preview" aria-labelledby="platform-latest-heading">
+                <div class="platform-section-heading">
+                    <div><span class="platform-eyebrow">From the archive</span><h2 id="platform-latest-heading">Fresh stories to explore.</h2></div>
+                    <a href="{{ route('cartoon') }}">View Cartoon Archive <x-icon name="arrow-right" size="15"/></a>
+                </div>
+                <div class="platform-cartoon-grid">
+                    @foreach($latest->take(4) as $cartoon)
+                        <a href="{{ route('cartoon.detail', $cartoon) }}" class="platform-cartoon-card">
+                            <div class="platform-cartoon-art">
+                                @if($cartoon->resolved_thumbnail_url)
+                                    <img src="{{ $cartoon->resolved_thumbnail_url }}" alt="{{ $cartoon->title }}" loading="lazy">
+                                @endif
+                            </div>
+                            <div class="platform-cartoon-meta"><small>{{ $cartoon->category?->name ?? 'Cartoon Archive' }}</small><strong>{{ $cartoon->title }}</strong></div>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
         @endif
 
-    </main>
-
-    <nav class="platform-mobile-dock" aria-label="Kipanya applications">
-        @foreach($platformApps as $id => $item)
-            @if($loop->first)
-                <a href="{{ route('cartoon') }}" class="platform-dock-item is-active" style="--app-accent:{{ $item['accent'] }}" aria-label="{{ $item['name'] }}"><x-icon name="{{ $item['icon'] }}" size="25"/><span>{{ $item['short'] }}</span></a>
-            @else
-                <button type="button" class="platform-dock-item" data-platform-select="{{ $id }}" style="--app-accent:{{ $item['accent'] }}" aria-label="{{ $item['name'] }}"><x-icon name="{{ $item['icon'] }}" size="25"/><span>{{ $item['short'] }}</span></button>
-            @endif
-        @endforeach
-    </nav>
-
-    <div class="platform-mobile-menu" data-platform-mobile-menu hidden>
-        <div class="platform-mobile-menu-backdrop" data-platform-menu-close></div>
-        <div class="platform-mobile-menu-panel">
-            <div class="platform-mobile-menu-head"><strong>Explore Kipanya</strong><button type="button" class="platform-circle-btn" data-platform-menu-close aria-label="Close"><x-icon name="x" size="18"/></button></div>
-            <div class="platform-mobile-menu-list">
-                @foreach($platformApps as $id => $item)
-                    @if($loop->first)
-                        <a href="{{ route('cartoon') }}" class="platform-mobile-app" style="--app-accent:{{ $item['accent'] }}"><span><x-icon name="{{ $item['icon'] }}" size="22"/></span><div><strong>{{ $item['name'] }}</strong><small>Open Cartoon Archive</small></div></a>
-                    @else
-                        <button type="button" class="platform-mobile-app" data-platform-select="{{ $id }}" style="--app-accent:{{ $item['accent'] }}"><span><x-icon name="{{ $item['icon'] }}" size="22"/></span><div><strong>{{ $item['name'] }}</strong><small>{{ $item['mood'] }}</small></div></button>
-                    @endif
-                @endforeach
-            </div>
-        </div>
     </div>
 </div>

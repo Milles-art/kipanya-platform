@@ -4,16 +4,14 @@
 @php
     $categoryMeta = [
         'T-Shirts' => ['icon' => 'shirt', 'copy' => 'Everyday essentials'],
-        'Hoodies' => ['icon' => 'layers', 'copy' => 'Soft layers'],
-        'Caps' => ['icon' => 'sparkles', 'copy' => 'Finish the fit'],
-        'Accessories' => ['icon' => 'bag', 'copy' => 'Kipanya extras'],
+        'Polos' => ['icon' => 'shirt', 'copy' => 'Smart casual staples'],
+        'Shirts' => ['icon' => 'layers', 'copy' => 'Statement layers'],
         'Long Sleeves' => ['icon' => 'shirt', 'copy' => 'Cool-weather staples'],
-        'Kids Wear' => ['icon' => 'users', 'copy' => 'For the little ones'],
-        'Jackets' => ['icon' => 'layers', 'copy' => 'Outerwear essentials'],
     ];
 
     $newArrivals = $newArrivals ?? collect();
     $bestSellers = $popular ?? collect();
+    $heroProducts = $newArrivals->merge($bestSellers)->unique('id')->take(3)->values();
     $cartCount = app(\App\Services\Commerce\WearCartService::class)->count(request());
 @endphp
 
@@ -49,47 +47,40 @@
     <div class="wear-store-main">
         <section class="wear-store-hero" data-wear-slider>
             <div class="wear-store-slides">
-                <article class="wear-store-slide is-active" data-wear-slide>
-                    <img src="https://images.pexels.com/photos/16532060/pexels-photo-16532060.jpeg?cs=srgb&dl=pexels-moh-abdelghaffar-16532060.jpg&fm=jpg" alt="Kipanya clothing collection" class="wear-store-hero-image">
-                    <div class="wear-store-hero-overlay"></div>
-                    <div class="wear-store-hero-copy">
-                        <span class="wear-store-kicker">KIPANYA WEAR</span>
-                        <h1>WEAR THE CULTURE.<br><strong>LIVE THE STORY.</strong></h1>
-                        <p>Premium everyday pieces with bold Kipanya energy. Made for the people who carry the story with them.</p>
-                        <a href="#new-arrivals" class="wear-store-primary">Shop collection <x-icon name="arrow-right" size="16"/></a>
-                    </div>
-                </article>
-                <article class="wear-store-slide" data-wear-slide>
-                    <img src="https://images.pexels.com/photos/8072616/pexels-photo-8072616.jpeg?cs=srgb&dl=pexels-qim-manifester-61823229-8072616.jpg&fm=jpg" alt="Man wearing a black polo" class="wear-store-hero-image">
-                    <div class="wear-store-hero-overlay"></div>
-                    <div class="wear-store-hero-copy">
-                        <span class="wear-store-kicker">THE EVERYDAY EDIT</span>
-                        <h1>KEEP IT CLEAN.<br><strong>KEEP IT KIPANYA.</strong></h1>
-                        <p>Tees, polos and easy layers designed to work from weekday to weekend.</p>
-                        <a href="{{ route('wear', ['category' => 'T-Shirts']) }}" class="wear-store-primary">Shop T-Shirts <x-icon name="arrow-right" size="16"/></a>
-                    </div>
-                </article>
-                <article class="wear-store-slide" data-wear-slide>
-                    <img src="https://images.pexels.com/photos/7346409/pexels-photo-7346409.jpeg?cs=srgb&dl=pexels-aviz-7346409.jpg&fm=jpg" alt="Casual streetwear outfit" class="wear-store-hero-image">
-                    <div class="wear-store-hero-overlay"></div>
-                    <div class="wear-store-hero-copy">
-                        <span class="wear-store-kicker">NEW DROP</span>
-                        <h1>FRESH PIECES.<br><strong>BOLD VIBES.</strong></h1>
-                        <p>Build a stronger everyday rotation with jackets, layers and statement essentials.</p>
-                        <a href="#popular-picks" class="wear-store-primary">Explore popular picks <x-icon name="arrow-right" size="16"/></a>
-                    </div>
-                </article>
+                @forelse($heroProducts as $product)
+                    <article class="wear-store-slide {{ $loop->first ? 'is-active' : '' }}" data-wear-slide>
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="wear-store-hero-image">
+                        <div class="wear-store-hero-overlay"></div>
+                        <div class="wear-store-hero-copy">
+                            <span class="wear-store-kicker">{{ $loop->first ? 'FEATURED PRODUCT' : $product->category }}</span>
+                            <h1>{{ $product->name }}<br><strong>TSh {{ number_format($product->price, 0) }}</strong></h1>
+                            <p>{{ $product->description }}</p>
+                            <a href="{{ route('wear.product', $product) }}" class="wear-store-primary">View product <x-icon name="arrow-right" size="16"/></a>
+                        </div>
+                    </article>
+                @empty
+                    <article class="wear-store-slide is-active" data-wear-slide>
+                        <img src="{{ asset('assets/wear/shirts/black-clean.png') }}" alt="Kipanya classic T-shirt" class="wear-store-hero-image">
+                        <div class="wear-store-hero-overlay"></div>
+                        <div class="wear-store-hero-copy">
+                            <span class="wear-store-kicker">KIPANYA WEAR</span>
+                            <h1>WEAR THE CULTURE.<br><strong>LIVE THE STORY.</strong></h1>
+                            <p>Premium everyday pieces with bold Kipanya energy. Made for the people who carry the story with them.</p>
+                            <a href="#new-arrivals" class="wear-store-primary">Shop collection <x-icon name="arrow-right" size="16"/></a>
+                        </div>
+                    </article>
+                @endforelse
             </div>
             <button type="button" class="wear-store-slider-btn prev" data-wear-prev aria-label="Previous hero slide"><x-icon name="chevron-left" size="17"/></button>
             <button type="button" class="wear-store-slider-btn next" data-wear-next aria-label="Next hero slide"><x-icon name="chevron" size="17"/></button>
             <div class="wear-store-dots" aria-label="Hero slides">
-                @for($i = 0; $i < 3; $i++)
+                @for($i = 0; $i < max(1, $heroProducts->count()); $i++)
                     <button type="button" data-wear-dot="{{ $i }}" class="{{ $i === 0 ? 'is-active' : '' }}" aria-label="Slide {{ $i + 1 }}"></button>
                 @endfor
             </div>
         </section>
 
-        <section class="wear-store-category-strip wear-store-category-strip-7" aria-label="Shop categories">
+        <section class="wear-store-category-strip wear-store-category-strip-4" aria-label="Shop categories">
             @foreach($categoryMeta as $category => $meta)
                 <a href="{{ route('wear', ['category' => $category]) }}" class="wear-store-category-item">
                     <span><x-icon name="{{ $meta['icon'] }}" size="21"/></span>

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use App\Models\WearProduct;
-use App\Models\Cartoon;
 use App\Enums\ContentStatus;
+use App\Http\Controllers\Controller;
+use App\Models\Cartoon;
+use App\Models\WearProduct;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -45,7 +45,7 @@ final class WearController extends Controller
             'products' => $products,
             'newArrivals' => $newArrivals,
             'popular' => $popular,
-            'categories' => ['T-Shirts', 'Hoodies', 'Caps', 'Accessories', 'Long Sleeves', 'Kids Wear', 'Jackets'],
+            'categories' => ['T-Shirts', 'Polos', 'Shirts', 'Long Sleeves'],
             'featuredCartoon' => $featuredCartoon,
         ]);
     }

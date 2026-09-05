@@ -4,39 +4,36 @@ namespace Database\Seeders;
 
 use App\Models\WearProduct;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class WearDemoSeeder extends Seeder
 {
     public function run(): void
     {
-        // Real-fashion image references for local/demo presentation.
-        // Replace these URLs with Kipanya-owned photography before production.
+        // Product photos supplied for the Kipanya Wear presentation, stored locally for a reliable demo.
         $products = [
-            ['name' => 'Kipanya Classic Tee', 'category' => 'T-Shirts', 'price' => 35000, 'compare_at_price' => 42000, 'badge' => 'New', 'description' => 'A clean everyday cotton tee with an easy fit for workdays, weekends and everything in between.', 'image_path' => 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Signature Tee', 'category' => 'T-Shirts', 'price' => 38000, 'badge' => 'New', 'description' => 'The signature Kipanya tee: minimal from a distance, unmistakable up close.', 'image_path' => 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Oversize Tee', 'category' => 'T-Shirts', 'price' => 42000, 'badge' => null, 'description' => 'A relaxed silhouette built for a modern streetwear rotation.', 'image_path' => 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Graphic Tee', 'category' => 'T-Shirts', 'price' => 45000, 'badge' => 'Featured', 'description' => 'A statement graphic tee made for fans who wear the culture proudly.', 'image_path' => 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Essential Tee', 'category' => 'T-Shirts', 'price' => 32000, 'badge' => 'Best', 'description' => 'A dependable wardrobe staple with a soft hand feel and everyday styling.', 'image_path' => 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Street Hoodie', 'category' => 'Hoodies', 'price' => 65000, 'compare_at_price' => 78000, 'badge' => 'Best', 'description' => 'A heavyweight street-ready hoodie with a clean front and bold Kipanya attitude.', 'image_path' => 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Everyday Hoodie', 'category' => 'Hoodies', 'price' => 72000, 'badge' => 'New', 'description' => 'Soft layering made simple, with enough structure for city days and cool nights.', 'image_path' => 'https://images.unsplash.com/photo-1548883354-94bcfe321cbb?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Zip Hoodie', 'category' => 'Hoodies', 'price' => 78000, 'badge' => null, 'description' => 'A versatile zip-through hoodie designed for easy layering over tees and polos.', 'image_path' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Dad Cap', 'category' => 'Caps', 'price' => 25000, 'badge' => 'Best', 'description' => 'An everyday curved-brim cap that finishes the fit without trying too hard.', 'image_path' => 'https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya 5-Panel Cap', 'category' => 'Caps', 'price' => 28000, 'badge' => 'New', 'description' => 'A clean five-panel silhouette for a sharper streetwear look.', 'image_path' => 'https://images.unsplash.com/photo-1514327605112-b887c0e61c0a?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Canvas Tote', 'category' => 'Accessories', 'price' => 20000, 'badge' => null, 'description' => 'A practical canvas carryall for books, daily essentials and Kipanya finds.', 'image_path' => 'https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Everyday Backpack', 'category' => 'Accessories', 'price' => 68000, 'badge' => 'Featured', 'description' => 'A compact everyday backpack with a clean silhouette and room for your essentials.', 'image_path' => 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Long Sleeve', 'category' => 'Long Sleeves', 'price' => 48000, 'badge' => null, 'description' => 'A lightweight long sleeve for transitional weather and layered looks.', 'image_path' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Ribbed Long Sleeve', 'category' => 'Long Sleeves', 'price' => 52000, 'badge' => 'New', 'description' => 'A textured long sleeve with a close, comfortable fit for cooler days.', 'image_path' => 'https://images.unsplash.com/photo-1516822003754-cca485356ecb?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Kids Tee', 'category' => 'Kids Wear', 'price' => 28000, 'badge' => 'Kids', 'description' => 'A fun everyday tee for younger fans who want Kipanya in their rotation too.', 'image_path' => 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Kids Hoodie', 'category' => 'Kids Wear', 'price' => 52000, 'badge' => 'Kids', 'description' => 'A cosy hoodie with a playful streetwear feel for younger Kipanya fans.', 'image_path' => 'https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Denim Jacket', 'category' => 'Jackets', 'price' => 95000, 'badge' => 'Featured', 'description' => 'A timeless denim layer that adds texture and structure to simple everyday outfits.', 'image_path' => 'https://images.unsplash.com/photo-1523205565295-f0e8ef4cfa2b?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Utility Jacket', 'category' => 'Jackets', 'price' => 110000, 'compare_at_price' => 125000, 'badge' => 'Sale', 'description' => 'A utility-inspired jacket with practical pockets and a clean modern shape.', 'image_path' => 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?auto=format&fit=crop&w=1200&q=85'],
-            ['name' => 'Kipanya Coach Jacket', 'category' => 'Jackets', 'price' => 88000, 'badge' => 'New', 'description' => 'A lightweight outer layer for evenings, travel and effortless street styling.', 'image_path' => 'https://images.unsplash.com/photo-1548883354-94bcfe321cbb?auto=format&fit=crop&w=1200&q=85'],
+            ['name' => 'Pink Polo Shirt', 'slug' => 'pink-polo-shirt', 'category' => 'Polos', 'price' => 42000, 'badge' => 'New', 'description' => 'A soft pink polo with a smart button collar for an easy, polished everyday look.', 'image_path' => 'assets/wear/catalog/pink-polo.jpg'],
+            ['name' => 'Palm Print Resort Shirt', 'slug' => 'palm-print-resort-shirt', 'category' => 'Shirts', 'price' => 45000, 'badge' => 'Featured', 'description' => 'A black resort shirt with a bold palm-panel detail for relaxed weekend styling.', 'image_path' => 'assets/wear/catalog/palm-resort-shirt.jpg'],
+            ['name' => 'Maroon Performance Long Sleeve', 'slug' => 'maroon-performance-long-sleeve', 'category' => 'Long Sleeves', 'price' => 48000, 'badge' => null, 'description' => 'A close-fitting maroon long sleeve designed for active days and layered fits.', 'image_path' => 'assets/wear/catalog/maroon-performance-long-sleeve.jpg'],
+            ['name' => 'Grey Ringer Tee', 'slug' => 'grey-ringer-tee', 'category' => 'T-Shirts', 'price' => 35000, 'badge' => 'New', 'description' => 'A lightweight grey ringer tee with contrast trim and a clean everyday silhouette.', 'image_path' => 'assets/wear/catalog/grey-ringer-tee.jpg'],
+            ['name' => 'Heritage Border Tee', 'slug' => 'heritage-border-tee', 'category' => 'T-Shirts', 'price' => 47000, 'badge' => null, 'description' => 'A black tee with a rich heritage-inspired chest border that makes the outfit.', 'image_path' => 'assets/wear/catalog/heritage-border-tee.jpg'],
+            ['name' => 'Essential Black Tee', 'slug' => 'essential-black-tee', 'category' => 'T-Shirts', 'price' => 32000, 'badge' => 'Best', 'description' => 'A clean black crew-neck tee: versatile, comfortable and ready for every day.', 'image_path' => 'assets/wear/catalog/essential-black-tee.jpg'],
+            ['name' => 'Sage Polo Shirt', 'slug' => 'sage-polo-shirt', 'category' => 'Polos', 'price' => 40000, 'badge' => 'New', 'description' => 'A textured sage polo that brings a calm colour and refined finish to casual wear.', 'image_path' => 'assets/wear/catalog/sage-polo.jpg'],
+            ['name' => 'Sky Textured Tee', 'slug' => 'sky-textured-tee', 'category' => 'T-Shirts', 'price' => 39000, 'badge' => null, 'description' => 'A sky-blue textured tee with a relaxed fit and soft visual detail.', 'image_path' => 'assets/wear/catalog/sky-textured-tee.jpg'],
+            ['name' => 'Signature Black Tee', 'slug' => 'signature-black-tee', 'category' => 'T-Shirts', 'price' => 36000, 'badge' => 'Best', 'description' => 'A minimalist black tee finished with a subtle signature mark on the chest.', 'image_path' => 'assets/wear/catalog/signature-black-tee.jpg'],
+            ['name' => 'Midnight Graphic Tee', 'slug' => 'midnight-graphic-tee', 'category' => 'T-Shirts', 'price' => 46000, 'badge' => 'Featured', 'description' => 'A midnight tee with a tonal front graphic for understated statement styling.', 'image_path' => 'assets/wear/catalog/midnight-graphic-tee.jpg'],
+            ['name' => 'Cream Stripe Tee', 'slug' => 'cream-stripe-tee', 'category' => 'T-Shirts', 'price' => 38000, 'badge' => null, 'description' => 'A cream tee with fine horizontal stripes for a fresh, effortless finish.', 'image_path' => 'assets/wear/catalog/cream-stripe-tee.jpg'],
+            ['name' => 'Brown Monogram Tee', 'slug' => 'brown-monogram-tee', 'category' => 'T-Shirts', 'price' => 48000, 'badge' => 'New', 'description' => 'A rich brown tee with a bold monogram detail to anchor a streetwear look.', 'image_path' => 'assets/wear/catalog/brown-monogram-tee.jpg'],
+            ['name' => 'Green Mark Tee', 'slug' => 'green-mark-tee', 'category' => 'T-Shirts', 'price' => 43000, 'badge' => null, 'description' => 'A deep green tee with a graphic chest mark for a confident everyday option.', 'image_path' => 'assets/wear/catalog/green-mark-tee.jpg'],
+            ['name' => 'Black Oversize Tee', 'slug' => 'black-oversize-tee', 'category' => 'T-Shirts', 'price' => 44000, 'badge' => 'Best', 'description' => 'A roomy black tee with a modern oversized cut for a laid-back streetwear fit.', 'image_path' => 'assets/wear/catalog/black-oversize-tee.jpg'],
         ];
+
+        WearProduct::query()
+            ->whereNotIn('slug', array_column($products, 'slug'))
+            ->update(['is_active' => false]);
 
         foreach ($products as $index => $product) {
             $record = WearProduct::updateOrCreate(
-                ['slug' => Str::slug($product['name'])],
+                ['slug' => $product['slug']],
                 $product + [
                     'is_featured' => $index < 8,
                     'is_active' => true,
@@ -44,25 +41,15 @@ class WearDemoSeeder extends Seeder
                 ]
             );
 
-            $variantSizes = match ($record->category) {
-                'Caps', 'Accessories' => ['One Size'],
-                'Kids Wear' => ['S', 'M', 'L'],
-                default => ['S', 'M', 'L', 'XL', 'XXL'],
-            };
+            $variantSizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
-            $variantColors = match ($record->category) {
-                'Caps' => ['black', 'navy'],
-                'Accessories' => ['black', 'natural'],
-                'Kids Wear' => ['black', 'white', 'navy'],
-                'Jackets' => ['black', 'blue', 'olive'],
-                default => ['black', 'white', 'navy'],
-            };
+            $variantColors = ['black', 'white', 'navy'];
 
             foreach ($variantSizes as $size) {
                 foreach ($variantColors as $color) {
                     $record->variants()->updateOrCreate(
                         ['size' => $size, 'color' => $color],
-                        ['stock' => $record->category === 'Kids Wear' ? 8 : 12, 'sku' => strtoupper('KW-'.$record->id.'-'.$size.'-'.$color)]
+                        ['stock' => 12, 'sku' => strtoupper('KW-'.$record->id.'-'.$size.'-'.$color)]
                     );
                 }
             }

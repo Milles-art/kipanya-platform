@@ -2541,6 +2541,7 @@ html[data-theme="light"] .cartoon-client .wear-size.is-selected{color:#04110e}
   gap:12px;
   margin-top:22px;
 }
+.wear-site .wear-store-category-strip-4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .wear-site .wear-store-category-item{
   min-height:126px;
   padding:16px 10px;
@@ -2665,7 +2666,8 @@ html[data-theme="dark"] .platform-client .platform-cartoon-card{
   .cartoon-client .cartoon-category-grid-react{grid-template-columns:repeat(3,minmax(0,1fr))}
   .wear-site .wear-store{grid-template-columns:1fr}
   .wear-site .wear-store-category-strip,
-  .wear-site .wear-store-category-strip-7{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .wear-site .wear-store-category-strip-7,
+  .wear-site .wear-store-category-strip-4{grid-template-columns:repeat(4,minmax(0,1fr))}
   .wear-site .wear-store-product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:760px){
@@ -2680,6 +2682,7 @@ html[data-theme="dark"] .platform-client .platform-cartoon-card{
   .wear-site .wear-store-hero-copy h1{font-size:clamp(32px,10vw,46px)}
   .wear-site .wear-store-hero-copy p{font-size:15px}
   .wear-site .wear-store-category-strip,
-  .wear-site .wear-store-category-strip-7{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wear-site .wear-store-category-strip-7,
+  .wear-site .wear-store-category-strip-4{grid-template-columns:repeat(2,minmax(0,1fr))}
   .wear-site .wear-store-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }

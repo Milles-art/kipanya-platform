@@ -69,6 +69,16 @@ class User extends Authenticatable
     {
         return $this->phone_verified_at !== null;
     }
+    public function cartoonLikes(): HasMany
+    {
+        return $this->hasMany(CartoonLike::class);
+    }
+
+    public function cartoonComments(): HasMany
+    {
+        return $this->hasMany(CartoonComment::class);
+    }
+
     public function wearDesigns(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(WearDesign::class);

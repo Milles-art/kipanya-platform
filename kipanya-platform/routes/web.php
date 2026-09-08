@@ -12,6 +12,7 @@ use App\Http\Controllers\Web\TshirtDesignController;
 use App\Http\Controllers\Web\WearController;
 use App\Http\Controllers\Web\WearCartController;
 use App\Http\Controllers\Web\WearCheckoutController;
+use App\Http\Controllers\Web\CartoonSocialController;
 use App\Http\Middleware\EnsureAdminWebAccess;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,27 @@ Route::get('/discover', [PublicContentController::class, 'discover'])->name('dis
 Route::get('/cartoon', [PublicContentController::class, 'cartoon'])->name('cartoon');
 Route::get('/cartoon/search', [PublicContentController::class, 'search'])->name('cartoon.search');
 Route::get('/cartoon/{cartoon:slug}', [PublicContentController::class, 'detail'])->name('cartoon.detail');
+Route::middleware('auth:web')->group(function () {
+    Route::post('/cartoon/{cartoon}/like', [CartoonSocialController::class, 'like'])->name('cartoon.like');
+    Route::post('/cartoon/{cartoon}/comments', [CartoonSocialController::class, 'comment'])->name('cartoon.comment');
+});
+Route::post('/cartoon/{cartoon}/share', [CartoonSocialController::class, 'share'])->name('cartoon.share');
 Route::get('/categories/{category:slug}', [PublicContentController::class, 'category'])->name('category');
 Route::get('/collections/{collection:slug}', [PublicContentController::class, 'collection'])->name('collection');
 Route::get('/collections', [PublicContentController::class, 'collections'])->name('collections');
 Route::get('/wear', [WearController::class, 'index'])->name('wear');
+Route::get('/wear/search', [WearController::class, 'search'])->name('wear.search');
+Route::get('/wear/categories', [WearController::class, 'catalog'])->name('wear.catalog');
+Route::get('/wear/deals', [WearController::class, 'deals'])->name('wear.deals');
+Route::get('/wear/new-arrivals', [WearController::class, 'newArrivals'])->name('wear.new');
+Route::get('/wear/best-sellers', [WearController::class, 'bestSellers'])->name('wear.best');
+Route::get('/wear/brands', [WearController::class, 'brands'])->name('wear.brands');
+Route::get('/wear/collections', [WearController::class, 'collections'])->name('wear.collections');
+Route::get('/wear/wishlist', [WearController::class, 'wishlist'])->name('wear.wishlist');
+Route::get('/wear/orders', fn() => app(WearController::class)->simple('orders'))->name('wear.orders');
+Route::get('/wear/coupons', fn() => app(WearController::class)->simple('coupons'))->name('wear.coupons');
+Route::get('/wear/addresses', fn() => app(WearController::class)->simple('addresses'))->name('wear.addresses');
+Route::get('/wear/settings', fn() => app(WearController::class)->simple('settings'))->name('wear.settings');
 Route::get('/wear/product/{product:slug}', [WearController::class, 'show'])->name('wear.product');
 Route::get('/wear/cart', [WearCartController::class, 'index'])->name('wear.cart');
 Route::post('/wear/cart/items', [WearCartController::class, 'store'])->name('wear.cart.items.store');

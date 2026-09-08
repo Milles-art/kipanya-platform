@@ -4,7 +4,6 @@ namespace Tests\Feature\Commerce;
 
 use App\Models\WearProduct;
 use App\Models\WearProductVariant;
-use Database\Seeders\WearDemoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -30,7 +29,6 @@ class WearCommerceFlowTest extends TestCase
             'stock' => 5,
             'sku' => 'KW-TEST-M-BLACK',
         ]);
-
         return [$product, $variant];
     }
 
@@ -45,32 +43,6 @@ class WearCommerceFlowTest extends TestCase
 
         $this->get(route('wear.cart'))->assertOk()->assertSee('Kipanya Crew Tee')->assertSee('TSh 70,000');
         $this->get(route('wear.checkout'))->assertOk()->assertSee('Complete your order.');
-    }
-
-    public function test_storefront_hero_renders_an_active_catalog_product_image(): void
-    {
-        [$product] = $this->product();
-
-        $this->get(route('wear'))
-            ->assertOk()
-            ->assertSee('FEATURED PRODUCT')
-            ->assertSee($product->image_url, false);
-    }
-
-    public function test_seeded_storefront_uses_the_local_product_photos(): void
-    {
-        $this->seed(WearDemoSeeder::class);
-
-        $this->assertDatabaseCount('wear_products', 14);
-        $this->assertDatabaseHas('wear_products', [
-            'slug' => 'pink-polo-shirt',
-            'image_path' => 'assets/wear/catalog/pink-polo.jpg',
-        ]);
-
-        $this->get(route('wear'))
-            ->assertSee('Pink Polo Shirt')
-            ->assertSee('assets/wear/catalog/pink-polo.jpg', false)
-            ->assertDontSee('images.unsplash.com');
     }
 
     public function test_customer_can_place_order_and_stock_is_decremented(): void

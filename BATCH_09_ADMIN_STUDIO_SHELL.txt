@@ -1,3 +1,0 @@
-Batch 09: redesigned Admin Studio shell and dashboard presentation layer.
-Preserved routes, controllers, authentication, API, models, migrations, and tests.
-Light/dark theme retained.

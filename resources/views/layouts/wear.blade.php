@@ -1,21 +1,63 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><script>(()=>{try{const saved=localStorage.getItem('kipanya-theme');if(saved==='light'||saved==='dark')document.documentElement.dataset.theme=saved;}catch(_){} })();</script><meta name="csrf-token" content="{{ csrf_token() }}"><title>{{ $title ?? 'Kipanya Wear' }}</title>
-@vite(['resources/css/app.css','resources/js/app.js'])
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <script>(()=>{try{const saved=localStorage.getItem('kipanya-theme');if(saved==='light'||saved==='dark')document.documentElement.dataset.theme=saved;}catch(_){} })();</script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $title ?? 'Kipanya Wear' }}</title>
+    @vite(['resources/css/app.css','resources/css/wear-novashop.css','resources/css/public-redesign.css','resources/js/app.js'])
 </head>
-<body class="antialiased kipanya-platform cartoon-client wear-site">
-<x-client-nav active-app="wear" brand-subtitle="Wear" search-action="{{ route('wear') }}" search-placeholder="Search shirts, hoodies, accessories..." search-label="Search Kipanya Wear" :show-favorites="false" :show-cart="true" />
-<main>{{ $slot ?? '' }}@yield('content')</main>
-<footer class="wear-footer" id="contact"><div class="wear-container wear-footer-grid"><div><div class="wear-brand wear-brand-footer"><span class="wear-brand-mark">K</span><span><strong>Kipanya</strong><em>Wear</em></span></div><p>Premium everyday wear inspired by Kipanya stories, characters and culture.</p></div><div><h3>Shop</h3><a href="{{ route('wear') }}">All products</a><a href="{{ route('wear') }}?category=T-Shirts">T-Shirts</a><a href="{{ route('wear') }}?category=Hoodies">Hoodies</a><a href="{{ route('wear') }}?category=Caps">Caps</a></div><div><h3>Help</h3><a href="#contact">Delivery</a><a href="#contact">Returns</a><a href="#contact">Contact</a><a href="{{ auth()->check() ? route('account') : route('account.login') }}">My account</a></div><div><h3>Made for Kipanya</h3><p class="wear-footer-note">Wear the stories you love. New drops and custom designs will live here.</p></div></div><div class="wear-footer-bottom wear-container"><span>© {{ date('Y') }} Kipanya Wear</span><span>Part of the Kipanya ecosystem</span></div></footer>
-<script>
-(function(){
- const root=document.querySelector('[data-wear-slider]'); if(!root)return;
- const slides=[...root.querySelectorAll('[data-wear-slide]')], dots=[...root.querySelectorAll('[data-wear-dot]')]; let index=0, timer;
- function show(i){index=(i+slides.length)%slides.length; slides.forEach((s,n)=>s.classList.toggle('is-active',n===index)); dots.forEach((d,n)=>d.classList.toggle('is-active',n===index));}
- function start(){clearInterval(timer);timer=setInterval(()=>show(index+1),6500)}
- root.querySelector('[data-wear-next]')?.addEventListener('click',()=>{show(index+1);start()}); root.querySelector('[data-wear-prev]')?.addEventListener('click',()=>{show(index-1);start()});
- dots.forEach(d=>d.addEventListener('click',()=>{show(Number(d.dataset.wearDot));start()})); root.addEventListener('mouseenter',()=>clearInterval(timer)); root.addEventListener('mouseleave',start); show(0); start();
-})();
-</script>
-</body></html>
+<body class="public-site public-wear-site antialiased">
+    <x-client-nav
+        active-app="wear"
+        brand-subtitle="Wear"
+        search-action="{{ route('wear.search') }}"
+        search-placeholder="Search products..."
+        search-label="Search Kipanya Wear"
+        :show-favorites="true"
+        :show-cart="true"
+    />
+    <main class="wear-public-main">
+        @if(session('cart_status') && !request()->routeIs('wear.cart'))<div class="wear-flash" role="status" aria-live="polite">{{ session('cart_status') }}</div>@endif
+        @if(session('order_status'))<div class="wear-flash" role="status" aria-live="polite">{{ session('order_status') }}</div>@endif
+        @yield('content')
+    </main>
+    <footer class="public-footer wear-public-footer">
+        <div><strong>Kipanya</strong><span>Wear · Everyday pieces with a point of view</span></div>
+        <div>
+            <a href="{{ route('wear') }}">Shop</a>
+            <a href="{{ route('wear.new') }}">New arrivals</a>
+            <a href="{{ route('wear.deals') }}">Deals</a>
+            <a href="{{ route('wear.wishlist') }}">Wishlist</a>
+        </div>
+        <small>© {{ date('Y') }} Kipanya · Tanzania</small>
+    </footer>
+    <script>
+        (() => {
+            const key = 'kipanya_wear_wishlist';
+            const read = () => { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } };
+            const write = (value) => localStorage.setItem(key, JSON.stringify(value.slice(0, 50)));
+            const sync = () => document.querySelectorAll('[data-wish]').forEach((button) => {
+                const liked = read().map(String).includes(String(button.dataset.wish));
+                button.classList.toggle('liked', liked);
+                button.setAttribute('aria-pressed', liked ? 'true' : 'false');
+                button.querySelector('svg')?.setAttribute('fill', liked ? 'currentColor' : 'none');
+            });
+            document.addEventListener('click', (event) => {
+                const button = event.target.closest('[data-wish]');
+                if (!button) return;
+                event.preventDefault();
+                event.stopPropagation();
+                const id = String(button.dataset.wish);
+                const ids = read().map(String);
+                write(ids.includes(id) ? ids.filter((value) => value !== id) : [id, ...ids]);
+                sync();
+            });
+            sync();
+        })();
+    </script>
+    @stack('scripts')
+</body>
+</html>

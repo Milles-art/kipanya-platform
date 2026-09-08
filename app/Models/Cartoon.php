@@ -29,6 +29,7 @@ class Cartoon extends Model
         'daily_date',
         'published_at',
         'sort_order',
+        'shares_count',
     ];
 
     protected function casts(): array
@@ -40,6 +41,7 @@ class Cartoon extends Model
             'daily_date' => 'date',
             'published_at' => 'datetime',
             'sort_order' => 'integer',
+            'shares_count' => 'integer',
             'artwork_format' => 'string',
         ];
     }
@@ -70,6 +72,16 @@ class Cartoon extends Model
     public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(CartoonLike::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(CartoonComment::class);
     }
 
     public function wearDesigns(): HasMany

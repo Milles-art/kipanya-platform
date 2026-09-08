@@ -3,7 +3,7 @@
     $saved = $saved === null ? (bool) $cartoon->getAttribute('is_favorited') : (bool) $saved;
 @endphp
 @if(auth()->check())
-<form method="POST" action="{{ route('favorites.toggle', $cartoon) }}" class="inline" onclick="event.stopPropagation()">
+<form method="POST" action="{{ route('favorites.toggle', $cartoon) }}" class="inline" data-live-favorite onclick="event.stopPropagation()">
     @csrf
     <button type="submit" class="cartoon-favorite {{ $saved ? 'is-saved' : '' }} {{ $size === 'sm' ? 'small' : '' }}" aria-label="{{ $saved ? 'Remove from favorites' : 'Add to favorites' }}" title="{{ $saved ? 'Remove from favorites' : 'Add to favorites' }}">
         <x-icon name="heart" size="{{ $size === 'sm' ? 16 : 18 }}"/>

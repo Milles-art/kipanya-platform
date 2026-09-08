@@ -12,9 +12,9 @@
             <article class="wear-cart-item">
                 <a href="{{ route('wear.product', $item['product']) }}" class="wear-cart-item-image"><img src="{{ $item['product']->image_url }}" alt="{{ $item['product']->name }}"></a>
                 <div class="wear-cart-item-copy"><a href="{{ route('wear.product', $item['product']) }}"><strong>{{ $item['product']->name }}</strong></a><span>{{ $item['variant']->size }} · {{ ucfirst($item['variant']->color) }}</span><span>SKU {{ $item['variant']->sku }}</span></div>
-                <div class="wear-cart-item-qty"><form method="POST" action="{{ route('wear.cart.items.update', $item['variant']->id) }}">@csrf @method('PATCH')<button name="quantity" value="{{ max(0, $item['quantity'] - 1) }}">−</button><b>{{ $item['quantity'] }}</b><button name="quantity" value="{{ min($item['variant']->stock, $item['quantity'] + 1) }}">+</button></form></div>
+                <div class="wear-cart-item-qty"><form method="POST" action="{{ route('wear.cart.items.update', $item['variant']->id) }}" data-loading-form>@csrf @method('PATCH')<button type="submit" name="quantity" value="{{ max(0, $item['quantity'] - 1) }}" aria-label="Decrease {{ $item['product']->name }} quantity">−</button><b aria-live="polite">{{ $item['quantity'] }}</b><button type="submit" name="quantity" value="{{ min($item['variant']->stock, $item['quantity'] + 1) }}" aria-label="Increase {{ $item['product']->name }} quantity">+</button></form></div>
                 <strong class="wear-cart-line">TSh {{ number_format($item['line_total'], 0) }}</strong>
-                <form method="POST" action="{{ route('wear.cart.items.remove', $item['variant']->id) }}">@csrf @method('DELETE')<button class="wear-remove" aria-label="Remove {{ $item['product']->name }}"><x-icon name="close" size="16"/></button></form>
+                <form method="POST" action="{{ route('wear.cart.items.remove', $item['variant']->id) }}" data-loading-form>@csrf @method('DELETE')<button class="wear-remove" type="submit" aria-label="Remove {{ $item['product']->name }}"><x-icon name="x" size="16"/></button></form>
             </article>
             @endforeach
         </section>

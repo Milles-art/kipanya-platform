@@ -8,7 +8,7 @@ $selectedSize = in_array($selectedSize, $sizes, true) ? $selectedSize : 'M';
 $selectedPlacement = old('placement', $design['placement'] ?? 'front-center');
 $selectedPlacement = array_key_exists($selectedPlacement, $placements) ? $selectedPlacement : 'front-center';
 $config = $design['configuration'] ?? [];
-$artworkEnabled = false; // Presentation pass: keep the shirt preview clean; restore live artwork after presentation.
+$artworkEnabled = true;
 @endphp
 <div class="cartoon-tshirt-page cartoon-shell">
     <a href="{{ route('cartoon.detail',$cartoon) }}" class="cartoon-back"><x-icon name="chevron-left" size="15"/> Back to Cartoon</a>
@@ -22,9 +22,9 @@ $artworkEnabled = false; // Presentation pass: keep the shirt preview clean; res
                 <div class="wear-glow"></div>
                 <div class="real-shirt-photo" aria-label="Realistic T-shirt preview">
                     <img src="{{ asset('assets/wear/shirts/'.$selectedColor.'.png') }}" alt="Kipanya T-shirt in {{ $colors[$selectedColor]['label'] ?? 'Black' }}" data-shirt-base="{{ asset('assets/wear/shirts') }}">
-                    <span class="wear-print is-hidden" data-shirt-print aria-hidden="true"></span>
+                    <span class="wear-print" data-shirt-print aria-hidden="true">@if($cartoon->resolved_thumbnail_url)<img src="{{ $cartoon->resolved_thumbnail_url }}" alt="" data-artwork-image>@endif</span>
                 </div>
-                <div class="cartoon-stage-caption"><strong>{{ $cartoon->title }}</strong><span>Blank shirt preview</span></div>
+                <div class="cartoon-stage-caption"><strong>{{ $cartoon->title }}</strong><span data-preview-caption>{{ $artworkEnabled ? "Artwork preview" : "Blank shirt preview" }}</span></div>
             </div>
         </section>
         <aside class="cartoon-tshirt-controls">
@@ -32,16 +32,16 @@ $artworkEnabled = false; // Presentation pass: keep the shirt preview clean; res
                 <div class="cartoon-control-title"><div><span>01 · Artwork</span><h2>Selected Cartoon</h2></div><span class="cartoon-control-number">01</span></div>
                 <div class="selected-cartoon"><div>@if($cartoon->resolved_thumbnail_url)<img src="{{ $cartoon->resolved_thumbnail_url }}" alt="">@endif</div><span><strong>{{ $cartoon->title }}</strong><small>{{ $cartoon->category?->name ?? 'Cartoon' }}</small></span></div>
                 <div class="artwork-actions artwork-actions-presentation">
-                    <span class="cartoon-artwork-status">Artwork preview paused for presentation</span>
+                    <span class="cartoon-artwork-status">Artwork is live in the preview</span>
                     <a href="{{ route('cartoon.search') }}" class="cartoon-artwork-change">Choose another</a>
                 </div>
-                <input type="hidden" name="artwork_enabled" value="0" data-artwork-input>
+                <input type="hidden" name="artwork_enabled" value="{{ $artworkEnabled ? 1 : 0 }}" data-artwork-input>
             </div>
             <div class="cartoon-control-card"><label class="cartoon-option-label">Shirt color</label><div class="shirt-color-grid">@foreach($colors as $key=>$color)<label class="shirt-color-option"><input type="radio" name="color" value="{{ $key }}" @checked($selectedColor===$key)><span style="--swatch:{{ $color['hex'] }}"></span><small>{{ $color['label'] }}</small></label>@endforeach</div></div>
             <div class="cartoon-control-card"><label class="cartoon-option-label">Size</label><div class="choice-pills">@foreach($sizes as $size)<label><input type="radio" name="size" value="{{ $size }}" @checked($selectedSize===$size)><span>{{ $size }}</span></label>@endforeach</div></div>
             <div class="cartoon-control-card"><label class="cartoon-option-label">Artwork placement</label><div class="placement-list">@foreach($placements as $key=>$placement)<label><input type="radio" name="placement" value="{{ $key }}" @checked($selectedPlacement===$key)><span><strong>{{ $placement['label'] }}</strong><small>{{ $placement['description'] }}</small></span><b>✓</b></label>@endforeach</div></div>
             <input type="hidden" name="scale" value="{{ $config['scale'] ?? 1 }}"><input type="hidden" name="offset_x" value="{{ $config['offset_x'] ?? 0 }}"><input type="hidden" name="offset_y" value="{{ $config['offset_y'] ?? 0 }}"><input type="hidden" name="rotation" value="{{ $config['rotation'] ?? 0 }}">
-            <div class="cartoon-wear-note"><x-icon name="sparkles" size="16"/><div><strong>Presentation preview</strong><p>The selected Cartoon stays attached to this design, while the shirt preview remains clean until the full Wear customizer is finished.</p></div></div>
+            <div class="cartoon-wear-note"><x-icon name="sparkles" size="16"/><div><strong>Live design preview</strong><p>Your selected Cartoon is placed on the shirt. Choose a color, size and placement before saving the design.</p></div></div>
             <button type="submit" class="cartoon-btn cartoon-btn-primary cartoon-save-design"><span>Save design &amp; continue</span><x-icon name="arrow-right" size="17"/></button>
         </aside>
     </form>
@@ -69,7 +69,7 @@ $artworkEnabled = false; // Presentation pass: keep the shirt preview clean; res
         offset_x: form.querySelector('input[name="offset_x"]')?.value || '0',
         offset_y: form.querySelector('input[name="offset_y"]')?.value || '0',
         rotation: form.querySelector('input[name="rotation"]')?.value || '0',
-        artwork_enabled: artworkInput.value === '1' ? '1' : '0',
+        artwork_enabled: '1',
     });
 
     const restoreLocalState = () => {
@@ -84,7 +84,7 @@ $artworkEnabled = false; // Presentation pass: keep the shirt preview clean; res
             setRadio('color', saved.color);
             setRadio('size', saved.size);
             setRadio('placement', saved.placement);
-            if (saved.artwork_enabled === '0' || saved.artwork_enabled === '1') artworkInput.value = saved.artwork_enabled;
+            artworkInput.value = '1';
         } catch (_) {}
     };
 
@@ -142,14 +142,20 @@ $artworkEnabled = false; // Presentation pass: keep the shirt preview clean; res
         shirt.alt = `Kipanya T-shirt in ${colorLabel}`;
 
         if (print) {
-            print.hidden = true;
-            print.classList.add('is-hidden');
-            print.setAttribute('aria-hidden', 'true');
+            const image = print.querySelector('[data-artwork-image]');
+            const artworkVisible = artworkInput.value === '1' && !!image;
+            print.hidden = !artworkVisible;
+            print.classList.toggle('is-hidden', !artworkVisible);
+            print.setAttribute('aria-hidden', artworkVisible ? 'false' : 'true');
+            const scale = Number(form.querySelector('input[name=scale]')?.value || 1);
+            const x = Number(form.querySelector('input[name=offset_x]')?.value || 0);
+            const y = Number(form.querySelector('input[name=offset_y]')?.value || 0);
+            const rotation = Number(form.querySelector('input[name=rotation]')?.value || 0);
+            print.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
         }
-        artworkInput.value = '0';
 
         document.querySelector('[data-preview-color]')?.replaceChildren(document.createTextNode(colorLabel));
-        document.querySelector('.cartoon-stage-caption span')?.replaceChildren(document.createTextNode('Blank shirt preview'));
+        document.querySelector('[data-preview-caption]')?.replaceChildren(document.createTextNode(artworkInput.value === '1' ? 'Artwork preview' : 'Blank shirt preview'));
 
         if (persist) queuePersist();
     };

@@ -32,7 +32,8 @@ final class PublicContentController extends Controller
             ? $query->getQuery()
             : $query;
 
-        $builder->withExists([
+        $builder->withCount(['likes', 'comments'])->withExists([
+            'likes as is_liked' => fn ($likeQuery) => $likeQuery->whereKey(auth()->id()),
             'favorites as is_favorited' => fn ($favoriteQuery) => $favoriteQuery->whereKey(auth()->id()),
         ]);
 
@@ -147,11 +148,14 @@ final class PublicContentController extends Controller
     {
         abort_unless($cartoon->status === ContentStatus::Published && $cartoon->resolved_thumbnail_url, 404);
         $cartoon->load(['category', 'collections']);
+        $cartoon->loadCount(['likes', 'comments']);
+        if (auth()->check()) { $cartoon->setAttribute('is_liked', $cartoon->likes()->where('user_id', auth()->id())->exists()); }
+        $comments = $cartoon->comments()->with('user')->whereNull('parent_id')->latest()->take(50)->get();
         $related = $this->hasArtwork($this->withFavoriteState($this->published()->with('category')))
             ->where('category_id', $cartoon->category_id)
             ->where('id', '!=', $cartoon->id)
             ->latest('published_at')->take(6)->get();
-        return view('pages.public.detail', compact('cartoon', 'related'));
+        return view('pages.public.detail', compact('cartoon', 'related', 'comments')); 
     }
 
 }

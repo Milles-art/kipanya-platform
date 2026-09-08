@@ -10,6 +10,7 @@ use App\Models\Cartoon;
 use App\Models\User;
 use App\Services\Auth\OtpService;
 use App\Support\PhoneNumber;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -152,7 +153,7 @@ final class UserAccountController extends Controller
         return view('pages.public.favorites', compact('cartoons'));
     }
 
-    public function toggleFavorite(Request $request, Cartoon $cartoon): RedirectResponse
+    public function toggleFavorite(Request $request, Cartoon $cartoon): RedirectResponse|JsonResponse
     {
         abort_unless($cartoon->status === ContentStatus::Published, 404);
         $favorite = $request->user()->favorites()->whereKey($cartoon->id)->exists();
@@ -161,6 +162,14 @@ final class UserAccountController extends Controller
         } else {
             $request->user()->favorites()->syncWithoutDetaching([$cartoon->id]);
         }
+        if ($request->expectsJson()) {
+            return response()->json([
+                'ok' => true,
+                'saved' => ! $favorite,
+                'message' => $favorite ? 'Removed from favorites.' : 'Added to favorites.',
+            ]);
+        }
+
         return back()->with('status', $favorite ? 'Removed from favorites.' : 'Added to favorites.');
     }
 

@@ -306,3 +306,219 @@ document.addEventListener('click', (event) => {
 
     sync();
 })();
+
+// Live public interactions: keep Wear cart and Cartoon favorites on the current page.
+// These are progressive enhancements; the existing Laravel form routes still work normally.
+(() => {
+    const toast = (message, type = 'success') => {
+        let el = document.querySelector('[data-live-toast]');
+        if (!el) {
+            el = document.createElement('div');
+            el.dataset.liveToast = 'true';
+            el.className = 'public-live-toast';
+            document.body.appendChild(el);
+        }
+        el.textContent = message;
+        el.dataset.type = type;
+        el.classList.add('is-visible');
+        clearTimeout(el._timer);
+        el._timer = setTimeout(() => el.classList.remove('is-visible'), 2400);
+    };
+
+    const setCartCount = (count) => {
+        document.querySelectorAll('.client-nav-cart').forEach((cart) => {
+            let badge = cart.querySelector('[data-cart-count]');
+            if (Number(count) > 0) {
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.dataset.cartCount = 'true';
+                    cart.appendChild(badge);
+                }
+                badge.textContent = count;
+            } else if (badge) badge.remove();
+        });
+    };
+
+    document.addEventListener('submit', async (event) => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
+        const isCart = form.matches('[data-live-cart]');
+        const isFavorite = form.matches('[data-live-favorite]');
+        if (!isCart && !isFavorite) return;
+
+        event.preventDefault();
+        if (form.dataset.liveBusy === 'true') return;
+        form.dataset.liveBusy = 'true';
+        form.setAttribute('aria-busy', 'true');
+        const button = event.submitter || form.querySelector('button[type="submit"]');
+        const original = button?.innerHTML;
+        if (button) {
+            button.disabled = true;
+            button.classList.add('is-loading');
+            button.innerHTML = '<span class="loading-spinner" aria-hidden="true"></span><span>' + (isCart ? 'Adding…' : 'Saving…') + '</span>';
+        }
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method || 'POST',
+                body: new FormData(form),
+                headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+                credentials: 'same-origin',
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || data.ok === false) throw new Error(data.message || 'Something went wrong.');
+
+            if (isCart) {
+                setCartCount(data.cart_count ?? 0);
+                toast(data.message || 'Added to your cart.');
+                if (button) {
+                    button.innerHTML = '<x-live-check>✓</x-live-check><span>Added to cart</span>';
+                    button.classList.add('is-added');
+                    setTimeout(() => { if (button.isConnected) button.innerHTML = original || 'Add to cart'; button?.classList.remove('is-added'); }, 1800);
+                }
+            } else {
+                const saved = Boolean(data.saved);
+                const fav = form.querySelector('.cartoon-favorite');
+                fav?.classList.toggle('is-saved', saved);
+                fav?.setAttribute('aria-label', saved ? 'Remove from favorites' : 'Add to favorites');
+                fav?.setAttribute('title', saved ? 'Remove from favorites' : 'Add to favorites');
+                toast(data.message || (saved ? 'Saved to favorites.' : 'Removed from favorites.'));
+                if (button) button.innerHTML = original || '';
+            }
+        } catch (error) {
+            toast(error.message || 'Please try again.', 'error');
+            if (button) button.innerHTML = original || '';
+        } finally {
+            form.dataset.liveBusy = 'false';
+            form.removeAttribute('aria-busy');
+            if (button) { button.disabled = false; button.classList.remove('is-loading'); }
+        }
+    });
+})();
+
+// Small, honest loading states for every real form action. The request still
+// uses the normal Laravel form submission, so this is progressive enhancement:
+// if JavaScript fails, the same form remains fully usable.
+document.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement) || form.dataset.loading === 'true') return;
+
+    form.dataset.loading = 'true';
+    form.setAttribute('aria-busy', 'true');
+
+    const submitter = event.submitter || form.querySelector('button[type="submit"], input[type="submit"]');
+    if (submitter instanceof HTMLButtonElement) {
+        // A quantity control can be the submitter and carry the only
+        // name/value pair the controller needs. Preserve it before disabling
+        // the button for the loading state.
+        if (submitter.name && submitter.value) {
+            const preserved = document.createElement('input');
+            preserved.type = 'hidden';
+            preserved.name = submitter.name;
+            preserved.value = submitter.value;
+            preserved.dataset.loadingSubmitter = 'true';
+            form.appendChild(preserved);
+        }
+        submitter.classList.add('is-loading');
+        submitter.setAttribute('aria-disabled', 'true');
+        submitter.disabled = true;
+        submitter.dataset.loadingOriginal = submitter.innerHTML;
+        submitter.innerHTML = '<span class="loading-spinner" aria-hidden="true"></span><span>Working…</span>';
+    } else if (submitter instanceof HTMLInputElement) {
+        submitter.disabled = true;
+        submitter.dataset.loadingOriginal = submitter.value;
+        submitter.value = 'Working…';
+    }
+}, true);
+
+// Make page-to-page navigation feel deliberate without introducing a
+// framework or blocking the browser's native back/forward behaviour.
+document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[href]');
+    if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+    try {
+        const destination = new URL(href, window.location.href);
+        if (destination.origin !== window.location.origin) return;
+        if (destination.href === window.location.href) return;
+    } catch (_) {
+        return;
+    }
+    if (!document.body.classList.contains('public-site')) return;
+    document.documentElement.classList.add('is-navigating');
+});
+
+// Native navigation owns the page transition. Clear the indicator when the
+// browser restores a page from its back/forward cache or when navigation is
+// cancelled, without introducing a client-side router.
+window.addEventListener('pageshow', () => {
+    document.documentElement.classList.remove('is-navigating');
+});
+
+// Facebook-style Cartoon interactions: likes and comments happen in the background.
+(() => {
+    const toast = (message, type = 'success') => {
+        let el = document.querySelector('[data-live-toast]');
+        if (!el) {
+            el = document.createElement('div');
+            el.dataset.liveToast = 'true';
+            el.className = 'public-live-toast';
+            document.body.appendChild(el);
+        }
+        el.textContent = message;
+        el.dataset.type = type;
+        el.classList.add('is-visible');
+        clearTimeout(el._timer);
+        el._timer = setTimeout(() => el.classList.remove('is-visible'), 2200);
+    };
+    const csrf = () => document.querySelector('meta[name="csrf-token"]')?.content || '';
+    const escapeHtml = (value) => { const d = document.createElement('div'); d.textContent = value; return d.innerHTML; };
+    const initials = (name) => name.trim().split(/\s+/).filter(Boolean).slice(0,2).map(v => v[0]).join('').toUpperCase();
+
+    document.addEventListener('click', async (event) => {
+        const like = event.target.closest('[data-social-like]');
+        if (!like || like.dataset.busy === 'true') return;
+        event.preventDefault();
+        like.dataset.busy = 'true'; like.classList.add('is-loading');
+        try {
+            const response = await fetch(like.dataset.url, { method:'POST', headers:{'X-CSRF-TOKEN':csrf(),'X-Requested-With':'XMLHttpRequest','Accept':'application/json'}, credentials:'same-origin' });
+            const data = await response.json();
+            if (!response.ok || !data.ok) throw new Error(data.message || 'Unable to update like.');
+            like.classList.toggle('is-liked', !!data.liked);
+            like.setAttribute('aria-pressed', data.liked ? 'true' : 'false');
+            like.querySelector('[data-like-count]').textContent = Number(data.likes_count || 0).toLocaleString();
+        } catch (error) { toast(error.message || 'Please try again.', 'error'); }
+        finally { like.dataset.busy = 'false'; like.classList.remove('is-loading'); }
+    });
+
+    document.addEventListener('submit', async (event) => {
+        const form = event.target.closest('[data-social-comment]');
+        if (!form || form.dataset.busy === 'true') return;
+        event.preventDefault();
+        const input = form.querySelector('[name="body"]');
+        const body = input?.value.trim();
+        if (!body) { input?.focus(); return; }
+        form.dataset.busy = 'true';
+        const button = form.querySelector('button'); const original = button?.innerHTML;
+        if (button) { button.disabled = true; button.innerHTML = '<span class="loading-spinner" aria-hidden="true"></span>'; }
+        try {
+            const response = await fetch(form.dataset.url, { method:'POST', headers:{'X-CSRF-TOKEN':csrf(),'X-Requested-With':'XMLHttpRequest','Accept':'application/json','Content-Type':'application/json'}, body:JSON.stringify({body}), credentials:'same-origin' });
+            const data = await response.json();
+            if (!response.ok || !data.ok) throw new Error(data.message || 'Unable to post comment.');
+            input.value = '';
+            const item = document.createElement('article'); item.className = 'kipanya-comment kipanya-comment-new';
+            item.innerHTML = `<span class="kipanya-mini-avatar">${escapeHtml(initials(data.comment.user))}</span><div><div class="kipanya-comment-bubble"><strong>${escapeHtml(data.comment.user)}</strong><p>${data.comment.body}</p></div><small>Just now</small></div>`;
+            const list = form.closest('.kipanya-detail-comments, .kipanya-inline-comments')?.querySelector('[data-comments-list]');
+            if (list) list.prepend(item);
+            const detailCount = document.querySelector('[data-detail-comment-count]');
+            if (detailCount) detailCount.textContent = `${data.comment_count ?? '1'} ${Number(data.comment_count ?? 1) === 1 ? 'comment' : 'comments'}`;
+            document.querySelectorAll('[data-comments-box]').forEach(box => {
+                const text = box.querySelector('.kipanya-comment-preview span:last-child');
+                if (text && data.comment_count != null) text.textContent = `${data.comment_count} ${Number(data.comment_count) === 1 ? 'comment' : 'comments'}`;
+            });
+            toast('Comment posted.');
+        } catch (error) { toast(error.message || 'Please try again.', 'error'); }
+        finally { form.dataset.busy='false'; if(button){button.disabled=false;button.innerHTML=original||'Post';} }
+    });
+})();
